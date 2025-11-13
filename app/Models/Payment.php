@@ -9,13 +9,13 @@ class Payment extends Model
 {
     /** @use HasFactory<\Database\Factories\PaymentFactory> */
     use HasFactory;
-    
+
     protected $fillable = [
         'order_id',
         'payment_method',
         'transaction_code',
         'payment_status',
-        'amount'
+        'amount',
     ];
 
     public function order()

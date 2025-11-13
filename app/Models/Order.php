@@ -13,7 +13,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'status',
-        'shipping_address'
+        'shipping_address',
     ];
 
     public function user()
@@ -30,8 +30,4 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
-
-
-
-
 }

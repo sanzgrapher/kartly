@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->integer('amount_per_item');
             $table->unsignedInteger('quantity');
-            
+
             $table->timestamps();
         });
     }

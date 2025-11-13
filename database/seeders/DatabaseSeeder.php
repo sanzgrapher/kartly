@@ -2,21 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Models\Address;
+use App\Models\Category;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Address;
-use App\Models\Cart;
-use App\Models\CartItem;
-use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\Payment;
-
-
-
 
 class DatabaseSeeder extends Seeder
 {
@@ -39,22 +30,21 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-         $categories = Category::factory(10)->create();
+        $categories = Category::factory(10)->create();
 
-         $categories->each(function ($category) {
+        $categories->each(function ($category) {
             Product::factory(15)->create([
-                'category_id' => $category->id
+                'category_id' => $category->id,
             ]);
         });
 
-         $users = User::factory(5)->create();
+        $users = User::factory(5)->create();
 
-         $users->each(function ($user) {
+        $users->each(function ($user) {
             Address::factory(2)->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         });
 
-        
     }
 }
