@@ -11,25 +11,22 @@ class Seller extends Model
     /** @use HasFactory<\Database\Factories\SellerFactory> */
     use HasFactory, SoftDeletes;
 
-
     protected $fillable = [
         'shop_name',
         'shop_slug',
         'user_id',
         'shop_description',
         'verification_status',
-        'is_active'
+        'is_active',
     ];
 
     protected $casts = [
         'verified_at' => 'datetime',
         'is_active' => 'boolean',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-
-    
 }

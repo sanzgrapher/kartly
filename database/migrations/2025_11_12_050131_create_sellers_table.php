@@ -26,7 +26,6 @@ return new class extends Migration
             $table->timestamp('verified_at')->nullable();
             $table->boolean('is_active')->default(false);
 
-
             $table->timestamps();
             $table->softDeletes();
             $table->index('shop_slug');

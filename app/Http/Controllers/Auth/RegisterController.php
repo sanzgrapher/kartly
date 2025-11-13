@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
- 
+use Illuminate\Support\Facades\Hash;
+
 class RegisterController extends Controller
 {
     //
@@ -29,16 +29,13 @@ class RegisterController extends Controller
         $customerRole = Role::where('name', 'customer')->firstOrFail();
         $user = User::create([
             'name' => $request->name,
-            'username'=>$request->username,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role_id' => $customerRole->id,
         ]);
 
         Auth::login($user);
-
-
-        
 
         return redirect()->route('customer.dashboard');
     }
