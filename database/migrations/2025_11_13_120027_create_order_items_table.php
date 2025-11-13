@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
-            $table->unsignedBigInteger('product_id');
-            $table->integer('amount_per_item');
-            $table->integer('quantity');
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
+
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->decimal('amount_per_item', 10, 2);
+            $table->unsignedInteger('quantity');
+            
             $table->timestamps();
         });
     }

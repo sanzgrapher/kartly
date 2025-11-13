@@ -15,16 +15,13 @@ return new class extends Migration
            $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('password', 255);
-            $table->enum('role', ['admin', 'user', 'vendor'])->default('user');
-            
+            $table->string('password');
+            $table->string('role')->default('customer');
             $table->timestamps();
             $table->rememberToken();
 
             $table->index('email');
             $table->index('role');
-            $table->index('created_at');
-            $table->index('deleted_at');
 
         });
 
