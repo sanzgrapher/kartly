@@ -19,10 +19,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'username',
         'email',
         'password',
-        'role_id',
+        'role'
     ];
 
     /**
@@ -43,43 +42,21 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
     }
 
-    public function role()
+    public function addresses()
     {
-        return $this->belongsTo(Role::class);
+        return $this->hasMany(Address::class);
     }
-
-    public function getRoleNameAttribute()
+    public function cart()
     {
-        return $this->role?->name;
+        return $this->hasOne(Cart::class);
     }
-
-    public function isAdmin(): bool
+    public function orders()
     {
-        return $this->role?->name === 'admin';
-    }
-
-    // public function isSeller(): bool
-    // {
-    //     return $this->role?->name === 'seller';
-    // }
-
-    // public function hasShop(): bool
-    // {
-    //     return $this->isSeller() && $this->seller !== null;
-    // }
-
-    // public function getShopAttribute()
-    // {
-    //     return $this->seller;
-    // }
-
-    public function isCustomer(): bool
-    {
-        return $this->role?->name === 'customer';
+        return $this->hasMany(Order::class);
     }
 }
