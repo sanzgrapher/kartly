@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('payment_method');
             $table->enum('payment_status', ['pending', 'failed', 'completed'])->default('pending');
             $table->string('transaction_code')->unique();
-            $table->decimal('amount', 10, 2);
+            $table->integer('amount');
 
             $table->timestamps();
         });
