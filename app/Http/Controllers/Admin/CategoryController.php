@@ -60,7 +60,6 @@ class CategoryController extends Controller
 
         $data['slug'] = Str::slug($data['slug'] ?? $data['name']);
 
-
         $category->update($data);
 
         return redirect()->route('admin.categories.index')->with('success', 'Category updated');

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
         $stats = [
             'users' => User::count(),
-            'orders' =>  Order::count(),
+            'orders' => Order::count(),
             'revenue' => Payment::sum('amount'),
             'products' => Product::count(),
         ];

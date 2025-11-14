@@ -65,7 +65,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:products,slug,' . $id,
+            'slug' => 'nullable|string|max:255|unique:products,slug,'.$id,
             'category_id' => 'nullable|exists:categories,id',
             'price' => 'required|integer|min:0',
             'quantity' => 'required|integer|min:0',
