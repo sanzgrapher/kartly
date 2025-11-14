@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Payment;
 
 class DashboardController extends Controller
 {
@@ -11,7 +14,15 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        return view('admin.dashboard', compact('user'));
+        $stats = [
+            'users' => User::count(),
+            'orders' =>  Order::count(),
+            'revenue' => Payment::sum('amount'),
+        ];
+
+        $recentUsers = User::orderBy('created_at', 'desc')->take(8)->get();
+
+        return view('admin.dashboard', compact('user', 'stats', 'recentUsers'));
     }
     //
 }
