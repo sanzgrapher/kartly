@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Product;
 
 class DashboardController extends Controller
 {
@@ -18,11 +19,13 @@ class DashboardController extends Controller
             'users' => User::count(),
             'orders' =>  Order::count(),
             'revenue' => Payment::sum('amount'),
+            'products' => Product::count(),
         ];
 
-        $recentUsers = User::orderBy('created_at', 'desc')->take(8)->get();
+        $recentUsers = User::latest()->take(8)->get();
+        $recentProducts = Product::latest()->take(8)->get();
 
-        return view('admin.dashboard', compact('user', 'stats', 'recentUsers'));
+        return view('admin.dashboard', compact('user', 'stats', 'recentUsers', 'recentProducts'));
     }
     //
 }
