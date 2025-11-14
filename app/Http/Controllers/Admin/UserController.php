@@ -12,7 +12,7 @@ class UserController extends Controller
     // Minimal admin controller for users
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(20);
+        $users = User::orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
