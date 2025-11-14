@@ -22,7 +22,4 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
-/docs-kartly/.obsidian
-/docs-kartly/*.smtcmp_json_db
-docs-kartly/.smtcmp_vector_db.tar.gz
-docs-kartly/
+/docs-kartly/
