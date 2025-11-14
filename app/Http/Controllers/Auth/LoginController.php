@@ -26,7 +26,9 @@ class LoginController extends Controller
 
             $user = Auth::user();
 
-            if ($user->role->name === 'admin') {
+            $role = $user->role ?? null;
+
+            if (is_string($role) && strtolower($role) === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
 
@@ -34,8 +36,8 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided user do not match our records.',
-        ]);
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput($request->only('email'));
     }
 
     public function logout(Request $request)

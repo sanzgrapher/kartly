@@ -26,13 +26,12 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        $customerRole = Role::where('name', 'customer')->firstOrFail();
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $customerRole->id,
+            'role' => 'customer',
         ]);
 
         Auth::login($user);
