@@ -17,9 +17,9 @@
                         <th class="px-3 py-2 text-sm">Actions</th>
                     </tr>
                 </thead>
-  
 
-                
+
+
                 <tbody>
                     @foreach ($orders as $o)
                         <tr class="border-t">

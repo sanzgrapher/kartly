@@ -38,8 +38,8 @@
                             <td class="px-3 py-2 text-sm">{{ $item->quantity ?? 'n/a' }}</td>
                             <td class="px-3 py-2 text-sm">{{ $item->subtotal ?? 'n/a' }}</td>
                         </tr>
-                    @endforeach    
-                </tbody>     
+                    @endforeach
+                </tbody>
             </table>
         </div>
 
