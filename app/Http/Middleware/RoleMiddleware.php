@@ -28,7 +28,7 @@ class RoleMiddleware
         //     }
         // }
 
-        if (in_array($user->role->name, $roles)) {
+        if (in_array($user->role, $roles)) {
             return $next($request);
         }
 
