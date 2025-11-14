@@ -31,12 +31,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($recentUsers ?? [] as $u)
+                    @foreach ($recentUsers ?? [] as $user)
                         <tr class="border-t border-gray-300">
-                            <td class="px-3 py-2 text-sm">{{ $u->id }}</td>
-                            <td class="px-3 py-2 text-sm">{{ $u->name }}</td>
-                            <td class="px-3 py-2 text-sm">{{ $u->email }}</td>
-                            <td class="px-3 py-2 text-sm">{{ $u->created_at->format('M d, Y') }}</td>
+                            <td class="px-3 py-2 text-sm">{{ $user->id }}</td>
+                            <td class="px-3 py-2 text-sm">{{ $user->name }}</td>
+                            <td class="px-3 py-2 text-sm">{{ $user->email }}</td>
+                            <td class="px-3 py-2 text-sm">{{ $user->created_at->format('M d, Y') }}</td>
                         </tr>
                     @endforeach
                 </tbody>

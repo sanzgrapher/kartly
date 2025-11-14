@@ -12,12 +12,13 @@
                     <span class="text-sm font-medium">Dashboard</span>
                 </a>
             </li>
-            {{-- <li>
+           <li>
                 <a href="{{ route('users.index') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 {{ request()->routeIs('users.*') ? 'bg-orange-100' : '' }}">
                     <span class="text-sm font-medium">Users</span>
                 </a>
             </li>
+            {{-- 
             <li>
                 <a href="{{ route('products.index') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50">
