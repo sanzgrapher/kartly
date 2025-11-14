@@ -24,22 +24,23 @@
                             <td class="px-3 py-2 text-sm">{{ $user->email }}</td>
                             <td class="px-3 py-2 text-sm">{{ $user->created_at->format('M d, Y') }}</td>
                             <td class="flex px-4 py-2 space-x-2">
-                                        <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600" href="{{ route('users.show', $user->id) }}" title="View">
-                                            View
-                                        </a>
-                                        <a class="px-2 py-1 text-xs text-white rounded bg-amber-500 hover:bg-amber-600" href="{{ route('users.edit', $user->id) }}" title="Edit">
-                                            Edit
-                                        </a>
-                                        {{-- <form class="inline" action="{{ route('admin.users.destroy', $user->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600" type="submit" title="Delete">
-                                                Delete
-                                            </button>
-                                        </form> --}}
-                                            </button>
-                                        </form>
-                                    </td>
+                                <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
+                                    href="{{ route('admin.users.show', $user->id) }}" title="View">
+                                    View
+                                </a>
+                                <a class="px-2 py-1 text-xs text-white rounded bg-amber-500 hover:bg-amber-600"
+                                    href="{{ route('admin.users.edit', $user->id) }}" title="Edit">
+                                    Edit
+                                </a>
+                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                    onsubmit="return confirm('Delete this user?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-2 py-1 text-xs bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
+                                </form>
+                                </button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
