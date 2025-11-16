@@ -34,4 +34,13 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+ 
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+
+        return asset('images/product-image.webp');
+    }
 }

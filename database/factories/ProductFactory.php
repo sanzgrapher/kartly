@@ -23,7 +23,6 @@ class ProductFactory extends Factory
         return [
             'name' => $name,
             'slug' => Str::slug($name),
-            'image' => fake()->imageUrl(),
             'price' => fake()->numberBetween(100, 100000),
             'quantity' => fake()->numberBetween(0, 200),
             'description' => fake()->paragraph(),

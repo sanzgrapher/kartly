@@ -19,13 +19,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="md:col-span-1">
                 <div class="bg-gray-50 p-3 rounded">
-                    @if ($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                            class="w-full object-cover rounded">
-                    @else
-                        <div class="w-full h-40 bg-gray-100 flex items-center justify-center rounded text-gray-500">No image
-                        </div>
-                    @endif
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full object-cover rounded">
                 </div>
             </div>
 

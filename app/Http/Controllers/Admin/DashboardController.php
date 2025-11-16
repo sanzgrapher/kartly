@@ -23,7 +23,7 @@ class DashboardController extends Controller
         ];
 
         $recentUsers = User::latest()->take(8)->get();
-        $recentProducts = Product::latest()->take(8)->get();
+        $recentProducts = Product::latest()->take(4)->get();
 
         return view('admin.dashboard', compact('user', 'stats', 'recentUsers', 'recentProducts'));
     }
