@@ -19,7 +19,7 @@ class PaymentFactory extends Factory
     {
         return [
             'order_id' => Order::factory(),
-            'payment_method' => fake()->randomElement(['esewa', 'cash-on-delivery']),
+            'payment_method' => fake()->randomElement(['esewa', 'cash_on_delivery']),
             'transaction_code' => fake()->unique()->uuid(),
             'payment_status' => fake()->randomElement(['pending', 'completed', 'failed']),
             'amount' => fake()->numberBetween(100, 100000),
