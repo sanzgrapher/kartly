@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\OrderStatus;
 
 class Order extends Model
 {
@@ -14,6 +15,11 @@ class Order extends Model
         'user_id',
         'status',
         'shipping_address',
+    ];
+
+    
+    protected $casts = [
+        'status' => OrderStatus::class,
     ];
 
     public function user()
