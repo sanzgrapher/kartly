@@ -38,8 +38,14 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::findOrFail($id);
+        $products = $category->products()->paginate(10);
 
-        return view('admin.categories.show', compact('category'));
+        $stats = [
+            'products_count' => $category->products()->count(),
+            'total_value' => $category->products()->sum('price') / 100,
+        ];
+
+        return view('admin.categories.show', compact('category', 'products', 'stats'));
     }
 
     public function edit($id)
