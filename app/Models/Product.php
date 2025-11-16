@@ -43,4 +43,15 @@ class Product extends Model
 
         return asset('images/product-image.webp');
     }
+
+    public function getStockStatusAttribute()
+    {
+        if ($this->quantity == 0) {
+            return 'Out of Stock';
+        } elseif ($this->quantity < 10) {
+            return 'Low Stock';
+        } else {
+            return 'In Stock';
+        }
+    }
 }

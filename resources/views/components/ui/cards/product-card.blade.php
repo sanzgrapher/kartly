@@ -7,9 +7,17 @@
 
 	<div class="mt-3">
 		<h3 class="text-sm font-semibold text-gray-800 truncate">{{ $product->name }}</h3>
-		<div class="text-sm text-gray-600">${{ number_format($product->price / 100, 2) }}</div>
-		<div class="text-xs text-gray-500 mt-1">Qty: {{ $product->quantity }}</div>
-		<div class="text-xs text-gray-500">Category: {{ $product->category->name ?? 'n/a' }}</div>
+		<div class="text-xs text-gray-500">{{ $product->category->name ?? 'n/a' }}</div>
+		<div class="mt-4 font-bold text-sm text-gray-600">${{ number_format($product->price / 100, 2) }}</div>
+		<div class="mt-1 text-xs">
+			@if($product->stock_status == 'In Stock')
+				<span class="text-green-600">{{ $product->stock_status }}</span>
+			@elseif($product->stock_status == 'Low Stock')
+				<span class="text-yellow-600">{{ $product->stock_status }}</span>
+			@else
+				<span class="text-red-600">{{ $product->stock_status }}</span>
+			@endif
+		</div>
 	</div>
 
 	<div class="mt-3 flex items-center gap-2">

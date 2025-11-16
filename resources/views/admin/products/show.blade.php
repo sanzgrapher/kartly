@@ -47,6 +47,18 @@
                         <h4 class="text-xs text-gray-500">Quantity</h4>
                         <div class="mt-1">{{ $product->quantity }}</div>
                     </div>
+                    <div>
+                        <h4 class="text-xs text-gray-500">Stock Status</h4>
+                        <div class="mt-1">
+                            @if($product->stock_status == 'In Stock')
+                                <span class="text-green-600 font-medium">{{ $product->stock_status }}</span>
+                            @elseif($product->stock_status == 'Low Stock')
+                                <span class="text-yellow-600 font-medium">{{ $product->stock_status }}</span>
+                            @else
+                                <span class="text-red-600 font-medium">{{ $product->stock_status }}</span>
+                            @endif
+                        </div>
+                    </div>
 
                     <div>
                         <h4 class="text-xs text-gray-500">Created</h4>

@@ -25,34 +25,7 @@
 
         
     </div>
-
-    <div class="bg-white rounded-lg border border-gray-300 p-4">
-        <h2 class="font-semibold mb-3">Recent Users</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full table-auto text-left">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-3 py-2 text-sm">ID</th>
-                        <th class="px-3 py-2 text-sm">Name</th>
-                        <th class="px-3 py-2 text-sm">Email</th>
-                        <th class="px-3 py-2 text-sm">Joined</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($recentUsers ?? [] as $user)
-                        <tr class="border-t border-gray-300">
-                            <td class="px-3 py-2 text-sm">{{ $user->id }}</td>
-                            <td class="px-3 py-2 text-sm">{{ $user->name }}</td>
-                            <td class="px-3 py-2 text-sm">{{ $user->email }}</td>
-                            <td class="px-3 py-2 text-sm">{{ $user->created_at->format('M d, Y') }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="mt-4 bg-white rounded-lg border border-gray-300 p-4">
+        <div class="mt-4">
         <h2 class="font-semibold mb-3">Recent Products</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -61,4 +34,35 @@
             @endforeach
         </div>
     </div>
+
+    <div class="mt-8 bg-white rounded-lg border border-gray-300 x">
+       <div class="mb-3 p-3">
+         <h2 class="font-semibold ">Recent Users</h2>
+        <p class=" text-sm text-gray-400" >Recently Joined Users</p>
+       </div>
+        <div class="overflow-x-auto">
+            <table class="w-full table-auto text-left">
+                <thead class="  border-t border-gray-200">
+                    <tr>
+                        <th class="p-4 text-sm">ID</th>
+                        <th class="p-4 text-sm">Name</th>
+                        <th class="p-4 text-sm">Email</th>
+                        <th class="p-4 text-sm">Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($recentUsers ?? [] as $user)
+                        <tr class="border-t  border-gray-300">
+                            <td class="p-4 text-sm">{{ $user->id }}</td>
+                            <td class="p-4 text-sm">{{ $user->name }}</td>
+                            <td class="p-4 text-sm">{{ $user->email }}</td>
+                            <td class="p-4 text-sm">{{ $user->created_at->format('M d, Y') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
 @endsection
