@@ -11,6 +11,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
+use App\Enums\UserRole;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -29,11 +30,12 @@ class DatabaseSeeder extends Seeder
         //     RoleSeeder::class,
         // ]);
         if (! User::where('email', 'admin@example.com')->exists()) {
-            User::factory()->create([
+            $user = User::factory()->create([
                 'name' => 'Test User',
                 'email' => 'admin@example.com',
-                'role' => 'admin',
             ]);
+
+            $user->changeRole(UserRole::ADMIN);
         }
 
         Category::factory(5)->has(Product::factory()->count(10))->create();
