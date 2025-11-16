@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Enums\UserRole;
 
 class RegisterController extends Controller
 {
@@ -30,8 +31,8 @@ class RegisterController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'customer',
         ]);
+        $user->changeRole(UserRole::CUSTOMER);
 
         Auth::login($user);
 
