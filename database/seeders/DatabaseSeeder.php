@@ -6,8 +6,14 @@ use App\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Payment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,21 +36,12 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $categories = Category::factory(10)->create();
+        Category::factory(5)->has(Product::factory()->count(10))->create();
 
-        $categories->each(function ($category) {
-            Product::factory(15)->create([
-                'category_id' => $category->id,
-            ]);
-        });
-
-        $users = User::factory(5)->create();
-
-        $users->each(function ($user) {
-            Address::factory(2)->create([
-                'user_id' => $user->id,
-            ]);
-        });
-
+        User::factory(5)
+            ->has(Address::factory()->count(2))
+            ->has(Cart::factory()->has(CartItem::factory()->count(3)))
+            ->has(Order::factory()->count(5)->has(OrderItem::factory()->count(4))->has(Payment::factory()))
+            ->create();
     }
 }

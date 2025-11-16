@@ -16,13 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role')->default('customer');
+            $table->enum('role', ['customer', 'admin'])->default('customer');
             $table->timestamps();
             $table->rememberToken();
 
             $table->index('email');
             $table->index('role');
-
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
