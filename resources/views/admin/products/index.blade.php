@@ -10,8 +10,8 @@
                 <h2 class="font-semibold">Products</h2>
                 <p class=" text-sm text-gray-400" >Manage all products</p>
             </div>
-            <a href="{{ route('admin.products.create') }}" class="inline-block bg-orange-600 text-white px-3 py-1 rounded">New
-                Product</a>
+            <a href="{{ route('admin.products.create') }}" class="inline-block bg-orange-600 text-white px-3 py-1 rounded">
+               + New Product</a>
          </div>
        </div>
 
