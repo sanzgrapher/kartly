@@ -21,18 +21,13 @@ class RoleMiddleware
         }
 
         $user = Auth::user();
+ 
 
-        // foreach ($roles as $role) {
-        //     if ($user->role->name === $role) {
-        //         return $next($request);
-        //     }
-        // }
-
-        if (in_array($user->role, $roles)) {
+        if (in_array($user->role_named, $roles)) {
             return $next($request);
         }
+ 
 
         abort(403, 'Unauthorized Action');
-
     }
 }

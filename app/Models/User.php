@@ -63,5 +63,8 @@ class User extends Authenticatable
         return $this;
     }
 
-    
+    public function getRoleNameAttribute()
+    {
+        return $this->role->value;
+    }
 }
