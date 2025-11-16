@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\UserRole;
 
 class UserController extends Controller
 {
@@ -40,8 +41,14 @@ class UserController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
             'role' => ['required', 'in:customer'],
         ]);
+        $role = $data['role'] ?? null;
+        unset($data['role']);
 
         $user->update($data);
+
+        if ($role) {
+            $user->changeRole(UserRole::from($role));
+        }
 
         return redirect()->route('admin.users.index');
     }
