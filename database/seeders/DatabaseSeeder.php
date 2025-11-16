@@ -35,12 +35,27 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        Category::factory(10)->has(Product::factory()->count(15))->create();
+         Category::factory(10)->has(Product::factory()->count(15))->create();
 
-       User::factory(5)
-            ->has(Address::factory()->count(2))
-            ->has(Cart::factory()->has(CartItem::factory()->count(3)))
-            ->has(Order::factory()->count(5)->has(OrderItem::factory()->count(4))->has(Payment::factory()))
-            ->create();
-    } 
+         $products = Product::all();
+
+         User::factory(5)->has(Address::factory()->count(2))->create()->each(function ($user) use ($products) {
+             $cart = Cart::factory()->for($user)->create();
+            CartItem::factory()
+                ->count(3)
+                ->for($cart)
+                ->state(fn() => ['product_id' => $products->random()->id])
+                ->create();
+
+             $orders = Order::factory()->count(5)->for($user)->create();
+            $orders->each(function ($order) use ($products) {
+                OrderItem::factory()
+                    ->count(4)
+                    ->for($order)
+                    ->state(fn() => ['product_id' => $products->random()->id])
+                    ->create();
+                Payment::factory()->for($order)->create();
+            });
+        });
+    }
 }

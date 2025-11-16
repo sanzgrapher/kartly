@@ -4,22 +4,22 @@
 
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
-            <div class="text-xs text-gray-500">Total Users</div>
-            <div class="text-2xl font-semibold">{{ $stats['users'] ?? 'n/a' }}</div>
+        <div class="bg-blue-50 p-4 rounded-lg border border-gray-200">
+            <div class="text-sm font-medium text-blue-600">Total Users</div>
+            <div class="text-2xl font-bold text-blue-900">{{ $stats['users'] ?? 'n/a' }}</div>
         </div>
 
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
-            <div class="text-xs text-gray-500">Orders</div>
-            <div class="text-2xl font-semibold">{{ $stats['orders'] ?? 'n/a' }}</div>
+        <div class="bg-yellow-50 p-4 rounded-lg border border-gray-200">
+            <div class="text-sm font-medium text-yellow-600">Orders</div>
+            <div class="text-2xl font-bold text-yellow-900">{{ $stats['orders'] ?? 'n/a' }}</div>
         </div>
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
-            <div class="text-xs text-gray-500">Revenue</div>
-            <div class="text-2xl font-semibold">{{ $stats['revenue'] ?? 'n/a' }}</div>
+        <div class="bg-green-50 p-4 rounded-lg border border-gray-200">
+            <div class="text-sm font-medium text-green-600">Revenue</div>
+            <div class="text-2xl font-bold text-green-900">${{ number_format(($stats['revenue'] ?? 0) / 100, 2) }}</div>
         </div>
-        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
-            <div class="text-xs text-gray-500">Products</div>
-            <div class="text-2xl font-semibold">{{ $stats['products'] ?? 'n/a' }}</div>
+        <div class="bg-purple-50 p-4 rounded-lg border border-gray-200">
+            <div class="text-sm font-medium text-purple-600">Products</div>
+            <div class="text-2xl font-bold text-purple-900">{{ $stats['products'] ?? 'n/a' }}</div>
         </div>
 
 

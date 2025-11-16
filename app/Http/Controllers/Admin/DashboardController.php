@@ -18,7 +18,11 @@ class DashboardController extends Controller
         $stats = [
             'users' => User::count(),
             'orders' => Order::count(),
-            'revenue' => Payment::sum('amount'),
+            'revenue' => Order::with('items')->get()->sum(function ($order) {
+                return $order->items->sum(function ($item) {
+                    return ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
+                });
+            }),
             'products' => Product::count(),
         ];
 
