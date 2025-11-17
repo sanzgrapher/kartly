@@ -69,16 +69,18 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Image (optional)</label>
-                <input type="file" name="image">
+                <input type="file" name="image" class="border rounded px-3 py-2">
                 @error('image')
                     <div class="text-sm text-red-600">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div>
-                <button class="bg-orange-600 text-white px-4 py-2 rounded" type="submit">Create</button>
-                <a href="{{ route('admin.products.index') }}" class="ml-3 text-sm text-gray-600">Cancel</a>
+            <div class="mt-4 flex space-x-2">
+                <button class="px-3 py-1 bg-orange-600 text-white rounded" type="submit">Create</button>
+                <a href="{{ route('admin.products.index') }}" class="px-3 py-1 bg-gray-300 rounded">Cancel</a>
             </div>
+
+
         </form>
     </div>
 @endsection
