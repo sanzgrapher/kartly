@@ -30,7 +30,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($recentProducts ?? [] as $product)
-                <x-ui.cards.product-card :product="$product" />
+                <x-ui.cards.product-card :product="$product" :url="route('admin.products.show', $product->id)" />
             @endforeach
         </div>
     </div>

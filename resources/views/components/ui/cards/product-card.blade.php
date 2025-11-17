@@ -1,6 +1,10 @@
-@props(['product'])
+@props(['product', 'url' => null])
 
-<div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+@php
+  $url = $url ?? route('products.show', $product->slug ?? $product->id);
+@endphp
+
+<a href="{{ $url }}" class="block bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow" aria-label="View {{ $product->name }}">
     <div class="h-40 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
         <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="object-cover h-full w-full">
     </div>
@@ -19,11 +23,4 @@
             @endif
         </div>
     </div>
-
-    <div class="mt-3 flex items-center gap-2">
-        <a href="{{ route('admin.products.edit', $product) }}"
-            class="inline-block text-xs px-2 py-1 bg-orange-500 text-white rounded">Edit</a>
-        <a href="{{ route('admin.products.show', $product) }}"
-            class="inline-block text-xs px-2 py-1 border border-gray-200 rounded text-gray-700">View</a>
-    </div>
-</div>
+</a>
