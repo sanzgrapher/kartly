@@ -34,4 +34,24 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+ 
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+
+        return asset('images/product-image.webp');
+    }
+
+    public function getStockStatusAttribute()
+    {
+        if ($this->quantity == 0) {
+            return 'Out of Stock';
+        } elseif ($this->quantity < 10) {
+            return 'Low Stock';
+        } else {
+            return 'In Stock';
+        }
+    }
 }

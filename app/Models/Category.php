@@ -15,6 +15,11 @@ class Category extends Model
         'slug',
     ];
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = ucfirst($value);
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);

@@ -42,7 +42,7 @@
 
             <div class="mb-4 grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Price (integer)</label>
+                    <label class="block text-sm font-medium mb-1">Price Rs</label>
                     <input type="number" name="price" value="{{ old('price') }}"
                         class="w-full border rounded px-3 py-2">
                     @error('price')

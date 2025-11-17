@@ -44,7 +44,7 @@
 
             <div class="mb-4 grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Price (integer)</label>
+                    <label class="block text-sm font-medium mb-1">Price Rs</label>
                     <input type="number" name="price" value="{{ old('price', $product->price) }}"
                         class="w-full border rounded px-3 py-2">
                     @error('price')
@@ -71,12 +71,7 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Current Image</label>
-                @if ($product->image)
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                        class="w-32 mb-2 rounded">
-                @else
-                    <div class="bg-gray-100 p-4">No image</div>
-                @endif
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-32 mb-2 rounded">
                 <div class="mt-2">
                     <label class="block text-sm font-medium mb-1">Replace Image (optional)</label>
                     <input type="file" name="image">

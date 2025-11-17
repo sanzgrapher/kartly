@@ -19,13 +19,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="md:col-span-1">
                 <div class="bg-gray-50 p-3 rounded">
-                    @if ($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                            class="w-full object-cover rounded">
-                    @else
-                        <div class="w-full h-40 bg-gray-100 flex items-center justify-center rounded text-gray-500">No image
-                        </div>
-                    @endif
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full object-cover rounded">
                 </div>
             </div>
 
@@ -47,11 +41,25 @@
 
                     <div>
                         <h4 class="text-xs text-gray-500">Price</h4>
-                        <div class="mt-1">{{ $product->price ?? 'n/a' }}</div>
+                        <div class="mt-1">
+                            Rs {{ $product->price }}
+                        </div>
                     </div>
                     <div>
                         <h4 class="text-xs text-gray-500">Quantity</h4>
                         <div class="mt-1">{{ $product->quantity }}</div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs text-gray-500">Stock Status</h4>
+                        <div class="mt-1">
+                            @if ($product->stock_status == 'In Stock')
+                                <span class="text-green-600 font-medium">{{ $product->stock_status }}</span>
+                            @elseif($product->stock_status == 'Low Stock')
+                                <span class="text-yellow-600 font-medium">{{ $product->stock_status }}</span>
+                            @else
+                                <span class="text-red-600 font-medium">{{ $product->stock_status }}</span>
+                            @endif
+                        </div>
                     </div>
 
                     <div>
