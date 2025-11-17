@@ -26,7 +26,7 @@
         <hr class="border-t border-gray-200 my-2">
 
         <div class="mb-4">
-            <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase">Catalog</div>
+            <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Catalog</div>
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('admin.categories.index') }}"
@@ -46,7 +46,7 @@
         <hr class="border-t border-gray-200 my-2">
 
         <div class="mb-4">
-            <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase">Sales</div>
+            <div class="px-3 py-2 text-xs font-semibold text-gray-500 uppercase">Sales</div>
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('admin.orders.index') }}"
