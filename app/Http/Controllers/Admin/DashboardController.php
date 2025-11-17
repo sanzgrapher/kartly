@@ -7,25 +7,27 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\Order\Contracts\OrderServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    protected $orderService;
+
+    public function __construct(OrderServiceInterface $orderService)
+    {
+        $this->orderService = $orderService;
+    }
+
     public function index()
     {
         $user = Auth::user();
-        $revenue = 0;
         $orders = Order::with('items')->get();
-        
-        foreach ($orders as $order) {
-            foreach ($order->items as $item) {
-            $revenue += ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
-            }
-        }
+        $revenue = $this->orderService->calculateTotalRevenue($orders);
 
         $stats = [
             'users' => User::count(),
-            'orders' => Order::count(),
+            'orders' => $this->orderService->countTotalOrders(),
             'revenue' => $revenue,
             'products' => Product::count(),
         ];
