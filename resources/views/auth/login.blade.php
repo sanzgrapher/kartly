@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-md mx-auto bg-white rounded-lg shadow px-6 py-8">
     <h2 class="text-2xl font-semibold text-orange-600 mb-2">Log in to {{ config('app.name', 'Kartly') }}</h2>
-    <p class="text-sm text-gray-500 mb-6">Welcome back — enter your details to continue.</p>
+    <p class="text-sm text-gray-500 mb-6">Welcome back</p>
 
     <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
