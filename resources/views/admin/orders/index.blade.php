@@ -3,14 +3,14 @@
 @section('title', 'Orders')
 
 @section('content')
-     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div class="bg-blue-50 p-4 rounded-lg border border-gray-200">
             <h3 class="text-sm font-medium text-blue-600">Total Orders</h3>
             <p class="text-2xl font-bold text-blue-900">{{ $totalOrders }}</p>
         </div>
         <div class="bg-green-50 p-4 rounded-lg border border-gray-200">
             <h3 class="text-sm font-medium text-green-600">Total Revenue</h3>
-            <p class="text-2xl font-bold text-green-900">${{ number_format($totalRevenue / 100, 2) }}</p>
+            <p class="text-2xl font-bold text-green-900">Rs {{ $totalRevenue }}</p>
         </div>
         <div class="bg-yellow-50 p-4 rounded-lg border border-gray-200">
             <h3 class="text-sm font-medium text-yellow-600">Pending Orders</h3>
@@ -47,11 +47,16 @@
                             <td class="p-4 text-sm">{{ $o->id }}</td>
 
                             <td class="p-4 text-sm">{{ $o->user->name ?? 'n/a' }}</td>
-                            <td class="p-4 text-sm">
-                                ${{ number_format($o->total / 100, 2) }} </td>
-                            <td class="p-4 text-sm {{ $o->status == 'pending' ? 'text-yellow-600' : ($o->status == 'processing' ? 'text-blue-600' : ($o->status == 'shipped' ? 'text-orange-600' : ($o->status == 'delivered' ? 'text-green-600' : 'text-red-600'))) }}">{{ $o->status ?? 'n/a' }}</td>
-                            <td class="p-4 text-sm {{ $o->payment->payment_status == 'pending' ? 'text-yellow-600' : ($o->payment->payment_status == 'completed' ? 'text-green-600' : 'text-red-600') }}">{{ $o->payment->payment_status ?? 'n/a' }}</td>
-                            <td class="p-4 text-sm {{ $o->payment->payment_method == 'credit_card' ? 'text-blue-600' : ($o->payment->payment_method == 'paypal' ? 'text-blue-600' : 'text-green-600') }}">{{ $o->payment->payment_method ?? 'n/a' }}</td>
+                            <td class="p-4 text-sm">Rs {{ $o->total }}</td>
+                            <td
+                                class="p-4 text-sm {{ $o->status == 'pending' ? 'text-yellow-600' : ($o->status == 'processing' ? 'text-blue-600' : ($o->status == 'shipped' ? 'text-orange-600' : ($o->status == 'delivered' ? 'text-green-600' : 'text-red-600'))) }}">
+                                {{ $o->status ?? 'n/a' }}</td>
+                            <td
+                                class="p-4 text-sm {{ $o->payment->payment_status == 'pending' ? 'text-yellow-600' : ($o->payment->payment_status == 'completed' ? 'text-green-600' : 'text-red-600') }}">
+                                {{ $o->payment->payment_status ?? 'n/a' }}</td>
+                            <td
+                                class="p-4 text-sm {{ $o->payment->payment_method == 'credit_card' ? 'text-blue-600' : ($o->payment->payment_method == 'paypal' ? 'text-blue-600' : 'text-green-600') }}">
+                                {{ $o->payment->payment_method ?? 'n/a' }}</td>
                             <td class="p-4 text-sm">{{ $o->created_at->format('M d, Y') }}</td>
                             <td class="flex px-4 py-2 space-x-2">
                                 <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"

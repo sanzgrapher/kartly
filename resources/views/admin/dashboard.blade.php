@@ -15,7 +15,7 @@
         </div>
         <div class="bg-green-50 p-4 rounded-lg border border-gray-200">
             <div class="text-sm font-medium text-green-600">Revenue</div>
-            <div class="text-2xl font-bold text-green-900">${{ number_format(($stats['revenue'] ?? 0) / 100, 2) }}</div>
+            <div class="text-2xl font-bold text-green-900">Rs {{$stats['revenue'] ?? 0 }}</div>
         </div>
         <div class="bg-purple-50 p-4 rounded-lg border border-gray-200">
             <div class="text-sm font-medium text-purple-600">Products</div>
@@ -23,9 +23,9 @@
         </div>
 
 
-        
+
     </div>
-        <div class="mt-4">
+    <div class="mt-4">
         <h2 class="font-semibold mb-3">Recent Products</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -36,10 +36,10 @@
     </div>
 
     <div class="mt-8 bg-white rounded-lg border border-gray-300 x">
-       <div class="mb-3 p-3">
-         <h2 class="font-semibold ">Recent Users</h2>
-        <p class=" text-sm text-gray-400" >Recently Joined Users</p>
-       </div>
+        <div class="mb-3 p-3">
+            <h2 class="font-semibold ">Recent Users</h2>
+            <p class=" text-sm text-gray-400">Recently Joined Users</p>
+        </div>
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left">
                 <thead class="  border-t border-gray-200">

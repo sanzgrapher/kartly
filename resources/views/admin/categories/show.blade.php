@@ -4,9 +4,10 @@
 
 @section('content')
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-         <div class="bg-white rounded-lg border border-gray-300 p-6">
+        <div class="bg-white rounded-lg border border-gray-300 p-6">
             <div class="flex items-center">
-                <img src="https://ui-avatars.com/api/?name={{ $category->name}}&size=160&background=ef4444&color=fff" alt="{{ $category->name }}" class="w-20 h-20 rounded-full mr-6">
+                <img src="https://ui-avatars.com/api/?name={{ $category->name }}&size=160&background=ef4444&color=fff"
+                    alt="{{ $category->name }}" class="w-20 h-20 rounded-full mr-6">
 
                 <div class="flex-1">
                     <h2 class="text-2xl font-semibold mb-2">{{ $category->name }}</h2>
@@ -32,7 +33,7 @@
             </div>
         </div>
 
-         <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 gap-4">
             <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
                 <div class="text-xs text-gray-500">Number of Products</div>
                 <div class="text-2xl font-semibold">{{ $stats['products_count'] }}</div>
@@ -40,7 +41,7 @@
 
             <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
                 <div class="text-xs text-gray-500">Total Value</div>
-                <div class="text-2xl font-semibold">${{ number_format($stats['total_value'], 2) }}</div>
+                <div class="text-2xl font-semibold">Rs {{ $stats['total_value'] ?? 0 }}</div>
             </div>
         </div>
     </div>
@@ -52,7 +53,8 @@
                     <h2 class="font-semibold">Products in {{ $category->name }}</h2>
                     <p class="text-sm text-gray-400">Manage products in this category</p>
                 </div>
-                <a href="{{ route('admin.products.create') }}" class="inline-block bg-orange-600 text-white px-3 py-1 rounded">
+                <a href="{{ route('admin.products.create') }}"
+                    class="inline-block bg-orange-600 text-white px-3 py-1 rounded">
                     + New Product</a>
             </div>
         </div>
@@ -76,12 +78,15 @@
                         <tr class="border-t border-gray-300">
                             <td class="p-4 text-sm">{{ $p->id }}</td>
                             <td class="p-4 text-sm">
-                                <img src="{{ $p->image_url }}" alt="{{ $p->name }}" class="w-16 h-12 object-cover rounded">
+                                <img src="{{ $p->image_url }}" alt="{{ $p->name }}"
+                                    class="w-16 h-12 object-cover rounded">
                             </td>
                             <td class="p-4 text-sm">{{ $p->name }}</td>
-                            <td class="p-4 text-sm">${{ $p->price ? number_format($p->price / 100, 2) : 'n/a' }}</td>
                             <td class="p-4 text-sm">
-                                @if($p->stock_status == 'In Stock')
+                                Rs {{ $p->price }}
+                            </td>
+                            <td class="p-4 text-sm">
+                                @if ($p->stock_status == 'In Stock')
                                     <span class="text-green-600 font-medium">{{ $p->stock_status }}</span>
                                 @elseif($p->stock_status == 'Low Stock')
                                     <span class="text-yellow-600 font-medium">{{ $p->stock_status }}</span>
