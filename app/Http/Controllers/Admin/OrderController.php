@@ -13,18 +13,24 @@ class OrderController extends Controller
     {
         $orders = Order::with(['user', 'items', 'payment'])->orderBy('created_at', 'desc')->paginate(20);
 
-        $orders->each(function ($order) {
-            $order->total = $order->items->sum(function ($item) {
-                return ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
-            });
-        });
+        foreach ($orders as $order) {
+            $total = 0;
+            foreach ($order->items as $item) {
+                $total += ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
+            }
+            $order->total = $total;
+        }
 
         $totalOrders = Order::count();
-        $totalRevenue = Order::with('items')->get()->sum(function ($order) {
-            return $order->items->sum(function ($item) {
-                return ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
-            });
-        });
+
+        $allOrders = Order::with('items')->get();
+        $totalRevenue = 0;
+        foreach ($allOrders as $order) {
+            foreach ($order->items as $item) {
+                $totalRevenue += ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
+            }
+        }
+
         $pendingOrders = Order::where('status', 'pending')->count();
         $completedPayments = Payment::where('payment_status', 'completed')->count();
 
@@ -35,11 +41,12 @@ class OrderController extends Controller
     {
         $order = Order::with(['items.product', 'user', 'payment'])->findOrFail($id);
 
-        $order->items->each(function ($item) {
-            $item->subtotal = (float) ($item->amount_per_item ?? 0) * (int) ($item->quantity ?? 0);
-        });
-
-        $order->total = $order->items->sum('subtotal');
+        $total = 0;
+        foreach ($order->items as $item) {
+            $item->subtotal = ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
+            $total += $item->subtotal;
+        }
+        $order->total = $total;
 
         return view('admin.orders.show', compact('order'));
     }

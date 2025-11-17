@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // Minimal admin controller for users
     public function index()
     {
         $users = User::orderBy('created_at', 'desc')->paginate(10);

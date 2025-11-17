@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
         $stats = [
             'products_count' => $category->products()->count(),
-            'total_value' => $category->products()->sum('price') / 100,
+            'total_value' => $category->products()->sum('price'),
         ];
 
         return view('admin.categories.show', compact('category', 'products', 'stats'));

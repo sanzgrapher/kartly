@@ -14,15 +14,19 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $revenue = 0;
+        $orders = Order::with('items')->get();
+        
+        foreach ($orders as $order) {
+            foreach ($order->items as $item) {
+            $revenue += ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
+            }
+        }
 
         $stats = [
             'users' => User::count(),
             'orders' => Order::count(),
-            'revenue' => Order::with('items')->get()->sum(function ($order) {
-                return $order->items->sum(function ($item) {
-                    return ($item->amount_per_item ?? 0) * ($item->quantity ?? 0);
-                });
-            }),
+            'revenue' => $revenue,
             'products' => Product::count(),
         ];
 
