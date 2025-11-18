@@ -19,10 +19,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::with(['user', 'items', 'payment'])->orderBy('created_at', 'desc')->paginate(20);
-
-       
-
+        $orders = $this->orderService->getAllOrdersWithTotals();
         $totalOrders = $this->orderService->countTotalOrders();
 
         $allOrders = Order::with('items')->get();

@@ -34,6 +34,8 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request['slug'] = $request['slug'] ?? $request['name'];
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products',
@@ -65,7 +67,9 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         $product = Product::findOrFail($id);
+        $request['slug'] = $request['slug'] ?? $request['name'];
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug,'.$id,

@@ -56,4 +56,16 @@ class OrderService implements OrderServiceInterface
     {
         return  Order::count();
     }
+
+
+    public function getAllOrdersWithTotals()
+    {
+        $orders = Order::with(['items.product', 'user', 'payment'])->paginate(15);
+
+        foreach ($orders as $order) {
+            $this->attachTotalsToOrder($order);
+        }
+
+        return $orders;
+    }
 }
