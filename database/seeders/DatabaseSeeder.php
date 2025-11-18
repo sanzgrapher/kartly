@@ -36,6 +36,12 @@ class DatabaseSeeder extends Seeder
             ]);
 
             $user->changeRole(UserRole::ADMIN);
+            $user2 = User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+
+            $user2->changeRole(UserRole::CUSTOMER);
         }
 
          Category::factory(10)->has(Product::factory()->count(15))->create();
