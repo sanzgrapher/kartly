@@ -29,7 +29,7 @@
                         @foreach ($addresses as $address)
                             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
                                 <div class="flex justify-between items-start mb-4">
-                                     
+
                                     <div class="flex gap-2">
                                         <a href="{{ route('addresses.edit', $address) }}"
                                             class="text-blue-600 hover:text-blue-800 font-medium text-sm">Edit</a>
@@ -44,10 +44,12 @@
                                     </div>
                                 </div>
 
-                                <p class="text-gray-700 mb-2">{{ $address->street_address }}</p>
-                                <p class="text-gray-600">{{ $address->city }}, {{ $address->state }}
-                                    {{ $address->postal_code }}</p>
-                                <p class="text-gray-600">{{ $address->country }}</p>
+                                <p class="text-gray-800">{{ $address->street_address_1 }}</p>
+                                @if ($address->street_address_2)
+                                    <p class="text-sm text-gray-600">{{ $address->street_address_2 }}</p>
+                                @endif
+                                <p class="text-sm text-gray-600">{{ $address->city }}, {{ $address->state }} -
+                                    {{ $address->country }}</p>
                             </div>
                         @endforeach
                     </div>

@@ -29,18 +29,19 @@
 
         @if ($cartItems->count() > 0)
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-             
+
                 <div class="lg:col-span-2">
                     <div class="bg-white rounded-lg shadow">
                         @forelse ($cartItems as $item)
-                            <div class="flex gap-4 p-6 border-b last:border-b-0 hover:bg-gray-50 transition">
-                               
+                            <div
+                                class="flex gap-4 p-6 border-b border-gray-300 last:border-b-0 hover:bg-gray-50 transition">
+
                                 <div class="flex-shrink-0 w-24 h-24 bg-gray-100 rounded overflow-hidden">
                                     <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}"
                                         class="w-full h-full object-cover">
                                 </div>
 
-                              
+
                                 <div class="flex-grow">
                                     <h3 class="font-semibold text-gray-800 mb-1">
                                         <a href="{{ route('products.show', $item->product->slug) }}"
@@ -61,7 +62,7 @@
                                     </p>
                                 </div>
 
-                        
+
                                 <div class="flex flex-col items-end justify-between gap-3">
                                     <div class="flex items-center border border-gray-300 rounded overflow-hidden">
                                         <button type="button"
@@ -113,12 +114,12 @@
                     </div>
                 </div>
 
-               
+
                 <div class="lg:col-span-1">
                     <div class="bg-white rounded-lg shadow p-6 sticky top-20">
                         <h2 class="text-xl font-semibold text-gray-800 mb-6">Order Summary</h2>
 
-                        <div class="space-y-4 mb-6 pb-6 border-b">
+                        <div class="space-y-4 mb-6 pb-6 border-b border-gray-300">
                             <div class="flex justify-between text-gray-600">
                                 <span>Subtotal:</span>
                                 <span>Rs {{ $total }}</span>
@@ -147,7 +148,6 @@
                 </div>
             </div>
         @else
-            
             <div class="bg-white rounded-lg shadow p-12 text-center">
                 <div class="mb-6">
                     <svg class="w-20 h-20 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

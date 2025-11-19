@@ -17,11 +17,14 @@ class PaymentFactory extends Factory
      */
     public function definition(): array
     {
+        $paymentMethod = fake()->randomElement(['cash_on_delivery', 'esewa']);
+         $paymentStatus = $paymentMethod === 'esewa' ? 'completed' : fake()->randomElement(['pending', 'failed']);
+
         return [
             'order_id' => Order::factory(),
-            'payment_method' => fake()->randomElement(['cash_on_delivery', 'esewa']),
+            'payment_method' => $paymentMethod,
             'transaction_code' => fake()->unique()->uuid(),
-            'payment_status' => fake()->randomElement(['pending', 'completed', 'failed']),
+            'payment_status' => $paymentStatus,
             'amount' => fake()->numberBetween(1, 9999),
         ];
     }
