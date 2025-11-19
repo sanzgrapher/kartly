@@ -13,43 +13,50 @@
         <div>
             <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ $product->name }}</h1>
 
-            @if ($product->category)
-                <p class="text-sm text-gray-600 mb-4">
-                    Category:
+            <p class="text-sm text-gray-600 mb-4">
+                @if ($product->category)
                     <a href="{{ route('categories.show', $product->category->slug) }}"
-                        class="text-orange-600 hover:underline">
+                        class="text-orange-600 hover:underline px-3">
                         {{ $product->category->name }}
                     </a>
-                </p>
-            @endif
-            <div class="mb-6">
+                @endif
+                |
+
                 @if ($product->stock_status == 'In Stock')
-                    <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+                    <span class="inline-block px-3 py-1   text-green-800 rounded-full text-sm ">
                         {{ $product->stock_status }}
                     </span>
                 @elseif($product->stock_status == 'Low Stock')
-                    <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
+                    <span class="inline-block px-3 py-1   text-yellow-800 rounded-full text-sm ">
                         {{ $product->stock_status }}
                     </span>
                 @else
-                    <span class="inline-block px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
+                    <span class="inline-block px-3 py-1   text-red-800 rounded-full text-sm ">
                         {{ $product->stock_status }}
                     </span>
                 @endif
-            </div>
 
-            <div class="mb-6 p-3 bg-gray-50 rounded border border-gray-200">
-                <p class="text-sm text-gray-600">Available Quantity: <span
-                        class="font-semibold text-gray-800">{{ $product->quantity }}</span></p>
-            </div>
+                |
+
+                <span class="font-semibold px-3 text-gray-800">{{ $product->quantity }}</span>
+
+            </p>
+
+
+
             <div class="mb-6">
-                <p class="text-4xl font-bold text-orange-600">Rs {{ $product->price }}</p>
+                <p class="text-4xl text-orange-600">Rs {{ $product->price }}</p>
             </div>
 
 
 
 
-
+            @if ($product->description)
+                <div class="border-y py-6 border-gray-400">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3">Description</h2>
+                    <p class="text-gray-700 leading-relaxed">{{ $product->description }}</p>
+                </div>
+            @endif
 
 
 
@@ -105,7 +112,7 @@
                     }
                 </script>
             @else
-                <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded">
+                <div class="my-6 p-4 bg-blue-50 border border-gray-200 rounded">
                     <p class="text-sm text-blue-800">
                         <a href="{{ route('login') }}" class="font-semibold text-blue-600 hover:underline">Sign in</a>
                         to add this product to your cart
@@ -114,12 +121,7 @@
             @endauth
 
 
-            @if ($product->description)
-                <div class="border-t pt-6">
-                    <h2 class="text-lg font-semibold text-gray-800 mb-3">Description</h2>
-                    <p class="text-gray-700 leading-relaxed">{{ $product->description }}</p>
-                </div>
-            @endif
+
         </div>
     </div>
 

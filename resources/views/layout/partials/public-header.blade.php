@@ -1,9 +1,9 @@
 <header class="w-full p-4 mb-6 border-b border-gray-200 bg-white shadow-sm">
     <div class="flex items-center justify-between max-w-6xl mx-auto">
-            <div>
-                <a href="{{ url('/') }}"
-                    class="text-2xl font-semibold text-orange-600">{{ config('app.name', 'Kartly') }}</a>
-            </div>
+        <div>
+            <a href="{{ url('/') }}"
+                class="text-2xl font-semibold text-orange-600">{{ config('app.name', 'Kartly') }}</a>
+        </div>
         <nav class="flex items-center gap-4">
             @auth
                 <div class="relative">
