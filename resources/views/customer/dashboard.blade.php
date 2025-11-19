@@ -26,7 +26,7 @@
                     <div class="bg-linear-to-br from-blue-50 to-blue-100 border border-blue-200 p-6 rounded-lg">
                         <h3 class="text-gray-600 text-sm font-medium mb-2">Total Spent</h3>
                         <p class="text-3xl font-bold text-blue-600">
-                            ${{ number_format(Auth::user()->orders->sum('total_amount') ?? 0, 2) }}</p>
+                            Rs {{ Auth::user()->orders->sum('total_amount') ?? 0 }}</p>
                     </div>
                     <div class="bg-linear-to-br from-green-50 to-green-100 border border-green-200 p-6 rounded-lg">
                         <h3 class="text-gray-600 text-sm font-medium mb-2">Active Cart</h3>
