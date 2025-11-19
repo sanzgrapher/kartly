@@ -1,12 +1,50 @@
-@auth
-        <span>Hello, {{ Auth::user()->role_name }}</span>
+@extends('layout.public')
+
+@section('title', 'Dashboard')
+
+@section('content')
+    <div class="container mx-auto flex flex-col min-h-screen">
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-0 flex-1">
+
+            <div class="md:col-span-1">
+                @include('customer.partials.sidebar')
+            </div>
 
 
- 
-        <form action="{{ route('logout') }}" method="POST" >
-            @csrf
-            <button type="submit">Logout</button>
-        </form>
-    @else
-        <a href="{{ route('login') }}">Login</a>
-    @endauth
+            <div class="md:col-span-3 bg-white rounded-r-lg border border-l-0 border-gray-200 p-6">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-semibold mb-2">Welcome, {{ Auth::user()->name }}!</h1>
+                    <p class="text-gray-600">Manage your account and orders</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-linear-to-br from-orange-50 to-orange-100 border border-orange-200 p-6 rounded-lg">
+                        <h3 class="text-gray-600 text-sm font-medium mb-2">Total Orders</h3>
+                        <p class="text-3xl font-bold text-orange-600">{{ Auth::user()->orders->count() }}</p>
+                    </div>
+                    <div class="bg-linear-to-br from-blue-50 to-blue-100 border border-blue-200 p-6 rounded-lg">
+                        <h3 class="text-gray-600 text-sm font-medium mb-2">Total Spent</h3>
+                        <p class="text-3xl font-bold text-blue-600">
+                            ${{ number_format(Auth::user()->orders->sum('total_amount') ?? 0, 2) }}</p>
+                    </div>
+                    <div class="bg-linear-to-br from-green-50 to-green-100 border border-green-200 p-6 rounded-lg">
+                        <h3 class="text-gray-600 text-sm font-medium mb-2">Active Cart</h3>
+                        <p class="text-3xl font-bold text-green-600">{{ Auth::user()->cart?->items?->count() ?? 0 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="mt-6 flex justify-end mb-6">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit"
+                    class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition font-medium">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+@endsection

@@ -10,7 +10,7 @@
             <div><strong>ID:</strong> {{ $user->id }}</div>
             <div><strong>Name:</strong> {{ $user->name }}</div>
             <div><strong>Email:</strong> {{ $user->email }}</div>
-            <div><strong>Role:</strong> {{ $user->role_name}}</div>
+            <p class="text-sm">Role: {{ $user->role_name }}</p>
             <div><strong>Joined:</strong> {{ $user->created_at->format('M d, Y') }}</div>
         </div>
 

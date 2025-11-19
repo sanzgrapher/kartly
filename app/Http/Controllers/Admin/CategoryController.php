@@ -23,16 +23,21 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        
+        
+        $request['slug'] = $request['slug'] ?? $request['name'];
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'nullable|string|max:255',
         ]);
+         $data['slug'] = Str::slug($data['slug'] ?? $data['name']);
 
-        $data['slug'] = Str::slug($data['slug'] ?? $data['name']);
+
 
         Category::create($data);
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created.');
+        
     }
 
     public function show($id)
@@ -58,9 +63,10 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
+        $request['slug'] = $request['slug'] ?? $request['name'];
 
         $data = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
             'slug' => 'nullable|string|max:255',
         ]);
 

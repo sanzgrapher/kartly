@@ -12,5 +12,6 @@ interface OrderServiceInterface
 	public function updateStatus($orderId, string $status);
 	public function getOrderWithTotals($orderId);
 	public function countTotalOrders();
+	public function getAllOrdersWithTotals();
 	public function countByStatus(string $status);
 }

@@ -3,26 +3,27 @@
 @section('title', 'Category')
 
 @section('content')
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-start">
         <div class="bg-white rounded-lg border border-gray-300 p-6">
             <div class="flex items-center">
                 <img src="https://ui-avatars.com/api/?name={{ $category->name }}&size=160&background=ef4444&color=fff"
-                    alt="{{ $category->name }}" class="w-20 h-20 rounded-full mr-6">
+                    alt="{{ $category->name }}" class="w-16 h-16 rounded-full mr-4">
 
                 <div class="flex-1">
-                    <h2 class="text-2xl font-semibold mb-2">{{ $category->name }}</h2>
+                    <h2 class="text-xl font-semibold mb-1">{{ $category->name }}</h2>
                     <p class="text-gray-600 mb-1"><strong>Slug:</strong> {{ $category->slug }}</p>
-                    <p class="text-gray-600 mb-4">Created: {{ $category->created_at->format('M d, Y') }}</p>
+                    <p class="text-gray-600 mb-3 text-sm">Created: {{ $category->created_at->format('M d, Y') }}</p>
 
-                    <div class="flex space-x-2">
+                    <div class="flex items-center space-x-2">
                         <a href="{{ route('admin.categories.edit', $category->id) }}"
-                            class="px-4 py-2 bg-amber-500 text-white rounded">Edit</a>
+                            class="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-amber-500 text-white rounded-md hover:bg-amber-600">Edit</a>
 
                         <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST"
                             onsubmit="return confirm('Delete this category?');" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Delete</button>
+                            <button type="submit"
+                                class="inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -34,14 +35,14 @@
         </div>
 
         <div class="grid grid-cols-1 gap-4">
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
-                <div class="text-xs text-gray-500">Number of Products</div>
-                <div class="text-2xl font-semibold">{{ $stats['products_count'] }}</div>
+            <div class="bg-blue-50 p-4 rounded-lg border border-gray-200">
+                <div class="text-sm font-medium text-blue-600">Number of Products</div>
+                <div class="text-2xl font-bold text-blue-900">{{ $stats['products_count'] }}</div>
             </div>
 
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-300">
-                <div class="text-xs text-gray-500">Total Value</div>
-                <div class="text-2xl font-semibold">Rs {{ $stats['total_value'] ?? 0 }}</div>
+            <div class="bg-green-50 p-4 rounded-lg border border-gray-200">
+                <div class="text-sm font-medium text-green-600">Total Value</div>
+                <div class="text-2xl font-bold text-green-900">Rs {{ $stats['total_value'] ?? 0 }}</div>
             </div>
         </div>
     </div>

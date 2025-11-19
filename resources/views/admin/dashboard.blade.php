@@ -15,7 +15,7 @@
         </div>
         <div class="bg-green-50 p-4 rounded-lg border border-gray-200">
             <div class="text-sm font-medium text-green-600">Revenue</div>
-            <div class="text-2xl font-bold text-green-900">Rs {{$stats['revenue'] ?? 0 }}</div>
+            <div class="text-2xl font-bold text-green-900">Rs {{ $stats['revenue'] ?? 0 }}</div>
         </div>
         <div class="bg-purple-50 p-4 rounded-lg border border-gray-200">
             <div class="text-sm font-medium text-purple-600">Products</div>
@@ -47,6 +47,7 @@
                         <th class="p-4 text-sm">ID</th>
                         <th class="p-4 text-sm">Name</th>
                         <th class="p-4 text-sm">Email</th>
+                        <th class="p-4 text-sm">Role</th>
                         <th class="p-4 text-sm">Joined</th>
                     </tr>
                 </thead>
@@ -56,6 +57,7 @@
                             <td class="p-4 text-sm">{{ $user->id }}</td>
                             <td class="p-4 text-sm">{{ $user->name }}</td>
                             <td class="p-4 text-sm">{{ $user->email }}</td>
+                            <td class="p-4 text-sm">{{ $user->role_name }}</td>
                             <td class="p-4 text-sm">{{ $user->created_at->format('M d, Y') }}</td>
                         </tr>
                     @endforeach
