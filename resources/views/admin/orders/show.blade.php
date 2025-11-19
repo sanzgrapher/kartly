@@ -43,24 +43,20 @@
             <div>
 
                 @if ($order->status->value !== 'cancelled' && $order->payment->payment_method->value == 'cash_on_delivery')
-                    <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST"
+                    <form action="{{ route('admin.orders.updatePaymentStatus', $order->id) }}" method="POST"
                         class="flex items-end space-x-2">
                         @csrf
                         @method('PATCH')
                         <div class="flex-1">
-                            <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Update Payment
+                            <label for="payment_status" class="block text-sm font-medium text-gray-700 mb-1">Update Payment
                                 Status</label>
-                            <select name="status" id="status"
+                            <select name="payment_status" id="payment_status"
                                 class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending
+                                <option value="pending" {{ $order->payment->payment_status->value == 'pending' ? 'selected' : '' }}>Pending
                                 </option>
-                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>
-                                    Processing</option>
-                                <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped
+                                <option value="failed" {{ $order->payment->payment_status->value == 'failed' ? 'selected' : '' }}>Failed
                                 </option>
-                                <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered
-                                </option>
-                                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled
+                                <option value="completed" {{ $order->payment->payment_status->value == 'completed' ? 'selected' : '' }}>Completed
                                 </option>
                             </select>
                         </div>

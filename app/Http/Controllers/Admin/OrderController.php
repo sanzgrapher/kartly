@@ -46,7 +46,21 @@ class OrderController extends Controller
         ]);
 
         $this->orderService->updateStatus($id, $request->status);
-        
+
         return redirect()->back()->with('success', 'Order status updated successfully.');
+    }
+
+    public function updatePaymentStatus(Request $request, $id)
+    {
+        $request->validate([
+            'payment_status' => 'required|in:pending,failed,completed',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $payment = $order->payment;
+        $payment->payment_status = $request->payment_status;
+        $payment->save();
+
+        return redirect()->back()->with('success', 'Payment status updated successfully.');
     }
 }
