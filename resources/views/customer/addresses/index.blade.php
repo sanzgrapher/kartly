@@ -29,11 +29,7 @@
                         @foreach ($addresses as $address)
                             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
                                 <div class="flex justify-between items-start mb-4">
-                                    <div>
-                                        <p class="font-semibold text-lg text-gray-800">{{ $address->first_name }}
-                                            {{ $address->last_name }}</p>
-                                        <p class="text-sm text-gray-600">{{ $address->phone ?? 'No phone' }}</p>
-                                    </div>
+                                     
                                     <div class="flex gap-2">
                                         <a href="{{ route('addresses.edit', $address) }}"
                                             class="text-blue-600 hover:text-blue-800 font-medium text-sm">Edit</a>

@@ -16,6 +16,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/cart-items/{cartItem}', [CartItemController::class, 'update'])->name('cart-items.update');
     Route::delete('/cart-items/{cartItem}', [CartItemController::class, 'destroy'])->name('cart-items.destroy');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 });
 
 
@@ -56,8 +58,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
         Route::patch('/addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
         Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     });
- 
+
 
 
 

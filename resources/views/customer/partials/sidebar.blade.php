@@ -14,6 +14,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('orders.index') }}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 text-gray-700 font-medium {{ request()->routeIs('orders.*') ? 'bg-orange-200 text-orange-600' : '' }}">
+                        My Orders
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('addresses.index') }}"
                         class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 text-gray-700 font-medium {{ request()->routeIs('addresses.*') ? 'bg-orange-200 text-orange-600' : '' }}">
                         Addresses
