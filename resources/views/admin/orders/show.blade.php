@@ -19,15 +19,17 @@
                             <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Update Status</label>
                             <select name="status" id="status"
                                 class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending
+                                <option value="pending" {{ $order->status->value == 'pending' ? 'selected' : '' }}>Pending
                                 </option>
-                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                <option value="processing" {{ $order->status->value == 'processing' ? 'selected' : '' }}>
                                     Processing</option>
-                                <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped
+                                <option value="shipped" {{ $order->status->value == 'shipped' ? 'selected' : '' }}>Shipped
                                 </option>
-                                <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered
+                                <option value="delivered" {{ $order->status->value == 'delivered' ? 'selected' : '' }}>
+                                    Delivered
                                 </option>
-                                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled
+                                <option value="cancelled" {{ $order->status->value == 'cancelled' ? 'selected' : '' }}>
+                                    Cancelled
                                 </option>
                             </select>
                         </div>
@@ -42,7 +44,10 @@
             </div>
             <div>
 
-                @if ($order->status->value !== 'cancelled' && $order->payment->payment_method->value == 'cash_on_delivery')
+                @if (
+                    $order->status->value !== 'cancelled' &&
+                        $order->payment->payment_status->value !== 'completed' &&
+                        $order->payment->payment_method->value == 'cash_on_delivery')
                     <form action="{{ route('admin.orders.updatePaymentStatus', $order->id) }}" method="POST"
                         class="flex items-end space-x-2">
                         @csrf
@@ -52,11 +57,14 @@
                                 Status</label>
                             <select name="payment_status" id="payment_status"
                                 class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                <option value="pending" {{ $order->payment->payment_status->value == 'pending' ? 'selected' : '' }}>Pending
+                                <option value="pending"
+                                    {{ $order->payment->payment_status->value == 'pending' ? 'selected' : '' }}>Pending
                                 </option>
-                                <option value="failed" {{ $order->payment->payment_status->value == 'failed' ? 'selected' : '' }}>Failed
+                                <option value="failed"
+                                    {{ $order->payment->payment_status->value == 'failed' ? 'selected' : '' }}>Failed
                                 </option>
-                                <option value="completed" {{ $order->payment->payment_status->value == 'completed' ? 'selected' : '' }}>Completed
+                                <option value="completed"
+                                    {{ $order->payment->payment_status->value == 'completed' ? 'selected' : '' }}>Completed
                                 </option>
                             </select>
                         </div>
