@@ -17,7 +17,7 @@ class Order extends Model
         'shipping_address',
     ];
 
-    
+
     protected $casts = [
         'status' => OrderStatus::class,
     ];
@@ -40,5 +40,17 @@ class Order extends Model
     public function items()
     {
         return $this->orderItem();
+    }
+
+    public function getTotalAttribute()
+    {
+
+        if ($this->payment) {
+            return $this->payment->amount;
+        }
+
+        return $this->items()->get()->sum(function ($item) {
+            return $item->amount_per_item * $item->quantity;
+        });
     }
 }
