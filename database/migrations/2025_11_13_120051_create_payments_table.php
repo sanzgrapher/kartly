@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->enum('payment_method', ['esewa', 'cash_on_delivery'])->default('cash_on_delivery');
             $table->enum('payment_status', ['pending', 'failed', 'completed'])->default('pending');
-            $table->string('transaction_code')->unique();
+            $table->string('transaction_code')->nullable()->unique();
+            $table->string('transaction_uuid')->nullable()->unique();
             $table->unsignedInteger('amount');
 
             $table->timestamps();

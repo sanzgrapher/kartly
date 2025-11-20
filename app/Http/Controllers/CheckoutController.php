@@ -9,11 +9,18 @@ use App\Models\Payment;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
+use App\Services\Payment\EsewaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
+    protected EsewaService $esewaService;
+
+    public function __construct(EsewaService $esewaService)
+    {
+        $this->esewaService = $esewaService;
+    }
     public function index()
     {
         $user = Auth::user();
@@ -77,16 +84,29 @@ class CheckoutController extends Controller
         }
 
         $paymentMethod = PaymentMethod::from($data['payment_method']);
-        $paymentStatus = $paymentMethod === PaymentMethod::ESEWA
-            ? PaymentStatus::COMPLETED
-            : PaymentStatus::PENDING;
+
+        if ($paymentMethod === PaymentMethod::ESEWA) {
+            Payment::create([
+                'order_id' => $order->id,
+                'payment_method' => $paymentMethod,
+                'payment_status' => PaymentStatus::PENDING,
+                'amount' => $subtotal,
+            ]);
+
+            $cart->cartItem()->delete();
+
+            $this->esewaService->initiatePayment($order, $subtotal);
+            return;
+        }
+
+        $paymentStatus = PaymentStatus::PENDING;
 
         Payment::create([
             'order_id' => $order->id,
             'payment_method' => $paymentMethod,
             'payment_status' => $paymentStatus,
             'amount' => $subtotal,
-            'transaction_code' =>  $order->id . '_' . time(),
+            'transaction_code' => $order->id . '_' . time(),
         ]);
 
 

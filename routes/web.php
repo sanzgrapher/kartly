@@ -17,6 +17,7 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,11 +38,12 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-
     Route::patch('/cart-items/{cartItem}', [CartItemController::class, 'update'])->name('cart-items.update');
     Route::delete('/cart-items/{cartItem}', [CartItemController::class, 'destroy'])->name('cart-items.destroy');
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/payment/esewa/success', [PaymentController::class, 'esewaSuccess'])->name('payment.esewa.success');
+    Route::get('/payment/esewa/failure', [PaymentController::class, 'esewaFailure'])->name('payment.esewa.failure');
 });
 
 
