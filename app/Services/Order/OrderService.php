@@ -39,8 +39,22 @@ class OrderService implements OrderServiceInterface
     public function updateStatus($orderId, string $status)
     {
         $order = Order::findOrFail($orderId);
+        $previousStatus = $order->status;
         $order->update(['status' => $status]);
+        
+        // dd($status, $status ===  OrderStatus::DELIVERED->value);
 
+        if ($status === OrderStatus::DELIVERED->value) {
+            foreach ($order->items as $item) {
+                $product = $item->product;
+                if ($product && $product->quantity !== null) {
+                    $product->quantity = max(0, $product->quantity - ($item->quantity ?? 0));
+                    // dd("123");
+
+                    $product->save();
+                }
+            }
+        }
         return $order;
     }
 

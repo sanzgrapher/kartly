@@ -58,7 +58,7 @@
                                 class="p-4 text-sm {{ $o->payment->payment_method == 'credit_card' ? 'text-blue-600' : ($o->payment->payment_method == 'paypal' ? 'text-blue-600' : 'text-green-600') }}">
                                 {{ $o->payment->payment_method ?? 'n/a' }}</td>
                             <td class="p-4 text-sm">{{ $o->created_at->format('M d, Y') }}</td>
-                            <td class="flex px-4 py-2 space-x-2">
+                            <td class="flex px-4  py-2 space-x-2">
                                 <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
                                     href="{{ route('admin.orders.show', $o->id) }}" title="View">
                                     View

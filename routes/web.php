@@ -20,12 +20,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 
 
+
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/categories/{slug}', [CategoryController::class, 'show'])->name('categories.show');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
-
-
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);

@@ -23,8 +23,7 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        
-        
+
         $request['slug'] = $request['slug'] ?? $request['name'];
         $data = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',

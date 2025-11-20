@@ -58,6 +58,7 @@
             <div class="mb-6">
                 <p class="text-4xl text-orange-600">Rs {{ $product->price }}</p>
             </div>
+            
 
 
 

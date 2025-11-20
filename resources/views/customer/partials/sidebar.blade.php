@@ -25,6 +25,24 @@
                         Addresses
                     </a>
                 </li>
+                <li>
+                    
+
+
+                      <form class="flex  items-center gap-3 px-3 py-2 rounded-md text-red-700 hover:bg-red-100 transistion font-medium " action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit"
+                     >
+                    Logout
+                </button>
+            </form>
+
+
+                </li>
+
+
+
+
             </ul>
         </div>
     </nav>

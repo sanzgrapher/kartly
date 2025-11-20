@@ -43,9 +43,10 @@ class OrderController extends Controller
         $request->validate([
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
         ]);
-
+        
         $this->orderService->updateStatus($id, $request->status);
-
+        
+        
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }
 
