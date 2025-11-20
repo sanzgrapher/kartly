@@ -49,6 +49,34 @@
                         </div>
                     @endif
 
+                    @if (session('error'))
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (
+                        $order->payment &&
+                            $order->payment->payment_method->value === 'esewa' &&
+                            $order->payment->payment_status->value === 'pending')
+                        <div class="bg-yellow-50 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold">Payment Pending</p>
+                                    <p class="text-sm">Your eSewa payment was not completed. Please retry to complete your
+                                        order.</p>
+                                </div>
+                                <form action="{{ route('orders.retry-payment', $order->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                        class="bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded">
+                                        Retry Payment
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+
                     <h3 class="font-medium mb-2">Items</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full table-auto text-left">
