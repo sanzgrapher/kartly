@@ -14,4 +14,5 @@ interface OrderServiceInterface
 	public function countTotalOrders();
 	public function getAllOrdersWithTotals();
 	public function countByStatus(string $status);
+	public function getRealizedRevenue();
 }

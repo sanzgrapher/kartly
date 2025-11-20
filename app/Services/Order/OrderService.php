@@ -4,6 +4,9 @@ namespace App\Services\Order;
 
 use App\Services\Order\Contracts\OrderServiceInterface;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Enums\PaymentStatus;
+use App\Enums\OrderStatus;
 
 class OrderService implements OrderServiceInterface
 {
@@ -67,5 +70,14 @@ class OrderService implements OrderServiceInterface
         }
 
         return $orders;
+    }
+
+    public function getRealizedRevenue()
+    {
+        return Payment::where('payment_status', PaymentStatus::COMPLETED)
+            ->whereHas('order', function ($query) {
+                $query->where('status', OrderStatus::DELIVERED);
+            })
+            ->sum('amount');
     }
 }

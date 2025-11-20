@@ -22,8 +22,7 @@ class OrderController extends Controller
         $orders = $this->orderService->getAllOrdersWithTotals();
         $totalOrders = $this->orderService->countTotalOrders();
 
-        $allOrders = Order::with('items')->get();
-        $totalRevenue = $this->orderService->calculateTotalRevenue($allOrders);
+        $totalRevenue = $this->orderService->getRealizedRevenue();
         $pendingOrders = $this->orderService->countByStatus('pending');
 
 

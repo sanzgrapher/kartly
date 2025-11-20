@@ -15,7 +15,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
     @else
-         
     @endif
 </head>
 
@@ -25,10 +24,17 @@
         @if (Route::has('login'))
             <nav class="flex items-center justify-end gap-4">
                 @auth
-                    <a href="{{ url('/dashboard') }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                        Dashboard
-                    </a>
+                    @if (Auth::user()->role === \App\Enums\UserRole::ADMIN)
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                            Admin Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('customer.dashboard') }}"
+                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                            Dashboard
+                        </a>
+                    @endif
                     <span>Hello, {{ Auth::user()->name }}</span>
 
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">

@@ -28,9 +28,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach ($addresses as $address)
                             <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition">
-                                <div class="flex justify-between items-start mb-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-gray-800 font-medium">{{ $address->street_address_1 }}</p>
+                                        @if ($address->street_address_2)
+                                            <p class="text-sm text-gray-600">{{ $address->street_address_2 }}</p>
+                                        @endif
+                                        <p class="text-sm text-gray-600">{{ $address->city }}, {{ $address->state }} -
+                                            {{ $address->country }}</p>
+                                    </div>
 
-                                    <div class="flex gap-2">
+                                    <div class="flex gap-2 items-center self-center">
                                         <a href="{{ route('addresses.edit', $address) }}"
                                             class="text-blue-600 hover:text-blue-800 font-medium text-sm">Edit</a>
                                         <form action="{{ route('addresses.destroy', $address) }}" method="POST"
@@ -43,13 +51,6 @@
                                         </form>
                                     </div>
                                 </div>
-
-                                <p class="text-gray-800">{{ $address->street_address_1 }}</p>
-                                @if ($address->street_address_2)
-                                    <p class="text-sm text-gray-600">{{ $address->street_address_2 }}</p>
-                                @endif
-                                <p class="text-sm text-gray-600">{{ $address->city }}, {{ $address->state }} -
-                                    {{ $address->country }}</p>
                             </div>
                         @endforeach
                     </div>

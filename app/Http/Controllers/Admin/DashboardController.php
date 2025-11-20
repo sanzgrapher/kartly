@@ -22,8 +22,7 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $orders = Order::with('items')->get();
-        $revenue = $this->orderService->calculateTotalRevenue($orders);
+        $revenue = $this->orderService->getRealizedRevenue();
 
         $stats = [
             'users' => User::count(),

@@ -55,6 +55,10 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, Order::class);
+    }
 
     public function changeRole(UserRole $role): static
     {

@@ -44,19 +44,20 @@
 
 
 
-            <div class="mb-6">
-                <p class="text-4xl text-orange-600">Rs {{ $product->price }}</p>
-            </div>
 
 
 
 
             @if ($product->description)
-                <div class="border-y py-6 border-gray-400">
+                <div class="border-t py-6 border-gray-200">
                     <h2 class="text-lg font-semibold text-gray-800 mb-3">Description</h2>
                     <p class="text-gray-700 leading-relaxed">{{ $product->description }}</p>
                 </div>
             @endif
+            
+            <div class="mb-6">
+                <p class="text-4xl text-orange-600">Rs {{ $product->price }}</p>
+            </div>
 
 
 

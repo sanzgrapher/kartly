@@ -6,27 +6,30 @@
         </div>
         <nav class="flex items-center gap-4">
             @auth
-                <div class="relative">
-                    <a href="{{ route('cart.index') }}"
-                        class="inline-block px-4 py-2 text-orange-700 hover:bg-orange-100 rounded text-sm transition relative">
-                        <svg class="w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path
-                                    d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
-                                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </g>
-                        </svg>
-                        Cart
-                        @if (Auth::user()->cart && Auth::user()->cart->cartItem()->count() > 0)
-                            <span
-                                class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
-                                {{ Auth::user()->cart->cartItem()->count() }}
-                            </span>
-                        @endif
-                    </a>
-                </div>
+                @if (Auth::user()->role === \App\Enums\UserRole::CUSTOMER)
+                    <div class="relative">
+                        <a href="{{ route('cart.index') }}"
+                            class="inline-block px-4 py-2 text-orange-700 hover:bg-orange-100 rounded text-sm transition relative">
+                            <svg class="w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
+                                        stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    </path>
+                                </g>
+                            </svg>
+                            Cart
+                            @if (Auth::user()->cart && Auth::user()->cart->cartItem()->count() > 0)
+                                <span
+                                    class="absolute -top-1 -right-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                                    {{ Auth::user()->cart->cartItem()->count() }}
+                                </span>
+                            @endif
+                        </a>
+                    </div>
+                @endif
 
 
                 <div class="relative" id="user-menu-container">
@@ -44,10 +47,17 @@
                             <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
                         </div>
 
-                        <a href="{{ url('/dashboard') }}"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
-                            Dashboard
-                        </a>
+                        @if (Auth::user()->role === \App\Enums\UserRole::ADMIN)
+                            <a href="{{ route('admin.dashboard') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
+                                Admin Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('customer.dashboard') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition">
+                                Dashboard
+                            </a>
+                        @endif
 
                         <form action="{{ route('logout') }}" method="POST" class="border-t border-gray-200">
                             @csrf
