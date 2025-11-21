@@ -4,6 +4,27 @@
 
 @section('content')
 
+    @if ($errors->any())
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded">
+            <p class="text-red-800 font-semibold mb-2">Error:</p>
+            @foreach ($errors->all() as $error)
+                <p class="text-sm text-red-700">{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded">
+            <p class="text-green-800 font-semibold">{{ session('success') }}</p>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded">
+            <p class="text-red-800 font-semibold">{{ session('error') }}</p>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
 
         <div class="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center h-96">
