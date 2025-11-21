@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
@@ -23,8 +24,12 @@ use App\Http\Controllers\PaymentController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
 Route::get('/categories/{slug}', [CategoryController::class, 'show'])->name('categories.show');
+
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

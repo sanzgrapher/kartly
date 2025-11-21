@@ -24,7 +24,7 @@
 <body class="min-h-screen  bg-[#FDFDFC] text-[#1b1b18] font-sans">
     @include('layout.partials.public-header')
 
-    <main class="w-full lg:max-w-6xl max-w-[1120px] mx-auto px-4 pb-16  min-h-[80vh]">
+    <main class="w-full mt-6 lg:max-w-6xl max-w-[1120px] mx-auto px-4 pb-16  min-h-[80vh]">
         @yield('content')
     </main>
     @include('layout.partials.public-footer')

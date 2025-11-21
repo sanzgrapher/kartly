@@ -10,8 +10,8 @@
     </div>
 
     <div class="mt-2  pb-4 px-3">
-        <h3 class="text-sm font-semibold text-gray-800 truncate">{{ $product->name }}</h3>
         <div class="text-xs text-gray-500">{{ $product->category->name ?? 'n/a' }}</div>
+        <h3 class="text-sm font-semibold text-gray-800 truncate">{{ $product->name }}</h3>
         <div class="mt-4 font-bold text-sm text-green-600">Rs {{ $product->price }}</div>
         
     </div>
