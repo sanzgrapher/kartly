@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Services\Payment\EsewaService;
+use App\Services\Order\Contracts\OrderServiceInterface;
 use App\Enums\PaymentStatus;
 use App\Enums\PaymentMethod;
+use App\Enums\OrderStatus;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
     protected EsewaService $esewaService;
+    protected OrderServiceInterface $orderService;
 
-    public function __construct(EsewaService $esewaService)
+    public function __construct(EsewaService $esewaService, OrderServiceInterface $orderService)
     {
         $this->esewaService = $esewaService;
+        $this->orderService = $orderService;
     }
     public function index()
     {
@@ -53,5 +58,31 @@ class OrderController extends Controller
 
 
         $this->esewaService->initiatePayment($order, $order->payment->amount);
+    }
+
+    public function cancel($id)
+    {
+        $order = Order::with('items.product')->findOrFail($id);
+
+        if ($order->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        if ($order->status !== OrderStatus::PENDING) {
+            return back()->with('error', 'Only pending orders can be cancelled.');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $this->orderService->updateStatus($id, OrderStatus::CANCELLED->value);
+
+            DB::commit();
+
+            return back()->with('success', 'Order cancelled successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to cancel order: ' . $e->getMessage());
+        }
     }
 }

@@ -19,18 +19,19 @@
                             <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Update Status</label>
                             <select name="status" id="status"
                                 class="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
-                                <option value="pending" {{ $order->status->value == 'pending' ? 'selected' : '' }}>Pending
+                                <option value="{{ $order->status->value }}" selected>{{ ucfirst($order->status->value) }}
                                 </option>
-                                <option value="processing" {{ $order->status->value == 'processing' ? 'selected' : '' }}>
-                                    Processing</option>
-                                <option value="shipped" {{ $order->status->value == 'shipped' ? 'selected' : '' }}>Shipped
-                                </option>
-                                <option value="delivered" {{ $order->status->value == 'delivered' ? 'selected' : '' }}>
-                                    Delivered
-                                </option>
-                                <option value="cancelled" {{ $order->status->value == 'cancelled' ? 'selected' : '' }}>
-                                    Cancelled
-                                </option>
+
+                                @if ($order->status->value == 'pending')
+                                    <option value="processing">Processing</option>
+                                    <option value="cancelled">Cancelled</option>
+                                @elseif($order->status->value == 'processing')
+                                    <option value="shipped">Shipped</option>
+                                    <option value="cancelled">Cancelled</option>
+                                @elseif($order->status->value == 'shipped')
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                @endif
                             </select>
                         </div>
                         <div>

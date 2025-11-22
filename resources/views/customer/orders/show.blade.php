@@ -77,6 +77,19 @@
                         </div>
                     @endif
 
+                    @if ($order->status->value === 'pending')
+                        <div class="mb-4 flex justify-end">
+                            <form action="{{ route('orders.cancel', $order->id) }}" method="POST"
+                                onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                                @csrf
+                                <button type="submit"
+                                    class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded">
+                                    Cancel Order
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+
                     <h3 class="font-medium mb-2">Items</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full table-auto text-left">

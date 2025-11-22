@@ -41,20 +41,19 @@ class OrderService implements OrderServiceInterface
         $order = Order::findOrFail($orderId);
         $previousStatus = $order->status;
         $order->update(['status' => $status]);
-        
-        // dd($status, $status ===  OrderStatus::DELIVERED->value);
 
-        if ($status === OrderStatus::DELIVERED->value) {
+        if ($status === OrderStatus::CANCELLED->value) {
+            if ($order->payment && $order->payment->payment_status === PaymentStatus::PENDING) {
+                $order->payment->update(['payment_status' => PaymentStatus::FAILED]);
+            }
+
             foreach ($order->items as $item) {
-                $product = $item->product;
-                if ($product && $product->quantity !== null) {
-                    $product->quantity = max(0, $product->quantity - ($item->quantity ?? 0));
-                    // dd("123");
-
-                    $product->save();
+                if ($item->product) {
+                    $item->product->increment('quantity', $item->quantity);
                 }
             }
         }
+        
         return $order;
     }
 
