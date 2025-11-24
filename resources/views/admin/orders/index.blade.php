@@ -48,12 +48,22 @@
 
                             <td class="p-4 text-sm">{{ $o->user->name ?? 'n/a' }}</td>
                             <td class="p-4 text-sm">Rs {{ $o->total }}</td>
-                            <td
-                                class="p-4 text-sm {{ $o->status == 'pending' ? 'text-yellow-600' : ($o->status == 'processing' ? 'text-blue-600' : ($o->status == 'shipped' ? 'text-orange-600' : ($o->status == 'delivered' ? 'text-green-600' : 'text-red-600'))) }}">
-                                {{ $o->status ?? 'n/a' }}</td>
-                            <td
-                                class="p-4 text-sm {{ $o->payment->payment_status == 'pending' ? 'text-yellow-600' : ($o->payment->payment_status == 'completed' ? 'text-green-600' : 'text-red-600') }}">
-                                {{ $o->payment->payment_status ?? 'n/a' }}</td>
+                            <td class="p-4 text-sm">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {{ $o->status->value == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                       ($o->status->value == 'processing' ? 'bg-blue-100 text-blue-800' : 
+                                       ($o->status->value == 'shipped' ? 'bg-orange-100 text-orange-800' : 
+                                       ($o->status->value == 'delivered' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'))) }}">
+                                    {{ ucfirst($o->status->value ?? 'n/a') }}
+                                </span>
+                            </td>
+                            <td class="p-4 text-sm">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {{ $o->payment->payment_status->value == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                       ($o->payment->payment_status->value == 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
+                                    {{ ucfirst($o->payment->payment_status->value ?? 'n/a') }}
+                                </span>
+                            </td>
                             <td
                                 class="p-4 text-sm {{ $o->payment->payment_method == 'credit_card' ? 'text-blue-600' : ($o->payment->payment_method == 'paypal' ? 'text-blue-600' : 'text-green-600') }}">
                                 {{ $o->payment->payment_method ?? 'n/a' }}</td>

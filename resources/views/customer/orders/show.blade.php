@@ -24,11 +24,21 @@
 
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <p class="mt-2"><strong>Order Status:</strong> <span
-                                    class="{{ $order->status->value == 'pending' ? 'text-yellow-600' : ($order->status->value == 'processing' ? 'text-blue-600' : ($order->status->value == 'shipped' ? 'text-orange-600' : ($order->status->value == 'delivered' ? 'text-green-600' : 'text-red-600'))) }}">{{ $order->status->value ?? 'n/a' }}</span>
+                            <p class="mt-2"><strong>Order Status:</strong> 
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {{ $order->status->value == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                       ($order->status->value == 'processing' ? 'bg-blue-100 text-blue-800' : 
+                                       ($order->status->value == 'shipped' ? 'bg-orange-100 text-orange-800' : 
+                                       ($order->status->value == 'delivered' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'))) }}">
+                                    {{ ucfirst($order->status->value ?? 'n/a') }}
+                                </span>
                             </p>
-                            <p class="mt-2"><strong>Payment Status:</strong> <span
-                                    class="{{ ($order->payment?->payment_status ?? 'pending') == 'pending' ? 'text-yellow-600' : (($order->payment?->payment_status ?? '') == 'completed' ? 'text-green-600' : 'text-red-600') }}">{{ $order->payment->payment_status ?? 'n/a' }}</span>
+                            <p class="mt-2"><strong>Payment Status:</strong> 
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                    {{ ($order->payment?->payment_status->value ?? 'pending') == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                       (($order->payment?->payment_status->value ?? '') == 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
+                                    {{ ucfirst($order->payment->payment_status->value ?? 'n/a') }}
+                                </span>
                             </p>
                         </div>
                         <div>
@@ -130,8 +140,12 @@
                                     {{ $order->payment->payment_method ?? 'n/a' }}</p>
                             </div>
                             <div>
-                                <p class="mt-2"><strong>Payment Status:</strong> <span
-                                        class="{{ $order->payment->payment_status == 'pending' ? 'text-yellow-600' : ($order->payment->payment_status == 'completed' ? 'text-green-600' : 'text-red-600') }}">{{ $order->payment->payment_status ?? 'n/a' }}</span>
+                                <p class="mt-2"><strong>Payment Status:</strong> 
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                        {{ $order->payment->payment_status->value == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                           ($order->payment->payment_status->value == 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
+                                        {{ ucfirst($order->payment->payment_status->value ?? 'n/a') }}
+                                    </span>
                                 </p>
                             </div>
                         </div>

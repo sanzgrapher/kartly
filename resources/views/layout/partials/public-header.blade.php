@@ -7,8 +7,8 @@
             <div class="flex-shrink-0">
                 <a href="{{ url('/') }}" class="flex items-center gap-2 group">
                     <!-- Optional: Add a logo icon here if you have one -->
-                    <span class="text-2xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors">
-                        Kart<span class="text-orange-600 group-hover:text-gray-900 transition-colors">ly</span>
+                    <span class="text-2xl font-bold text-orange-600 group-hover:text-black-900 transition-colors">
+                        Kartly
                     </span>
                 </a>
             </div>
