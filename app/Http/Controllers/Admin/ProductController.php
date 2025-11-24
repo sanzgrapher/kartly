@@ -67,12 +67,12 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
         $product = Product::findOrFail($id);
         $request['slug'] = $request['slug'] ?? $request['name'];
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:products,slug,'.$id,
+            'slug' => 'nullable|string|max:255|unique:products,slug,' . $id,
             'category_id' => 'nullable|exists:categories,id',
             'price' => 'required|integer|min:0',
             'quantity' => 'required|integer|min:0',
@@ -90,6 +90,34 @@ class ProductController extends Controller
         $product->update($data);
 
         return redirect()->route('admin.products.index')->with('success', 'Product updated.');
+    }
+
+
+    public function updateStock(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $data = $request->validate([
+            'adjustment' => 'required|integer',
+        ]);
+        $adjustment = $data['adjustment'];
+        $newQuantity = $product->quantity + $adjustment;
+
+        if ($newQuantity < 0) {
+            return redirect()
+                ->back()
+                ->with('error', 'Cannot remove more stock than available. Current stock: ' . $product->quantity);
+        }
+
+        $product->quantity = $newQuantity;
+        $product->save();
+
+        $action = $adjustment > 0 ? 'added' : 'removed';
+        $amount = abs($adjustment);
+
+        return redirect()
+            ->back()
+            ->with('success', "Successfully {$action} {$amount} units. New stock: {$newQuantity}");
     }
 
     public function destroy($id)

@@ -40,7 +40,7 @@ Route::middleware('guest')->group(function () {
 });
 
 
-Route::middleware(['auth','role:customer'])->group(function () {
+Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
     Route::patch('/cart-items/{cartItem}', [CartItemController::class, 'update'])->name('cart-items.update');
@@ -82,6 +82,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('users', AdminUserController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
 
         Route::resource('products', AdminProductController::class);
+        Route::patch('/products/{id}/stock', [AdminProductController::class, 'updateStock'])->name('products.updateStock');
+
 
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');

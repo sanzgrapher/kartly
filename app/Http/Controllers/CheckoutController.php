@@ -63,7 +63,6 @@ class CheckoutController extends Controller
             $shippingAddress = $user->addresses()->findOrFail($data['address_id']);
             $shippingAddressString = $this->formatAddressString($shippingAddress);
 
-            // Create Order
             $order = $user->orders()->create([
                 'status' => OrderStatus::PENDING,
                 'shipping_address' => $shippingAddressString,
@@ -73,8 +72,7 @@ class CheckoutController extends Controller
             $subtotal = 0;
 
             foreach ($cartItems as $item) {
-                // Lock the product row for update to prevent race conditions
-                $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
+                 $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
 
                 if (!$product) {
                     throw new \Exception("Product not found: " . $item->product_id);
@@ -84,7 +82,6 @@ class CheckoutController extends Controller
                     throw new \Exception("Insufficient stock for product: " . $product->name);
                 }
 
-                // Deduct stock
                 $product->decrement('quantity', $item->quantity);
 
                 OrderItem::create([
@@ -108,7 +105,7 @@ class CheckoutController extends Controller
                 ]);
 
                 $cart->cartItem()->delete();
-                
+
                 DB::commit();
 
                 $this->esewaService->initiatePayment($order, $subtotal);
@@ -126,11 +123,10 @@ class CheckoutController extends Controller
             ]);
 
             $cart->cartItem()->delete();
-            
+
             DB::commit();
 
             return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Order failed: ' . $e->getMessage());
