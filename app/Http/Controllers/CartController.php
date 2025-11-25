@@ -5,14 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    protected $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     public function index()
     {
-        $cart = Auth::user()->cart ?? Cart::create(['user_id' => Auth::id()]);
+        $adjustedItems = $this->cartService->validateCartStock();
+
+        if (!empty($adjustedItems)) {
+            $message = 'Some items in your cart were updated due to stock availability: ';
+            foreach ($adjustedItems as $item) {
+                $message .= "{$item['product_name']} ({$item['old_quantity']} -> {$item['new_quantity']}), ";
+            }
+            session()->flash('error', rtrim($message, ', '));
+        }
+
+        $cart = $this->cartService->getCart();
         $cartItems = $cart->cartItem()->with('product')->get();
 
         $total = $cartItems->sum(function ($item) {
@@ -24,36 +42,17 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-        $product = Product::findOrFail($request->product_id);
-
-        $data = $request->validate([
+        $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1|max:' . $product->quantity,
+            'quantity' => 'required|integer|min:1',
         ]);
 
-        $cart = Auth::user()->cart ?? Cart::create(['user_id' => Auth::id()]);
+        $result = $this->cartService->addToCart($request->product_id, $request->quantity);
 
-
-
-        $cartItem = $cart->cartItem()->where('product_id', $data['product_id'])->first();
-
-        if ($cartItem) {
-            $newQuantity = $cartItem->quantity + $data['quantity'];
-
-
-            if ($product->quantity < $newQuantity) {
-                return back()->with('error', 'Requested quantity exceeds available stock.');
-            }
-
-            $cartItem->update(['quantity' => $newQuantity]);
-        } else {
-            CartItem::create([
-                'cart_id' => $cart->id,
-                'product_id' => $data['product_id'],
-                'quantity' => $data['quantity'],
-            ]);
+        if (!$result['status']) {
+            return back()->with('error', $result['message']);
         }
 
-        return back()->with('success', 'Product added to cart successfully.');
+        return back()->with('success', $result['message']);
     }
 }

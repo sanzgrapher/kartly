@@ -4,30 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use App\Services\CartService;
 
 class CartItemController extends Controller
 {
-    public function update(Request $request, CartItem $cartItem)
+    protected $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
+    public function update(Request $request, $cartItemId)
     {
         $validated = $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $product = $cartItem->product;
+        $result = $this->cartService->updateItem($cartItemId, $validated['quantity']);
 
-        if ($product->quantity < $validated['quantity']) {
-            return back()->with('error', 'Requested quantity exceeds available stock.');
+        if (!$result['status']) {
+            return back()->with('error', $result['message']);
         }
 
-        $cartItem->update(['quantity' => $validated['quantity']]);
-
-        return back()->with('success', 'Cart item updated successfully.');
+        return back()->with('success', $result['message']);
     }
 
-    public function destroy(CartItem $cartItem)
+    public function destroy($cartItemId)
     {
-        $cartItem->delete();
+        $result = $this->cartService->removeItem($cartItemId);
 
-        return back()->with('success', 'Item removed from cart.');
+        if (!$result['status']) {
+            return back()->with('error', $result['message']);
+        }
+
+        return back()->with('success', $result['message']);
     }
 }

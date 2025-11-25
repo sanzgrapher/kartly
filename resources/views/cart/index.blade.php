@@ -33,7 +33,34 @@
                 <div class="lg:col-span-2">
                     <div class="bg-white rounded-lg shadow">
                         @forelse ($cartItems as $item)
-                            <div
+                            <div x-data="{
+                                quantity: {{ $item->quantity }},
+                                originalQuantity: {{ $item->quantity }},
+                                maxStock: {{ $item->product->quantity }},
+                                get isChanged() {
+                                    return this.quantity !== this.originalQuantity;
+                                },
+                                increase() {
+                                    if (this.quantity < this.maxStock) {
+                                        this.quantity++;
+                                    }
+                                },
+                                decrease() {
+                                    if (this.quantity > 1) {
+                                        this.quantity--;
+                                    }
+                                },
+                                validate() {
+                                    let qty = parseInt(this.quantity);
+                                    if (isNaN(qty) || qty < 1) {
+                                        this.quantity = 1;
+                                    } else if (qty > this.maxStock) {
+                                        this.quantity = this.maxStock;
+                                    } else {
+                                        this.quantity = qty;
+                                    }
+                                }
+                            }"
                                 class="flex gap-4 p-6 border-b border-gray-300 last:border-b-0 hover:bg-gray-50 transition">
 
                                 <div class="flex-shrink-0 w-24 h-24 bg-gray-100 rounded overflow-hidden">
@@ -53,7 +80,7 @@
                                         Price: <span class="font-semibold">Rs {{ $item->product->price }}</span>
                                     </p>
                                     <p class="text-sm text-gray-600 mb-1">
-                                        Subtotal: <span class="font-semibold">Rs
+                                        Subtotal: <span class="font-semibold" x-text="'Rs ' + ({{ $item->product->price }} * quantity)">Rs
                                             {{ $item->product->price * $item->quantity }}</span>
                                     </p>
                                     <p class="text-sm text-gray-500">
@@ -66,17 +93,15 @@
                                 <div class="flex flex-col items-end justify-between gap-3">
                                     <div class="flex items-center border border-gray-300 rounded overflow-hidden">
                                         <button type="button"
-                                            class="qty-decrease px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
-                                            data-item-id="{{ $item->id }}" onclick="decreaseQty({{ $item->id }})">
+                                            class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
+                                            @click="decrease()">
                                             -
                                         </button>
-                                        <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
-                                            max="{{ $item->product->quantity }}" data-item-id="{{ $item->id }}"
-                                            id="qty-{{ $item->id }}"
-                                            class="quantity-input w-20 px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-orange-500 border-0">
+                                        <input type="number" x-model="quantity" @input="validate()" value="{{ $item->quantity }}"
+                                            class="w-20 px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-orange-500 border-0">
                                         <button type="button"
-                                            class="qty-increase px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
-                                            data-item-id="{{ $item->id }}" onclick="increaseQty({{ $item->id }})">
+                                            class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
+                                            @click="increase()">
                                             +
                                         </button>
                                     </div>
@@ -85,12 +110,11 @@
                                         class="w-full">
                                         @csrf
                                         @method('PATCH')
-                                        <input type="hidden" name="quantity" id="form-qty-{{ $item->id }}"
-                                            value="{{ $item->quantity }}">
+                                        <input type="hidden" name="quantity" x-model="quantity" value="{{ $item->quantity }}">
                                         <button type="submit"
-                                            class="update-btn w-full px-3 py-2 bg-gray-300 text-gray-500 text-sm font-semibold rounded cursor-not-allowed transition disabled"
-                                            data-item-id="{{ $item->id }}" data-original-qty="{{ $item->quantity }}"
-                                            disabled>
+                                            class="w-full px-3 py-2 text-sm font-semibold rounded transition bg-gray-300 text-gray-500 cursor-not-allowed"
+                                            :class="isChanged ? 'bg-orange-500 text-white hover:bg-orange-600 cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
+                                            :disabled="!isChanged" disabled>
                                             Update Cart
                                         </button>
                                     </form>
@@ -167,54 +191,5 @@
         @endif
     </div>
 
-    <script>
-        function increaseQty(itemId) {
-            const input = document.getElementById('qty-' + itemId);
-            const maxQty = parseInt(input.getAttribute('max'));
-            let currentQty = parseInt(input.value);
 
-            if (currentQty < maxQty) {
-                input.value = currentQty + 1;
-                document.getElementById('form-qty-' + itemId).value = input.value;
-                updateButtonState(itemId);
-            }
-        }
-
-        function decreaseQty(itemId) {
-            const input = document.getElementById('qty-' + itemId);
-            let currentQty = parseInt(input.value);
-
-            if (currentQty > 1) {
-                input.value = currentQty - 1;
-                document.getElementById('form-qty-' + itemId).value = input.value;
-                updateButtonState(itemId);
-            }
-        }
-
-        function updateButtonState(itemId) {
-            const input = document.getElementById('qty-' + itemId);
-            const button = document.querySelector('.update-btn[data-item-id="' + itemId + '"]');
-            const originalQty = parseInt(button.getAttribute('data-original-qty'));
-            const currentQty = parseInt(input.value);
-
-            if (currentQty !== originalQty) {
-                button.disabled = false;
-                button.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'disabled');
-                button.classList.add('bg-orange-500', 'text-white', 'hover:bg-orange-600');
-            } else {
-
-                button.disabled = true;
-                button.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed', 'disabled');
-                button.classList.remove('bg-orange-500', 'text-white', 'hover:bg-orange-600');
-            }
-        }
-
-        document.querySelectorAll('.quantity-input').forEach(input => {
-            input.addEventListener('input', function() {
-                const itemId = this.getAttribute('data-item-id');
-                document.getElementById('form-qty-' + itemId).value = this.value;
-                updateButtonState(itemId);
-            });
-        });
-    </script>
 @endsection

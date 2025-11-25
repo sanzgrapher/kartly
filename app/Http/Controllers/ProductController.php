@@ -9,9 +9,19 @@ class ProductController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)
+            ->with('category')
             ->firstOrFail();
 
-        return view('products.show', compact('product'));
+        $relatedProducts = collect();
+
+        if ($product->category) {
+            $relatedProducts = $product->category->products()
+                ->where('id', '!=', $product->id)
+                ->limit(4)
+                ->get();
+        }
+
+        return view('products.show', compact('product', 'relatedProducts'));
     }
 
     public function index()

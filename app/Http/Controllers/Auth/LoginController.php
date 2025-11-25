@@ -3,12 +3,21 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     //
+    protected $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     public function showLoginForm()
     {
         return view('auth.login');
@@ -21,8 +30,16 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+        $guestSessionId = $request->session()->getId();
+        Log::info('LoginController: Guest Session ID (captured before attempt): ' . $guestSessionId);
+
         if (Auth::attempt($userLogin)) {
+            Log::info('LoginController: Session ID after attempt (likely changed): ' . $request->session()->getId());
+
             $request->session()->regenerate();
+            Log::info('LoginController: Session ID after explicit regenerate: ' . $request->session()->getId());
+
+            $this->cartService->mergeGuestCart($guestSessionId);
 
             $user = Auth::user();
 

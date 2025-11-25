@@ -14,17 +14,30 @@ use App\Services\Payment\EsewaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Services\CartService;
 class CheckoutController extends Controller
 {
     protected EsewaService $esewaService;
+    protected CartService $cartService;
 
-    public function __construct(EsewaService $esewaService)
+    public function __construct(EsewaService $esewaService, CartService $cartService)
     {
         $this->esewaService = $esewaService;
+        $this->cartService = $cartService;
     }
     public function index()
     {
+        $adjustedItems = $this->cartService->validateCartStock();
+
+        if (!empty($adjustedItems)) {
+            $message = 'Some items in your cart were updated due to stock availability: ';
+            foreach ($adjustedItems as $item) {
+                $message .= "{$item['product_name']} ({$item['old_quantity']} -> {$item['new_quantity']}), ";
+            }
+            session()->flash('error', rtrim($message, ', '));
+            return redirect()->route('cart.index'); // Redirect back to cart to review changes
+        }
+
         $user = Auth::user();
         $cart = $user->cart ?? null;
 
@@ -72,7 +85,7 @@ class CheckoutController extends Controller
             $subtotal = 0;
 
             foreach ($cartItems as $item) {
-                 $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
+                $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
 
                 if (!$product) {
                     throw new \Exception("Product not found: " . $item->product_id);
