@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
+
 class CartService
 {
     public function getCart()
@@ -17,14 +18,9 @@ class CartService
         }
 
         $sessionId = Session::getId();
-        Log::info('CartService: getCart using Session ID: ' . $sessionId);
-
         $cart = Cart::where('session_id', $sessionId)->first();
 
-        if ($cart) {
-            Log::info('CartService: Found existing guest cart ID: ' . $cart->id);
-        } else {
-            Log::info('CartService: Creating new guest cart for Session ID: ' . $sessionId);
+        if (!$cart) {
             $cart = Cart::create(['session_id'  => $sessionId]);
         }
 
@@ -97,16 +93,11 @@ class CartService
     public function mergeGuestCart($sessionId = null)
     {
         $sessionId = $sessionId ?? Session::getId();
-        Log::info('CartService: Merging cart for Session ID: ' . $sessionId);
-
         $guestCart = Cart::where('session_id', $sessionId)->with('cartItem.product')->first();
 
         if (!$guestCart) {
-            Log::info('CartService: No guest cart found for Session ID: ' . $sessionId);
             return;
         }
-
-        Log::info('CartService: Guest cart found. ID: ' . $guestCart->id);
 
         $user = Auth::user();
         if (!$user) {
@@ -114,19 +105,15 @@ class CartService
             return;
         }
 
-        Log::info('CartService: Merging into User ID: ' . $user->id);
-
         $userCart = $user->cart;
 
         if (!$userCart) {
-            Log::info('CartService: User has no cart. Assigning guest cart.');
-             $guestCart->update([
+            $guestCart->update([
                 'user_id' => $user->id,
                 'session_id' => null
             ]);
         } else {
-            Log::info('CartService: User has cart (ID: ' . $userCart->id . '). Merging items.');
-            
+
             foreach ($guestCart->cartItem as $guestItem) {
                 $existingItem = $userCart->cartItem()->where('product_id', $guestItem->product_id)->first();
                 $product = $guestItem->product;
@@ -139,7 +126,7 @@ class CartService
                     }
 
                     $existingItem->update(['quantity' => $newQuantity]);
-                    $guestItem->delete(); 
+                    $guestItem->delete();
                 } else {
                     $newQuantity = $guestItem->quantity;
                     if ($newQuantity > $product->quantity) {
@@ -172,7 +159,7 @@ class CartService
                 if ($newQuantity > 0) {
                     $item->update(['quantity' => $newQuantity]);
                 } else {
-                    $item->delete(); 
+                    $item->delete();
                 }
 
                 $adjustedItems[] = [

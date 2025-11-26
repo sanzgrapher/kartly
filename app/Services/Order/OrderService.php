@@ -7,9 +7,17 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Enums\PaymentStatus;
 use App\Enums\OrderStatus;
+use App\Services\Mail\Contracts\MailServiceInterface;
+use Illuminate\Support\Facades\Log;
 
 class OrderService implements OrderServiceInterface
 {
+    protected MailServiceInterface $mailService;
+
+    public function __construct(MailServiceInterface $mailService)
+    {
+        $this->mailService = $mailService;
+    }
 
 
     public function attachTotalsToOrder($order)
@@ -53,7 +61,14 @@ class OrderService implements OrderServiceInterface
                 }
             }
         }
-        
+         try {
+            if ($order->user) {
+                $this->mailService->sendOrderStatusUpdate($order, $order->user);
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to send order status update email: ' . $e->getMessage());
+        }
+
         return $order;
     }
 

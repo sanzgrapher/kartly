@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\SendWelcomeEmail;
+use App\Events\OrderCreated;
+use App\Listeners\SendOrderNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendWelcomeEmail::class,
+        ],
+        OrderCreated::class => [
+            SendOrderNotification::class,
         ],
     ];
 

@@ -9,3 +9,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('payments:cancel-expired')->everyTenMinutes();
+// php artisan queue:restart
+// php artisan queue:work

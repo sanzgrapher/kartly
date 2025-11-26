@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\Payment\EsewaService;
+use App\Services\Mail\Contracts\MailServiceInterface;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Enums\PaymentStatus;
@@ -11,10 +12,12 @@ use Illuminate\Support\Facades\Log;
 class PaymentController extends Controller
 {
     protected EsewaService $esewaService;
+    protected MailServiceInterface $mailService;
 
-    public function __construct(EsewaService $esewaService)
+    public function __construct(EsewaService $esewaService, MailServiceInterface $mailService)
     {
         $this->esewaService = $esewaService;
+        $this->mailService = $mailService;
     }
 
 
@@ -58,6 +61,11 @@ class PaymentController extends Controller
             if ($payment) {
                 $payment->payment_status = PaymentStatus::FAILED;
                 $payment->save();
+
+
+                if ($payment->order && $payment->order->user) {
+                    $this->mailService->sendPaymentStatusUpdate($payment->order, $payment->order->user);
+                }
             }
 
             return redirect()->route('orders.show', $orderId)

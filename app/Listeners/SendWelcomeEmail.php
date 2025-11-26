@@ -5,19 +5,19 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\WelcomeMail;
+use App\Services\Mail\Contracts\MailServiceInterface;
 
 class SendWelcomeEmail implements ShouldQueue
 {
     use InteractsWithQueue;
+    protected $mailService;
 
     /**
      * Create the event listener.
      */
-    public function __construct()
+    public function __construct(MailServiceInterface $mailService)
     {
-        //
+        $this->mailService = $mailService;
     }
 
     /**
@@ -25,8 +25,6 @@ class SendWelcomeEmail implements ShouldQueue
      */
     public function handle(Registered $event): void
     {
-        $user = $event->user;
-
-        Mail::to($user->email)->queue(new WelcomeMail($user));
+        $this->mailService->sendWelcomeEmail($event->user);
     }
 }

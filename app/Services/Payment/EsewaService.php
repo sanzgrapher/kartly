@@ -10,20 +10,24 @@ use App\Enums\PaymentStatus;
 use App\Enums\OrderStatus;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use App\Services\Mail\Contracts\MailServiceInterface;
 
 class EsewaService
 {
     protected Esewa $esewa;
+    protected MailServiceInterface $mailService;
 
-    public function __construct()
+    public function __construct(MailServiceInterface $mailService)
     {
         $this->esewa = new Esewa();
+        $this->mailService = $mailService;
     }
 
 
     public function initiatePayment(Order $order,  $amount)
     {
         $transactionUuid = $this->generateTransactionUuid($order->id);
+        
 
 
         $this->esewa->config(
@@ -92,6 +96,15 @@ class EsewaService
 
         $order->status = OrderStatus::PROCESSING;
         $order->save();
+
+         try {
+            if ($order->user) {
+                $this->mailService->sendPaymentStatusUpdate($order, $order->user);
+                $this->mailService->sendOrderStatusUpdate($order, $order->user);
+            }
+        } catch (Exception $e) {
+            Log::error('Failed to send payment/order status emails: ' . $e->getMessage());
+        }
 
 
         session()->forget('esewa_order_id');

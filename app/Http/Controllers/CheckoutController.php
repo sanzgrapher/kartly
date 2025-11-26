@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Services\CartService;
+use App\Events\OrderCreated;
 class CheckoutController extends Controller
 {
     protected EsewaService $esewaService;
@@ -121,6 +122,8 @@ class CheckoutController extends Controller
 
                 DB::commit();
 
+                 event(new OrderCreated($order));
+
                 $this->esewaService->initiatePayment($order, $subtotal);
                 return;
             }
@@ -138,6 +141,8 @@ class CheckoutController extends Controller
             $cart->cartItem()->delete();
 
             DB::commit();
+
+             event(new OrderCreated($order));
 
             return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
         } catch (\Exception $e) {

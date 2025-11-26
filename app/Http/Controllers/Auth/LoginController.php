@@ -31,13 +31,9 @@ class LoginController extends Controller
         ]);
 
         $guestSessionId = $request->session()->getId();
-        Log::info('LoginController: Guest Session ID (captured before attempt): ' . $guestSessionId);
 
         if (Auth::attempt($userLogin)) {
-            Log::info('LoginController: Session ID after attempt (likely changed): ' . $request->session()->getId());
-
             $request->session()->regenerate();
-            Log::info('LoginController: Session ID after explicit regenerate: ' . $request->session()->getId());
 
             $this->cartService->mergeGuestCart($guestSessionId);
 
