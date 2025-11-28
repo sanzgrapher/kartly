@@ -31,7 +31,7 @@
 
     <div class="lg:col-span-2 space-y-3" x-data="{
     
-        category:'sdfsdf',
+        category: '{{ $product->category->name }}',
         selectedColor: 'green',
         selectedSize: 'M',
         showBuyModal: false,
@@ -48,7 +48,7 @@
                     class="text-primary-600 hover:underline font-medium">
                     {{ $product->category->name }}
                 </a> --}}
-                <a  x-uppercase x-text="category" href="{{ route('categories.show', $product->category->slug) }}"
+                <a   x-text="category" href="{{ route('categories.show', $product->category->slug) }}"
                     class="text-primary-600 hover:underline font-medium">
                     
                 </a>
