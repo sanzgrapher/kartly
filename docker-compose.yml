@@ -1,9 +1,14 @@
 services:
   typesense:
     image: typesense/typesense:29.0
-    restart: on-failure
+    restart: unless-stopped
     ports:
       - "8108:8108"
     volumes:
       - ./typesense-data:/data
     command: '--data-dir /data --api-key=xyz --enable-cors'
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--spider", "http://localhost:8108/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+
 class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
@@ -21,6 +22,9 @@ class Product extends Model
         'category_id',
     ];
 
+    /**
+     * Get the indexable data array for the model.
+     */
     public function toSearchableArray()
     {
         return [
@@ -32,55 +36,6 @@ class Product extends Model
             'category_id' => (int) $this->category_id,
             'category_name' => $this->category?->name ?? '',
             'created_at' => $this->created_at->timestamp,
-        ];
-    }
-
-    public function typesenseCollectionSchema()
-    {
-        return [
-            'name' => $this->searchableAs(),
-            'fields' => [
-                [
-                    'name' => 'id',
-                    'type' => 'string',
-                ],
-                [
-                    'name' => 'name',
-                    'type' => 'string',
-                ],
-                [
-                    'name' => 'description',
-                    'type' => 'string',
-                ],
-                [
-                    'name' => 'price',
-                    'type' => 'float',
-                ],
-                [
-                    'name' => 'quantity',
-                    'type' => 'int32',
-                ],
-                [
-                    'name' => 'category_id',
-                    'type' => 'int32',
-                ],
-                [
-                    'name' => 'category_name',
-                    'type' => 'string',
-                ],
-                [
-                    'name' => 'created_at',
-                    'type' => 'int64',
-                ],
-            ],
-            'default_sorting_field' => 'created_at',
-        ];
-    }
-
-    public function typesenseSearchParameters()
-    {
-        return [
-            'query_by' => 'name,description,category_name',
         ];
     }
 
@@ -120,7 +75,7 @@ class Product extends Model
     }
 
 
-   
+
     // public function setPriceAttribute($value)
     // {
     //     $this->attributes['price'] = $value * 100; 
@@ -137,7 +92,4 @@ class Product extends Model
             set: fn($value) => $value * 100,
         );
     }
-
-
-
 }
