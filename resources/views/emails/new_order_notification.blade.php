@@ -1,15 +1,46 @@
 @php $customer = $order->user ?? null; @endphp
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>New Order Received</title>
-</head>
-<body>
-    <h1>New Order Received</h1>
-    <p>Order ID: {{ $order->id }}</p>
-    <p>Customer: {{ $customer->name ?? 'Guest' }} ({{ $customer->email ?? 'N/A' }})</p>
-    <p>Total: {{ number_format($order->total ?? 0, 2) }}</p>
-    <p>Please review the order in the admin panel.</p>
-</body>
-</html>
+@component('emails.layout', ['title' => 'New Order Alert 📦', 'subtitle' => 'A new order has been received!'])
+    <h2>New Order Received 🎉</h2>
+    <p>Great news! A new order has just been placed on Kartly.</p>
+
+    <div class="info-box">
+        <p><strong>Order Details:</strong></p>
+        <p>Order #<span class="highlight">{{ $order->id }}</span></p>
+        <p>Customer: {{ $customer->name ?? 'Guest' }} ({{ $customer->email ?? 'N/A' }})</p>
+        <p>Date: {{ $order->created_at ? $order->created_at->format('M d, Y H:i') : date('M d, Y H:i') }}</p>
+        <p>Total: <span class="highlight">${{ number_format($order->total ?? 0, 2) }}</span></p>
+    </div>
+
+    @if ($order->items && $order->items->count() > 0)
+        <h3>📦 Order Items:</h3>
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($order->items as $item)
+                    <tr>
+                        <td>{{ $item->product->name ?? 'Product' }}</td>
+                        <td style="text-align: center;">{{ $item->quantity }}</td>
+                        <td style="text-align: right;">${{ number_format($item->price ?? 0, 2) }}</td>
+                        <td style="text-align: right; font-weight: 600;">
+                            ${{ number_format(($item->price ?? 0) * $item->quantity, 2) }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+
+    <div style="background-color: #fff7ed; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center;">
+        <p style="font-size: 13px; color: #92400e; margin: 0;">
+            <strong>Action Required:</strong> Please review and process this order in your admin panel.
+        </p>
+    </div>
+
+    <p style="margin-top: 30px; font-weight: 600; color: #f97316;">The Kartly Team</p>
+@endcomponent
