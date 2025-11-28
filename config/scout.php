@@ -222,6 +222,36 @@ return [
                     'query_by' => 'name,description,category_name'
                 ],
             ],
+            \App\Models\Category::class => [
+                'collection-schema' => [
+                    'fields' => [
+                        [
+                            'name' => 'id',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'name',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'slug',
+                            'type' => 'string',
+                        ],
+                        [
+                            'name' => 'products_count',
+                            'type' => 'int32',
+                        ],
+                        [
+                            'name' => 'created_at',
+                            'type' => 'int64',
+                        ],
+                    ],
+                    'default_sorting_field' => 'created_at',
+                ],
+                'search-parameters' => [
+                    'query_by' => 'name,slug'
+                ],
+            ],
         ],
     ],
 

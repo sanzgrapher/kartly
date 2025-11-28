@@ -2,33 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
+use App\Services\SearchService;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
+    protected $searchService;
+
+    public function __construct(SearchService $searchService)
+    {
+        $this->searchService = $searchService;
+    }
+
     public function index(Request $request)
     {
         $validated = $request->validate([
             'q' => 'nullable|string|max:255'
         ]);
-        $q = trim($validated['q'] ?? '');
 
+        $q = $validated['q'] ?? '';
 
-        if ($q !== '') {
-            $categories = Category::where('name', 'like', "%{$q}%")
-                ->orderBy('name')
-                ->get();
+         $result = $this->searchService->multiSearch($q);
 
-            $products = Product::search($q)
-                ->paginate(12)
-                ->withQueryString();
-        } else {
-            $categories = Category::orderBy('name')->limit(12)->get();
-            $products = Product::orderBy('created_at', 'desc')->paginate(12);
-        }
-
-        return view('search.index', compact('q', 'categories', 'products'));
+        return view('search.index', [
+            'q' => $result['query'],
+            'categories' => $result['categories'],
+            'products' => $result['products'],
+        ]);
     }
 }
