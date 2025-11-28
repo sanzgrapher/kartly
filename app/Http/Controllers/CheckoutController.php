@@ -122,7 +122,7 @@ class CheckoutController extends Controller
 
                 DB::commit();
 
-                 event(new OrderCreated($order));
+                event(new OrderCreated($order));
 
                 $this->esewaService->initiatePayment($order, $subtotal);
                 return;
@@ -142,7 +142,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-             event(new OrderCreated($order));
+            event(new OrderCreated($order));
 
             return redirect()->route('orders.show', $order->id)->with('success', 'Order placed successfully!');
         } catch (\Exception $e) {
