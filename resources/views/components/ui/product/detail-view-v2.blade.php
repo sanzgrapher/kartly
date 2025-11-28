@@ -1,30 +1,38 @@
 @props(['product'])
 
 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
-    <div class="lg:col-span-3 flex gap-4">
+    <div class="lg:col-span-3 flex gap-4" x-data="{ currentImage: '{{ $product->image_url }}' }">
         <div class="flex flex-col justify-between w-[120px] h-[500px]">
-            <div class="bg-gray-50 rounded  border-2 border-blue-400  w-[120px] h-[120px]">
+            <div class="bg-gray-50 rounded border-2 border-blue-400 w-[120px] h-[120px] cursor-pointer"
+                @click="currentImage = '{{ $product->image_url }}'">
                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
             </div>
-            <div class="bg-gray-50 rounded  border-2  hover:border-blue-400   w-[120px] h-[120px]">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            <div class="bg-gray-50 rounded border-2 hover:border-blue-400 w-[120px] h-[120px] cursor-pointer"
+                @click="currentImage = 'https://placehold.co/600x400?text=Img\n1'">
+                <img src="https://placehold.co/600x400?text=Img\n1" alt="{{ $product->name }}"
+                    class="w-full h-full object-cover">
             </div>
-            <div class="bg-gray-50 rounded  border-2  hover:border-blue-400   w-[120px] h-[120px]">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            <div class="bg-gray-50 rounded border-2 hover:border-blue-400 w-[120px] h-[120px] cursor-pointer"
+                @click="currentImage = 'https://placehold.co/600x400?text=Img\n2'">
+                <img src="https://placehold.co/600x400?text=Img\n2" alt="{{ $product->name }}"
+                    class="w-full h-full object-cover">
             </div>
-            <div class="bg-gray-50 rounded  border-2  hover:border-blue-400   w-[120px] h-[120px]">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            <div class="bg-gray-50 rounded border-2 hover:border-blue-400 w-[120px] h-[120px] cursor-pointer"
+                @click="currentImage = 'https://placehold.co/600x400?text=Img\n3'">
+                <img src="https://placehold.co/600x400?text=Img\n3" alt="{{ $product->name }}"
+                    class="w-full h-full object-cover">
             </div>
         </div>
 
         <div class="w-full bg-gray-50 rounded-2xl h-[500px]">
-            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            <img :src="currentImage" alt="{{ $product->name }}" class="w-full h-full object-cover">
         </div>
     </div>
 
     <div class="lg:col-span-2 space-y-3" x-data="{
         selectedColor: 'green',
         selectedSize: 'M',
+        showBuyModal: false,
         colors: [
             { name: 'gray', class: 'bg-gray-400' },
             { name: 'green', class: 'bg-green-500' },
@@ -103,12 +111,11 @@
                     <template x-for="color in colors">
                         <button class='w-7 h-7 rounded-full border-2 -all' type="button"
                             @click="selectedColor = color.name"
-                            :class="
-                                [color.class,
+                            :class="[color.class,
                                 selectedColor === color.name ?
                                 'border-primary-500 ' :
-                                'border-gray-300 ']
-                            "></button>
+                                'border-gray-300 '
+                            ]"></button>
                     </template>
                 </div>
             </div>
@@ -192,10 +199,10 @@
                 </button>
             </div>
 
-             <div class="grid grid-cols-2 gap-2">
-                <button type="submit"
-                    class="  bg-primary-500 text-white font-semibold text-xl rounded-lg hover:bg-primary-600  disabled:bg-gray-400 disabled:cursor-not-allowed"
-                    @if ($product->stock_status == 'Out of Stock') disabled @endif>
+            <div class="grid grid-cols-2 gap-2">
+                <button type="button"
+                    class="py-4 bg-primary-500 text-white font-semibold text-xl rounded-lg hover:bg-primary-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    @click="showBuyModal = true" @if ($product->stock_status == 'Out of Stock') disabled @endif>
                     Buy Now
                 </button>
 
@@ -209,26 +216,16 @@
 
         <div class="border border-gray-200 rounded-lg p-3 space-y-2 bg-gray-50">
             <div class="flex items-center space-x-3">
-                <div class="shrink-0">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                </div>
+
                 <div>
                     <h4 class="font-semibold text-gray-900 text-sm">Free Delivery</h4>
                     <p class="text-xs text-gray-600">Enter your postal code for Delivery Availability</p>
                 </div>
             </div>
 
-                <hr>
+            <hr>
             <div class="flex items-center space-x-3">
-                <div class="shrink-0">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                </div>
+
                 <div>
                     <h4 class="font-semibold text-gray-900 text-sm">Return Delivery</h4>
                     <p class="text-xs text-gray-600">Free 30 Days Delivery Returns. <span
@@ -244,5 +241,48 @@
                 <p class="text-sm text-red-700">{{ $message }}</p>
             </div>
         @enderror
+
+        <template x-teleport="body">
+            <div x-show="showBuyModal" class="fixed inset-0 z-50   bg-opacity-50 flex items-center justify-center p-4"
+                @click="showBuyModal = false">
+                <div class="bg-white rounded-lg p-6 max-w-md w-full" @click.stop>
+                    <h3 class="text-xl font-bold mb-4">Confirm Your Purchase</h3>
+
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-gray-600">Product:</span>
+                            <span class="font-medium">{{ $product->name }}</span>
+                        </div>
+
+                        <div>
+                            <span class="text-gray-600">Price:</span>
+                            <span class="font-medium">Rs {{ $product->price }}</span>
+                        </div>
+
+                        <div>
+                            <span class="text-gray-600">Color:</span>
+
+
+                            <span class="font-medium capitalize" x-text="selectedColor"></span>
+
+                        </div>
+
+                        <div>
+                            <span class="text-gray-600">Size:</span>
+                            <span class="font-medium" x-text="selectedSize"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="flex space-x-3 mt-6">
+                        <button class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300"
+                            @click="showBuyModal = false">
+                            Cancel
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </template>
     </div>
 </div>
