@@ -1,106 +1,246 @@
 @props(['product'])
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-     <div class="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center h-96">
-        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
+    <div class="lg:col-span-3 flex gap-4">
+        <div class="flex flex-col justify-between w-[120px] h-[500px]">
+            <div class="bg-gray-50 rounded  border-2 border-blue-400  w-[120px] h-[120px]">
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-gray-50 rounded  border-2  hover:border-blue-400   w-[120px] h-[120px]">
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-gray-50 rounded  border-2  hover:border-blue-400   w-[120px] h-[120px]">
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            </div>
+            <div class="bg-gray-50 rounded  border-2  hover:border-blue-400   w-[120px] h-[120px]">
+                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <div class="w-full bg-gray-50 rounded-2xl h-[500px]">
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+        </div>
     </div>
 
-     <div>
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ $product->name }}</h1>
-
-         <p class="text-sm text-gray-600 mb-4">
-            @if ($product->category)
+    <div class="lg:col-span-2 space-y-3" x-data="{
+        selectedColor: 'green',
+        selectedSize: 'M',
+        colors: [
+            { name: 'gray', class: 'bg-gray-400' },
+            { name: 'green', class: 'bg-green-500' },
+            { name: 'blue', class: 'bg-blue-500' }
+        ],
+        sizes: ['XS', 'S', 'M', 'L', 'XL']
+    }">
+        @if ($product->category)
+            <div class="text-sm">
                 <a href="{{ route('categories.show', $product->category->slug) }}"
-                    class="text-orange-600 hover:underline px-3">
+                    class="text-primary-600 hover:underline font-medium">
                     {{ $product->category->name }}
                 </a>
-            @endif
-            |
-
-            @if ($product->stock_status == 'In Stock')
-                <span class="inline-block px-3 py-1 text-green-800 rounded-full text-sm">
-                    {{ $product->stock_status }}
-                </span>
-            @elseif($product->stock_status == 'Low Stock')
-                <span class="inline-block px-3 py-1 text-yellow-800 rounded-full text-sm">
-                    {{ $product->stock_status }}
-                </span>
-            @else
-                <span class="inline-block px-3 py-1 text-red-800 rounded-full text-sm">
-                    {{ $product->stock_status }}
-                </span>
-            @endif
-
-            |
-
-            <span class="font-semibold px-3 text-gray-800">{{ $product->quantity }}</span>
-        </p>
-
-         @if ($product->description)
-            <div class="border-t py-6 border-gray-200">
-                <h2 class="text-lg font-semibold text-gray-800 mb-3">Description</h2>
-                <p class="text-gray-700 leading-relaxed">{{ $product->description }}</p>
             </div>
         @endif
 
-         <div class="mb-6">
-            <p class="text-4xl text-orange-600">Rs {{ number_format($product->price, 2) }}</p>
+        <h1 class="text-2xl font-bold text-gray-900">{{ $product->name }}</h1>
+
+        <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-1">
+
+                <svg class="w-4 h-4 text-primary-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <svg class="w-4 h-4 text-primary-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <svg class="w-4 h-4 text-primary-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+
+                <svg class="w-4 h-4 text-gray-300" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                    stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <svg class="w-4 h-4 text-gray-300" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                    stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <svg class="w-4 h-4 text-gray-300" viewBox="0 0 20 20" fill="none" stroke="currentColor"
+                    stroke-width="1.5" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+
+            </div>
+            <span class="text-sm text-gray-600">(150 Reviews)</span>&nbsp;| &nbsp;
+            <span class="text-sm text-green-600 font-medium"> In Stock</span> &nbsp;|&nbsp;
+            <span
+                class="font-semibold {{ $product->stock_status == 'In Stock' ? 'text-green-600' : ($product->stock_status == 'Low Stock' ? 'text-yellow-600' : 'text-red-600') }}">
+                {{ $product->quantity }} left
+            </span>
         </div>
 
-         <form action="{{ route('cart.store') }}" method="POST" class="flex items-center gap-4 mb-6"
-            x-data="{
-                quantity: 1,
-                maxStock: {{ $product->quantity }},
-                increase() {
-                    if (this.quantity < this.maxStock) {
-                        this.quantity++;
-                    }
-                },
-                decrease() {
-                    if (this.quantity > 1) {
-                        this.quantity--;
-                    }
-                },
-                validate() {
-                    let qty = parseInt(this.quantity);
-                    if (isNaN(qty) || qty < 1) {
-                        this.quantity = 1;
-                    } else if (qty > this.maxStock) {
-                        this.quantity = this.maxStock;
-                    } else {
-                        this.quantity = qty;
-                    }
+        <div class="text-3xl font-bold text-gray-900">
+            Rs {{ $product->price }}
+        </div>
+
+        <p class="text-sm text-gray-600 leading-relaxed">
+            {{ $product->description }} <br>
+            High quality product with premium materials for exceptional durability and performance. Perfect for everyday
+            use with modern design and functionality.
+        </p>
+
+        <hr class="border-gray-200">
+
+        <div class="space-y-4">
+            <div class="flex items-center space-x-4">
+                <h3 class="text-xl font-medium text-gray-900">Colours:</h3>
+                <div class="flex space-x-3">
+                    <template x-for="color in colors">
+                        <button class='w-7 h-7 rounded-full border-2 -all' type="button"
+                            @click="selectedColor = color.name"
+                            :class="
+                                [color.class,
+                                selectedColor === color.name ?
+                                'border-primary-500 ' :
+                                'border-gray-300 ']
+                            "></button>
+                    </template>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <h3 class="text-xl font-medium text-gray-900">Size:</h3>
+                <div class="flex space-x-3">
+                    <template x-for="size in sizes" :key="size">
+                        <button class='px-3 py-1.5 border rounded-lg text-sm font-medium' type="button"
+                            @click="selectedSize = size"
+                            :class="selectedSize === size ?
+                                'border-primary-500 bg-primary-500 text-white' :
+                                'border-gray-300 text-gray-700'"
+                            x-text="size"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <form action="{{ route('cart.store') }}" method="POST" class="space-y-4" x-data="{
+            quantity: 1,
+            maxStock: {{ $product->quantity }},
+            increase() {
+                if (this.quantity < this.maxStock) {
+                    this.quantity++;
                 }
-            }">
+            },
+            decrease() {
+                if (this.quantity > 1) {
+                    this.quantity--;
+                }
+            },
+            validate() {
+                let qty = parseInt(this.quantity);
+                if (isNaN(qty) || qty < 1) {
+                    this.quantity = 1;
+                } else if (qty > this.maxStock) {
+                    this.quantity = this.maxStock;
+                } else {
+                    this.quantity = qty;
+                }
+            }
+        }">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-             <div class="flex items-center border border-gray-300 rounded overflow-hidden">
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center border border-gray-300 rounded-lg ">
+                    <button type="button"
+                        :class="[
+                            'px-3 py-2  font-semibold',
+                            quantity <= 1 ?
+                            'bg-gray-100 text-gray-400 cursor-not-allowed' :
+                            'bg-gray-50 hover:bg-primary-500 hover:text-white text-gray-700'
+                        ]"
+                        @click="decrease()" :disabled="quantity <= 1">
+                        -
+                    </button>
+                    <input type="number" name="quantity" x-model="quantity" @input="validate()" min="1"
+                        max="{{ $product->quantity }}" value="1"
+                        class="w-14 px-2 py-2 text-center focus:outline-none focus:ring-2 focus:ring-primary-500 border-0 text-xl font-semibold"
+                        @if ($product->stock_status == 'Out of Stock') disabled @endif>
+                    <button type="button"
+                        :class="[
+                            'px-3 py-2  font-semibold',
+                            quantity >= maxStock ?
+                            'bg-gray-100 text-gray-400 cursor-not-allowed' :
+                            'bg-gray-50 hover:bg-primary-500 hover:text-white text-gray-700'
+                        ]"
+                        @click="increase()" :disabled="quantity >= maxStock">
+                        +
+                    </button>
+                </div>
+
                 <button type="button"
-                    class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
-                    @click="decrease()">
-                    −
-                </button>
-                <input type="number" name="quantity" x-model="quantity" @input="validate()" min="1"
-                    max="{{ $product->quantity }}" value="1"
-                    class="w-20 px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-orange-500 border-0"
-                    @if ($product->stock_status == 'Out of Stock') disabled @endif>
-                <button type="button"
-                    class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
-                    @click="increase()">
-                    +
+                    class="p-2 border border-gray-300 rounded-lg hover:border-primary-500 hover:text-primary-500 ">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
                 </button>
             </div>
 
-             <button type="submit"
-                class="px-6 py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
-                @if ($product->stock_status == 'Out of Stock') disabled @endif>
-                Add to Cart
-            </button>
+             <div class="grid grid-cols-2 gap-2">
+                <button type="submit"
+                    class="  bg-primary-500 text-white font-semibold text-xl rounded-lg hover:bg-primary-600  disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    @if ($product->stock_status == 'Out of Stock') disabled @endif>
+                    Buy Now
+                </button>
+
+                <button type="submit"
+                    class="py-4  border border-primary-500 text-primary-500 font-semibold text-xl rounded-lg hover:bg-primary-50  disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    @if ($product->stock_status == 'Out of Stock') disabled @endif>
+                    Add to Cart
+                </button>
+            </div>
         </form>
 
-         @error('quantity')
-            <div class="p-3 bg-red-50 border border-red-300 rounded mb-6">
+        <div class="border border-gray-200 rounded-lg p-3 space-y-2 bg-gray-50">
+            <div class="flex items-center space-x-3">
+                <div class="shrink-0">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 text-sm">Free Delivery</h4>
+                    <p class="text-xs text-gray-600">Enter your postal code for Delivery Availability</p>
+                </div>
+            </div>
+
+                <hr>
+            <div class="flex items-center space-x-3">
+                <div class="shrink-0">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-900 text-sm">Return Delivery</h4>
+                    <p class="text-xs text-gray-600">Free 30 Days Delivery Returns. <span
+                            class="text-primary-600 underline ">Details</span></p>
+                </div>
+            </div>
+        </div>
+
+
+
+        @error('quantity')
+            <div class="p-3 bg-red-50 border border-red-300 rounded-lg">
                 <p class="text-sm text-red-700">{{ $message }}</p>
             </div>
         @enderror
