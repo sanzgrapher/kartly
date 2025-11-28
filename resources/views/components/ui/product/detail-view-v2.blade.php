@@ -30,6 +30,8 @@
     </div>
 
     <div class="lg:col-span-2 space-y-3" x-data="{
+    
+        category:'sdfsdf',
         selectedColor: 'green',
         selectedSize: 'M',
         showBuyModal: false,
@@ -42,9 +44,13 @@
     }">
         @if ($product->category)
             <div class="text-sm">
-                <a href="{{ route('categories.show', $product->category->slug) }}"
+                {{-- <a href="{{ route('categories.show', $product->category->slug) }}"
                     class="text-primary-600 hover:underline font-medium">
                     {{ $product->category->name }}
+                </a> --}}
+                <a  x-uppercase x-text="category" href="{{ route('categories.show', $product->category->slug) }}"
+                    class="text-primary-600 hover:underline font-medium">
+                    
                 </a>
             </div>
         @endif

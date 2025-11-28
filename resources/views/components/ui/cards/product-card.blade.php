@@ -44,8 +44,7 @@
 
     <div class="p-3">
         <div class="flex items-center justify-between mb-1">
-            <span
-                class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ $product->category->name ?? 'CATEGORY' }}</span>
+            <span  class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ $product->category->name ?? 'CATEGORY' }}</span>
 
         </div>
 
