@@ -24,3 +24,5 @@ Homestead.yaml
 Thumbs.db
 /docs-kartly/
 /typesense-data/*
+/mailpit-data/*
+app/Console/Commands/TestMailpitCommand.php
