@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
-
+use Illuminate\Database\Eloquent\Casts\Attribute;
 class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
@@ -30,6 +30,7 @@ class Product extends Model
             'price' => (float) $this->price,
             'quantity' => (int) $this->quantity,
             'category_id' => (int) $this->category_id,
+            'category_name' => $this->category?->name ?? '',
             'created_at' => $this->created_at->timestamp,
         ];
     }
@@ -64,6 +65,10 @@ class Product extends Model
                     'type' => 'int32',
                 ],
                 [
+                    'name' => 'category_name',
+                    'type' => 'string',
+                ],
+                [
                     'name' => 'created_at',
                     'type' => 'int64',
                 ],
@@ -75,7 +80,7 @@ class Product extends Model
     public function typesenseSearchParameters()
     {
         return [
-            'query_by' => 'name,description',
+            'query_by' => 'name,description,category_name',
         ];
     }
 
@@ -113,4 +118,26 @@ class Product extends Model
             return 'In Stock';
         }
     }
+
+
+   
+    // public function setPriceAttribute($value)
+    // {
+    //     $this->attributes['price'] = $value * 100; 
+    // }
+    // public function getPriceAttribute($value)
+    // {
+    //     return $value / 100; 
+    // }
+
+    protected function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value / 100,
+            set: fn($value) => $value * 100,
+        );
+    }
+
+
+
 }
