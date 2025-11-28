@@ -45,7 +45,7 @@
         <h3 class="text-lg font-semibold mb-4">Products</h3>
 
         @if ($products->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
+               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 @foreach ($products as $product)
                     <x-ui.cards.product-card :product="$product" />
                 @endforeach

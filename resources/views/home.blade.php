@@ -162,13 +162,13 @@
         <h2 class="text-2xl font-bold mb-6 text-gray-800">Featured Products</h2>
 
         @if ($products->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 @foreach ($products as $product)
                     <x-ui.cards.product-card :product="$product" />
                 @endforeach
             </div>
 
-            <div class="flex justify-center mt-8">
+            <div class="flex justify-between mt-8">
                 {{ $products->links('pagination::tailwind') }}
             </div>
         @else
