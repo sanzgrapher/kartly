@@ -12,3 +12,25 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: kartly-mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"  # Web UI
+      - "1025:1025"  # SMTP
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      MP_UI_BIND_ADDR: 0.0.0.0:8025
+      MP_SMTP_BIND_ADDR: 0.0.0.0:1025
+    volumes:
+      - ./mailpit-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--spider", "http://localhost:8025/readyz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
