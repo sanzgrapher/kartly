@@ -68,8 +68,8 @@
             </div>
 
             <div class="mb-4">
-                <label class="block text-sm font-medium mb-1">Image (optional)</label>
-                <input type="file" name="image" class="border rounded px-3 py-2">
+                <label class="block text-sm font-medium mb-1">Image </label>
+                <input type="file" name="image" required class="border rounded px-3 py-2">
                 @error('image')
                     <div class="text-sm text-red-600">{{ $message }}</div>
                 @enderror

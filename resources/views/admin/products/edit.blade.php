@@ -73,7 +73,7 @@
                 <label class="block text-sm font-medium mb-1">Current Image</label>
                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-32 mb-2 rounded">
                 <div class="mt-2">
-                    <label class="block text-sm font-medium mb-1">Replace Image (optional)</label>
+                    <label class="block text-sm font-medium mb-1">Replace Image</label>
                     <input type="file" name="image" class="border border-b p-1 rounded">
                     @error('image')
                         <div class="text-sm text-red-600">{{ $message }}</div>
