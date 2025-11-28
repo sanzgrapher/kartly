@@ -43,8 +43,13 @@ class DatabaseSeeder extends Seeder
 
             $user2->changeRole(UserRole::CUSTOMER);
         }
+        // Category::factory(10)->has(Product::factory()->count(15))->create();
 
-        Category::factory(10)->has(Product::factory()->count(15))->create();
+        // Seed categories from CSV
+        $this->seedCategoriesFromCsv();
+
+        // Seed products from CSV
+        $this->seedProductsFromCsv();
 
         $products = Product::all();
 
@@ -66,5 +71,65 @@ class DatabaseSeeder extends Seeder
         //         Payment::factory()->for($order)->create();
         //     });
         // });
+    }
+
+    /**
+     * Seed categories from CSV file
+     */
+    private function seedCategoriesFromCsv(): void
+    {
+        $csvFile = database_path('seeders/data/categories.csv');
+
+        if (!file_exists($csvFile)) {
+            $this->command->warn('Categories CSV file not found!');
+            return;
+        }
+
+        $file = fopen($csvFile, 'r');
+        $header = fgetcsv($file); // Skip header row
+
+        while (($row = fgetcsv($file)) !== false) {
+            Category::updateOrCreate(
+                ['id' => $row[0]], // Match by ID
+                [
+                    'name' => $row[1],
+                    'slug' => $row[2],
+                ]
+            );
+        }
+
+        fclose($file);
+        $this->command->info('Categories seeded from CSV successfully!');
+    }
+
+    /**
+     * Seed products from CSV file
+     */
+    private function seedProductsFromCsv(): void
+    {
+        $csvFile = database_path('seeders/data/products.csv');
+
+        if (!file_exists($csvFile)) {
+            $this->command->warn('Products CSV file not found!');
+            return;
+        }
+
+        $file = fopen($csvFile, 'r');
+        $header = fgetcsv($file); // Skip header row
+
+        while (($row = fgetcsv($file)) !== false) {
+            Product::create([
+                'name' => $row[0],
+                'slug' => $row[1],
+                'price' => (float) $row[2],
+                'quantity' => (int) $row[3],
+                'description' => $row[4],
+                'category_id' => (int) $row[5],
+                'image' => $row[6] ?? null,
+            ]);
+        }
+
+        fclose($file);
+        $this->command->info('Products seeded from CSV successfully!');
     }
 }
