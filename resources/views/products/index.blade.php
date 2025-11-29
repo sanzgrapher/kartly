@@ -9,7 +9,6 @@
             <p class="mt-2 text-gray-600">Browse all products available in the store.</p>
         </div>
         <div>
-            <!-- Optional filters / sort could go here -->
         </div>
     </div>
 
