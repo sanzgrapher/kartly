@@ -33,6 +33,27 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
+        /* Brand label styles -- will be used inside the header */
+        .email-brand {
+            text-align: center;
+            padding: 0;
+        }
+
+        .email-header .email-brand {
+            margin-bottom: 8px;
+        }
+
+        .email-header .email-brand a {
+            color: rgba(255, 255, 255, 0.95);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            display: inline-block;
+            text-transform: uppercase;
+            opacity: 0.95;
+        }
+
         /* Header */
         .email-header {
             background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
@@ -329,6 +350,10 @@
         <div class="email-container">
             <!-- Header -->
             <div class="email-header">
+                <!-- Brand -->
+                <div class="email-brand">
+                    <a href="{{ url('/') }}">Kartly</a>
+                </div>
                 <h1>{{ $title ?? 'Welcome to Kartly' }}</h1>
                 @if (isset($subtitle))
                     <p>{{ $subtitle }}</p>

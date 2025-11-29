@@ -20,6 +20,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Email Verification
+    |--------------------------------------------------------------------------
+    |
+    | This configuration specifies how email verification works for your
+    | application. The expire value specifies how long the verification
+    | link will remain valid.
+    |
+    */
+
+    'verification' => [
+        'expire' => 60, // minutes
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
