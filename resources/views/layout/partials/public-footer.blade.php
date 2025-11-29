@@ -17,7 +17,7 @@
                 <li><a href="{{ route('home') }}" class="hover:text-orange-600">Home</a></li>
                 <li><a href="{{ route('products.index') }}" class="hover:text-orange-600">Shop</a></li>
                 <li><a href="{{ route('about') }}" class="hover:text-orange-600">About</a></li>
-
+                <li><a href="{{ route('status') }}" class="hover:text-orange-600">Status</a></li>
             </ul>
         </div>
 
