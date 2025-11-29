@@ -3,9 +3,9 @@
 @section('title', $category->name . ' - Shop')
 
 @section('content')
-  
 
-     <div class="mb-8">
+
+    <div class="mb-8">
         <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ $category->name }}</h1>
         <p class="text-gray-600">
             Showing <span class="font-semibold">{{ $products->total() }}</span>
@@ -13,14 +13,14 @@
         </p>
     </div>
 
-     @if ($products->count() > 0)
+    @if ($products->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             @foreach ($products as $product)
                 <x-ui.cards.product-card :product="$product" />
             @endforeach
         </div>
 
-         <div class="flex justify-center mt-12">
+        <div class="mt-8">
             {{ $products->links('pagination::tailwind') }}
         </div>
     @else
@@ -31,7 +31,7 @@
                 </path>
             </svg>
             <h3 class="text-lg font-semibold text-gray-800 mb-1">No products available</h3>
-          
+
             <a href="{{ route('home') }}"
                 class="inline-block px-6 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition">
                 Back to Home

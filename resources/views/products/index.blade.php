@@ -16,13 +16,13 @@
     @if ($products->isEmpty())
         <div class="py-12 text-center text-gray-500">No products available.</div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             @foreach ($products as $product)
                 <x-ui.cards.product-card :product="$product" />
             @endforeach
         </div>
 
-        <div class="mt-8 flex justify-center">
+        <div class="mt-8">
             {{ $products->links('pagination::tailwind') }}
         </div>
     @endif

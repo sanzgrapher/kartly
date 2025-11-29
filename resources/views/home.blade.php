@@ -168,7 +168,7 @@
                 @endforeach
             </div>
 
-            <div class="flex justify-between mt-8">
+            <div class="mt-8">
                 {{ $products->links('pagination::tailwind') }}
             </div>
         @else
