@@ -1,14 +1,14 @@
 @props(['product'])
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-     <div class="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center h-96">
+    <div class="bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center h-96">
         <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
     </div>
 
-     <div>
+    <div>
         <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ $product->name }}</h1>
 
-         <p class="text-sm text-gray-600 mb-4">
+        <p class="text-sm text-gray-600 mb-4">
             @if ($product->category)
                 <a href="{{ route('categories.show', $product->category->slug) }}"
                     class="text-orange-600 hover:underline px-3">
@@ -36,18 +36,18 @@
             <span class="font-semibold px-3 text-gray-800">{{ $product->quantity }}</span>
         </p>
 
-         @if ($product->description)
+        @if ($product->description)
             <div class="border-t py-6 border-gray-200">
                 <h2 class="text-lg font-semibold text-gray-800 mb-3">Description</h2>
-                <p class="text-gray-700 leading-relaxed">{{ $product->description }}</p>
+                <div class="text-gray-700 leading-relaxed prose prose-sm max-w-none">{!! $product->description !!}</div>
             </div>
         @endif
 
-         <div class="mb-6">
+        <div class="mb-6">
             <p class="text-4xl text-orange-600">Rs {{ number_format($product->price, 2) }}</p>
         </div>
 
-         <form action="{{ route('cart.store') }}" method="POST" class="flex items-center gap-4 mb-6"
+        <form action="{{ route('cart.store') }}" method="POST" class="flex items-center gap-4 mb-6"
             x-data="{
                 quantity: 1,
                 maxStock: {{ $product->quantity }},
@@ -75,7 +75,7 @@
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
 
-             <div class="flex items-center border border-gray-300 rounded overflow-hidden">
+            <div class="flex items-center border border-gray-300 rounded overflow-hidden">
                 <button type="button"
                     class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
                     @click="decrease()">
@@ -92,14 +92,14 @@
                 </button>
             </div>
 
-             <button type="submit"
+            <button type="submit"
                 class="px-6 py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                 @if ($product->stock_status == 'Out of Stock') disabled @endif>
                 Add to Cart
             </button>
         </form>
 
-         @error('quantity')
+        @error('quantity')
             <div class="p-3 bg-red-50 border border-red-300 rounded mb-6">
                 <p class="text-sm text-red-700">{{ $message }}</p>
             </div>

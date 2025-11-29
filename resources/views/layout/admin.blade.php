@@ -11,11 +11,13 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <!-- Quill.js CDN -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-</head><body class="min-h-screen bg-gray-100 text-gray-800">
+</head>
+
+<body class="min-h-screen bg-gray-100 text-gray-800">
     <div class="flex relative">
         @include('layout.partials.admin-sidebar')
 
@@ -90,8 +92,7 @@
             });
         });
 
-        // Quill.js initialization
-        document.addEventListener('DOMContentLoaded', function() {
+         document.addEventListener('DOMContentLoaded', function() {
             if (typeof Quill !== 'undefined') {
                 const editors = document.querySelectorAll('.quill-editor');
                 editors.forEach(function(editorElement) {
@@ -100,13 +101,50 @@
                         theme: 'snow',
                         modules: {
                             toolbar: [
-                                ['bold', 'italic', 'underline'],
-                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                ['link'],
+                                [{
+                                    'header': [1, 2, 3, false]
+                                }],
+                                ['bold', 'italic', 'underline', 'strike'],
+                                [{
+                                    'color': []
+                                }, {
+                                    'background': []
+                                }],
+                                [{
+                                    'font': []
+                                }],
+                                [{
+                                    'align': []
+                                }],
+                                [{
+                                    'list': 'ordered'
+                                }, {
+                                    'list': 'bullet'
+                                }],
+                                [{
+                                    'indent': '-1'
+                                }, {
+                                    'indent': '+1'
+                                }],
+                                ['blockquote', 'code-block'],
+                                ['link', 'image'],
+                                [{
+                                    'script': 'sub'
+                                }, {
+                                    'script': 'super'
+                                }],
                                 ['clean']
                             ]
                         },
-                        placeholder: 'Enter product description...'
+                        formats: [
+                            'header', 'bold', 'italic', 'underline', 'strike',
+                            'color', 'background', 'font', 'align',
+                            'list', 'bullet', 'indent',
+                            'blockquote', 'code-block',
+                            'link', 'image',
+                            'script'
+                        ],
+                        placeholder: 'Enter product description with rich formatting...'
                     });
 
                     // Update hidden input when content changes

@@ -38,7 +38,7 @@
             <div class="md:col-span-2">
                 <div class="mb-4">
                     <h3 class="font-medium text-sm text-gray-700 mb-1">Description</h3>
-                    <div class="text-gray-800">{{ $product->description ?? 'n/a' }}</div>
+                    <div class="text-gray-800 prose prose-sm max-w-none">{!! $product->description ?? 'n/a' !!}</div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 text-sm text-gray-700 mb-6">
@@ -65,11 +65,14 @@
                         <h4 class="text-xs text-gray-500">Stock Status</h4>
                         <div class="mt-1">
                             @if ($product->stock_status == 'In Stock')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">{{ $product->stock_status }}</span>
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">{{ $product->stock_status }}</span>
                             @elseif($product->stock_status == 'Low Stock')
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">{{ $product->stock_status }}</span>
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">{{ $product->stock_status }}</span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">{{ $product->stock_status }}</span>
+                                <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">{{ $product->stock_status }}</span>
                             @endif
                         </div>
                     </div>
@@ -87,20 +90,23 @@
                 <!-- Stock Management Section -->
                 <div class="mt-6 border-t border-gray-200 pt-6">
                     <h3 class="font-semibold text-gray-800 mb-4">Stock Management</h3>
-                    
+
                     <div class="bg-gray-50 rounded-lg p-4 space-y-4">
                         <!-- Add Stock -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Add Stock</label>
-                            <form action="{{ route('admin.products.updateStock', $product->id) }}" method="POST" class="flex gap-3">
+                            <form action="{{ route('admin.products.updateStock', $product->id) }}" method="POST"
+                                class="flex gap-3">
                                 @csrf
                                 @method('PATCH')
-                                <input type="number" name="adjustment" id="add_stock" min="1" value="20" placeholder="Quantity"
+                                <input type="number" name="adjustment" id="add_stock" min="1" value="20"
+                                    placeholder="Quantity"
                                     class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
                                 <button type="submit"
                                     class="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-150 flex items-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4"></path>
                                     </svg>
                                     Add
                                 </button>
@@ -110,16 +116,20 @@
                         <!-- Remove Stock -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Remove Stock</label>
-                            <form action="{{ route('admin.products.updateStock', $product->id) }}" method="POST" class="flex gap-3" onsubmit="document.getElementById('remove_adjustment').value = -Math.abs(document.getElementById('remove_input').value)">
+                            <form action="{{ route('admin.products.updateStock', $product->id) }}" method="POST"
+                                class="flex gap-3"
+                                onsubmit="document.getElementById('remove_adjustment').value = -Math.abs(document.getElementById('remove_input').value)">
                                 @csrf
                                 @method('PATCH')
-                                <input type="number" id="remove_input" min="1" max="{{ $product->quantity }}" value="10" placeholder="Quantity"
+                                <input type="number" id="remove_input" min="1" max="{{ $product->quantity }}"
+                                    value="10" placeholder="Quantity"
                                     class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
                                 <input type="hidden" name="adjustment" id="remove_adjustment" value="-10">
                                 <button type="submit"
                                     class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-150 flex items-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4">
+                                        </path>
                                     </svg>
                                     Remove
                                 </button>
@@ -131,4 +141,3 @@
         </div>
     </div>
 @endsection
-
