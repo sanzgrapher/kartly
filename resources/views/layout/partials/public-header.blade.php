@@ -20,16 +20,18 @@
                     class="text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors">Search</a>
                 <a href="{{ route('categories.index') }}"
                     class="text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors">Categories</a>
-                <a href="#site-contact"
+                <a href="{{ route('about') }}"
+                    class="text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors">About</a>
+                <a href="{{ route('contact') }}"
                     class="text-sm font-medium text-gray-700 hover:text-orange-600 transition-colors">Contact</a>
             </nav>
 
-             <div class="flex items-center gap-4">
-                 <a href="{{ route('cart.index') }}"
+            <div class="flex items-center gap-4">
+                <a href="{{ route('cart.index') }}"
                     class="relative inline-flex items-center justify-center p-2 text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-full transition-all group">
 
-                    <svg class="w-6 h-6 transition-transform group-hover:scale-110" viewBox="0 0 24 24"
-                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-6 h-6 transition-transform group-hover:scale-110" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -42,7 +44,8 @@
                             $cartCount = Auth::user()->cart?->cartItem()->count() ?? 0;
                         } else {
                             $sessionId = session()->getId();
-                            $cartCount = \App\Models\Cart::where('session_id', $sessionId)->first()?->cartItem()->count() ?? 0;
+                            $cartCount =
+                                \App\Models\Cart::where('session_id', $sessionId)->first()?->cartItem()->count() ?? 0;
                         }
                     @endphp
 
@@ -55,7 +58,7 @@
                 </a>
 
                 @auth
-                     <div class="relative ml-2" id="user-menu-container">
+                    <div class="relative ml-2" id="user-menu-container">
                         <button id="user-avatar-btn"
                             class="flex items-center justify-center w-9 h-9 rounded-full ring-2 ring-transparent hover:ring-orange-200 focus:outline-none focus:ring-orange-500 transition"
                             title="{{ Auth::user()->name }}">
@@ -63,7 +66,7 @@
                                 alt="{{ Auth::user()->name }}" class="w-full h-full rounded-full object-cover">
                         </button>
 
-                         <div id="user-menu"
+                        <div id="user-menu"
                             class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 hidden transform origin-top-right transition-all z-50">
                             <div class="px-4 py-3 border-b border-gray-100 bg-gray-50 rounded-t-lg">
                                 <p class="text-sm font-semibold text-gray-900 truncate">{{ Auth::user()->name }}</p>
@@ -123,7 +126,7 @@
                     </div>
                 @endauth
 
-                 <button id="mobile-menu-btn"
+                <button id="mobile-menu-btn"
                     class="md:hidden p-2 rounded-md text-gray-600 hover:text-orange-600 hover:bg-gray-100 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -134,7 +137,7 @@
         </div>
     </div>
 
-     <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
         <div class="px-2 pt-2 pb-3 space-y-1">
             <a href="{{ url('/') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Home</a>
@@ -144,6 +147,10 @@
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Search</a>
             <a href="{{ route('categories.index') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Categories</a>
+            <a href="{{ route('about') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">About</a>
+            <a href="{{ route('contact') }}"
+                class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-orange-600 hover:bg-orange-50">Contact</a>
 
             @guest
                 <div class="border-t border-gray-100 mt-2 pt-2 flex gap-2 px-3">
@@ -160,7 +167,7 @@
     </div>
 </header>
 
- <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         // Elements
         const userAvatarBtn = document.getElementById('user-avatar-btn');
@@ -169,21 +176,21 @@
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
-         if (userAvatarBtn) {
+        if (userAvatarBtn) {
             userAvatarBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 userMenu.classList.toggle('hidden');
             });
         }
 
-         if (mobileMenuBtn) {
+        if (mobileMenuBtn) {
             mobileMenuBtn.addEventListener('click', function() {
                 mobileMenu.classList.toggle('hidden');
             });
         }
 
-         document.addEventListener('click', function(e) {
-             if (userMenuContainer && !userMenuContainer.contains(e.target)) {
+        document.addEventListener('click', function(e) {
+            if (userMenuContainer && !userMenuContainer.contains(e.target)) {
                 userMenu.classList.add('hidden');
             }
             if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {

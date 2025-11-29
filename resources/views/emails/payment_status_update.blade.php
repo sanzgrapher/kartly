@@ -12,7 +12,7 @@
         <p>Order #<span class="highlight">{{ $order->id }}</span></p>
         <p>Status: <span class="highlight">{{ ucfirst($order->payment->payment_status ?? 'Unknown') }}</span></p>
         <p>Method: {{ $order->payment->payment_method ?? 'N/A' }}</p>
-        <p>Amount: <span class="highlight">${{ number_format($order->total ?? 0, 2) }}</span></p>
+        <p>Amount: <span class="highlight">Rs {{ $order->total ?? 0 }}</span></p>
     </div>
 
     @if (strtolower($order->payment->payment_status ?? '') === 'completed')

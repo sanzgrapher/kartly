@@ -8,7 +8,7 @@
         <p>Order #<span class="highlight">{{ $order->id }}</span></p>
         <p>Customer: {{ $customer->name ?? 'Guest' }} ({{ $customer->email ?? 'N/A' }})</p>
         <p>Date: {{ $order->created_at ? $order->created_at->format('M d, Y H:i') : date('M d, Y H:i') }}</p>
-        <p>Total: <span class="highlight">${{ number_format($order->total ?? 0, 2) }}</span></p>
+        <p>Total: <span class="highlight">Rs {{ $order->total ?? 0 }}</span></p>
     </div>
 
     @if ($order->items && $order->items->count() > 0)
@@ -27,9 +27,9 @@
                     <tr>
                         <td>{{ $item->product->name ?? 'Product' }}</td>
                         <td style="text-align: center;">{{ $item->quantity }}</td>
-                        <td style="text-align: right;">${{ number_format($item->price ?? 0, 2) }}</td>
+                        <td style="text-align: right;">Rs {{ $item->amount_per_item ?? 0 }}</td>
                         <td style="text-align: right; font-weight: 600;">
-                            ${{ number_format(($item->price ?? 0) * $item->quantity, 2) }}</td>
+                            Rs {{ ($item->amount_per_item ?? 0) * $item->quantity }}</td>
                     </tr>
                 @endforeach
             </tbody>

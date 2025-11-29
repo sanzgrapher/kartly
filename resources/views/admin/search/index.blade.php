@@ -107,7 +107,7 @@
                                     <td class="p-4 text-sm">{{ $product->id }}</td>
                                     <td class="p-4 text-sm font-medium">{{ $product->name }}</td>
                                     <td class="p-4 text-sm">{{ $product->category->name ?? '-' }}</td>
-                                    <td class="p-4 text-sm">Rs. {{ number_format($product->price, 2) }}</td>
+                                    <td class="p-4 text-sm">Rs {{ number_format($product->price, 0) }}</td>
                                     <td class="p-4 text-sm">{{ $product->stock }}</td>
                                     <td class="p-4 text-sm">
                                         <a href="{{ route('admin.products.edit', $product->id) }}"

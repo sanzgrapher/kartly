@@ -44,7 +44,7 @@
         @endif
 
         <div class="mb-6">
-            <p class="text-4xl text-orange-600">Rs {{ number_format($product->price, 2) }}</p>
+            <p class="text-4xl text-orange-600">Rs {{ number_format($product->price, 0) }}</p>
         </div>
 
         <form action="{{ route('cart.store') }}" method="POST" class="flex items-center gap-4 mb-6"

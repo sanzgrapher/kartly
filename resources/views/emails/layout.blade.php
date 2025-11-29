@@ -370,8 +370,8 @@
                 <p class="footer-brand">Kartly</p>
                 <p>© {{ now()->year }} Kartly. All rights reserved.</p>
                 <div class="social-links">
-                    <a href="{{ url('/') }}">Privacy Policy</a> | <a href="{{ url('/') }}">Terms</a> | <a
-                        href="{{ url('/') }}">Contact Us</a>
+                    <a href="{{ route('about') }}">About</a> | <a href="{{ route('contact') }}">Contact</a> | <a
+                        href="{{ route('search.index') }}">Search</a>
                 </div>
                 <p class="text-muted" style="margin-top: 20px;">You received this email because you have an account with
                     Kartly.</p>
