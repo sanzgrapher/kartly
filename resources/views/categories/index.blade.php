@@ -6,6 +6,23 @@
     <div class="mb-6">
         <h1 class="text-3xl font-extrabold text-gray-900">Categories</h1>
         <p class="mt-2 text-gray-600">Browse all product categories to quickly find what you're looking for.</p>
+
+        <form action="{{ route('categories.index') }}" method="GET" class="mt-4">
+            <div class="flex gap-2 max-w-md">
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search categories..."
+                    class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-orange-200">
+                <button type="submit"
+                    class="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium">
+                    Search
+                </button>
+                @if ($search ?? false)
+                    <a href="{{ route('categories.index') }}"
+                        class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium">
+                        Clear
+                    </a>
+                @endif
+            </div>
+        </form>
     </div>
 
     @if ($categories->isEmpty())
@@ -15,7 +32,6 @@
             @foreach ($categories as $category)
                 <a href="{{ route('categories.show', $category->slug) }}"
                     class="group flex flex-col items-center text-center">
-                    <!-- Image Container (matches home featured categories) -->
                     <div class="relative w-28 h-28 mb-4">
                         <div
                             class="absolute inset-0 rounded-full ring-2 ring-gray-100 group-hover:ring-orange-500 group-hover:ring-offset-2 transition-all duration-300 ease-in-out">

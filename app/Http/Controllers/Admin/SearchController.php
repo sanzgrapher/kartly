@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Services\SearchService;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class SearchController extends Controller
         $result = $this->searchService->multiSearch($q, $categoryId, $minPrice, $maxPrice);
         $allCategories = Category::orderBy('name')->get();
 
-        return view('search.index', [
+        return view('admin.search.index', [
             'q' => $result['query'],
             'categories' => $result['categories'],
             'products' => $result['products'],

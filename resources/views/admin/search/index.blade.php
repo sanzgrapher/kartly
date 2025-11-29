@@ -1,10 +1,10 @@
-@extends('layout.public')
+@extends('layout.admin')
 
 @section('title', $q ? 'Search: ' . $q : 'Search')
 
 @section('content')
-    <div class="mb-6 bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-        <form action="{{ route('search.index') }}" method="GET">
+    <div class="mb-6 bg-white border border-gray-300 rounded-lg p-4">
+        <form action="{{ route('admin.search.index') }}" method="GET">
             <div class="space-y-4">
                 <div>
                     <input type="text" name="q" value="{{ old('q', $q) }}" placeholder="Search products or categories"
@@ -45,8 +45,8 @@
                         class="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium">
                         Apply Filters
                     </button>
-                    <a href="{{ route('search.index') }}"
-                        class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium">
+                    <a href="{{ route('admin.search.index') }}"
+                        class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-medium">
                         Clear
                     </a>
                 </div>
@@ -65,8 +65,8 @@
             <h3 class="text-lg font-semibold mb-4">Categories</h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 @foreach ($categories as $category)
-                    <a href="{{ route('categories.show', $category->slug) }}"
-                        class="group flex flex-col items-center text-center">
+                    <a href="{{ route('admin.categories.edit', $category->id) }}"
+                        class="group flex flex-col items-center text-center hover:opacity-75 transition">
                         <div class="relative w-24 h-24 mb-3">
                             <div
                                 class="absolute inset-0 rounded-full ring-2 ring-gray-100 group-hover:ring-orange-500 transition-all">
@@ -88,14 +88,40 @@
         <h3 class="text-lg font-semibold mb-4">Products</h3>
 
         @if ($products->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-                @foreach ($products as $product)
-                    <x-ui.cards.product-card :product="$product" />
-                @endforeach
-            </div>
+            <div class="bg-white rounded-lg border border-gray-300 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full table-auto text-left">
+                        <thead class="border-b border-gray-200">
+                            <tr>
+                                <th class="p-4 text-sm">ID</th>
+                                <th class="p-4 text-sm">Name</th>
+                                <th class="p-4 text-sm">Category</th>
+                                <th class="p-4 text-sm">Price</th>
+                                <th class="p-4 text-sm">Stock</th>
+                                <th class="p-4 text-sm">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($products as $product)
+                                <tr class="border-t border-gray-200 hover:bg-gray-50">
+                                    <td class="p-4 text-sm">{{ $product->id }}</td>
+                                    <td class="p-4 text-sm font-medium">{{ $product->name }}</td>
+                                    <td class="p-4 text-sm">{{ $product->category->name ?? '-' }}</td>
+                                    <td class="p-4 text-sm">Rs. {{ number_format($product->price, 2) }}</td>
+                                    <td class="p-4 text-sm">{{ $product->stock }}</td>
+                                    <td class="p-4 text-sm">
+                                        <a href="{{ route('admin.products.edit', $product->id) }}"
+                                            class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600">Edit</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="flex justify-center mt-8">
-                {{ $products->links('pagination::tailwind') }}
+                <div class="border-t border-gray-200 p-4">
+                    {{ $products->links() }}
+                </div>
             </div>
         @else
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">

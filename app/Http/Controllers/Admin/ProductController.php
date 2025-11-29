@@ -11,11 +11,65 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $search = $request->get('search');
+        $categoryId = $request->get('category_id');
+        $stockStatus = $request->get('stock_status');
+        $stockLow = $request->get('stock_low');
+        $stockHigh = $request->get('stock_high');
 
-        return view('admin.products.index', compact('products'));
+        if ($search) {
+            $query = Product::search($search);
+
+            if ($categoryId) {
+                $query->where('category_id', $categoryId);
+            }
+
+            if ($stockStatus === 'in_stock') {
+                $query->where('quantity', ['>=', 10]);
+            } elseif ($stockStatus === 'low_stock') {
+                $query->where('quantity', ['>=', 1])->where('quantity', ['<=', 9]);
+            } elseif ($stockStatus === 'out_of_stock') {
+                $query->where('quantity', 0);
+            }
+
+            if ($stockLow) {
+                $query->where('quantity', ['>=', (int) $stockLow]);
+            }
+            if ($stockHigh) {
+                $query->where('quantity', ['<=', (int) $stockHigh]);
+            }
+
+            $products = $query->paginate(10)->withQueryString();
+        } else {
+            $query = Product::query();
+
+            if ($categoryId) {
+                $query->where('category_id', $categoryId);
+            }
+
+            if ($stockStatus === 'in_stock') {
+                $query->where('quantity', '>=', 10);
+            } elseif ($stockStatus === 'low_stock') {
+                $query->whereBetween('quantity', [1, 9]);
+            } elseif ($stockStatus === 'out_of_stock') {
+                $query->where('quantity', 0);
+            }
+
+            if ($stockLow) {
+                $query->where('quantity', '>=', $stockLow);
+            }
+            if ($stockHigh) {
+                $query->where('quantity', '<=', $stockHigh);
+            }
+
+            $products = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        }
+
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.products.index', compact('products', 'categories'));
     }
 
     public function show($id)

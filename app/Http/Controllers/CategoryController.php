@@ -9,11 +9,19 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::withCount('products')
-            ->orderBy('name')
-            ->paginate(12);
+        $search = request()->get('search');
 
-        return view('categories.index', compact('categories'));
+        if ($search) {
+            $categories = Category::search($search)
+                ->paginate(12)
+                ->withQueryString();
+        } else {
+            $categories = Category::withCount('products')
+                ->orderBy('name')
+                ->paginate(12);
+        }
+
+        return view('categories.index', compact('categories', 'search'));
     }
 
     public function show($slug)

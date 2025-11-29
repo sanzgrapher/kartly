@@ -9,11 +9,20 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::orderBy('name')->paginate(10);
+        $search = $request->get('search');
 
-        return view('admin.categories.index', compact('categories'));
+        if ($search) {
+            $categories = Category::search($search)
+                ->paginate(10)
+                ->withQueryString();
+        } else {
+            $categories = Category::orderBy('name')
+                ->paginate(10);
+        }
+
+        return view('admin.categories.index', compact('categories', 'search'));
     }
 
     public function create()
@@ -29,14 +38,13 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255|unique:categories,name',
             'slug' => 'nullable|string|max:255',
         ]);
-         $data['slug'] = Str::slug($data['slug'] ?? $data['name']);
+        $data['slug'] = Str::slug($data['slug'] ?? $data['name']);
 
 
 
         Category::create($data);
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created.');
-        
     }
 
     public function show($id)

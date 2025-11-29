@@ -2,7 +2,8 @@
 <div id="sidebarBackdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden lg:hidden"></div>
 
 <!-- Sidebar -->
-<aside id="adminSidebar" class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 min-h-screen transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+<aside id="adminSidebar"
+    class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 min-h-screen transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
     <div class="p-6 flex items-center justify-between">
         <a href="{{ route('admin.dashboard') }}"
             class="text-lg font-bold text-orange-600">{{ config('app.name', 'Kartly') }} Admin</a>
@@ -20,8 +21,14 @@
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('admin.dashboard') }}"
-                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 {{ request()->routeIs('admin.dashboard') ? 'bg-orange-200 text-orange-600'  : '' }}">
+                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 {{ request()->routeIs('admin.dashboard') ? 'bg-orange-200 text-orange-600' : '' }}">
                         <span class="text-sm font-medium">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.search.index') }}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 {{ request()->routeIs('admin.search.*') ? 'bg-orange-200 text-orange-600' : '' }}">
+                        <span class="text-sm font-medium">Search</span>
                     </a>
                 </li>
                 <li>
@@ -60,7 +67,7 @@
             <ul class="space-y-1">
                 <li>
                     <a href="{{ route('admin.orders.index') }}"
-                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 {{ request()->routeIs('admin.orders.*') ? 'bg-orange-200 text-orange-600'  : '' }}">
+                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 {{ request()->routeIs('admin.orders.*') ? 'bg-orange-200 text-orange-600' : '' }}">
                         <span class="text-sm font-medium">Orders</span>
                     </a>
                 </li>

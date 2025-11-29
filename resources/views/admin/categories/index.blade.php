@@ -4,17 +4,33 @@
 
 @section('content')
     <div class="mt-8 bg-white rounded-lg border border-gray-300">
-       <div class="mb-3 p-3">
-         <div class="flex items-center justify-between">
-            <div>
-                <h2 class="font-semibold">Categories</h2>
-                <p class=" text-sm text-gray-400" >Manage all categories</p>
+        <div class="mb-3 p-3">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="font-semibold">Categories</h2>
+                    <p class=" text-sm text-gray-400">Manage all categories</p>
+                </div>
+                <a href="{{ route('admin.categories.create') }}"
+                    class="inline-block bg-orange-600 text-white px-3 py-1 rounded">New Category</a>
             </div>
-            <a href="{{ route('admin.categories.create') }}"
-                class="inline-block bg-orange-600 text-white px-3 py-1 rounded">New Category</a>
-         </div>
-       </div>
-       
+
+            <form action="{{ route('admin.categories.index') }}" method="GET" class="mt-4">
+                <div class="flex gap-2">
+                    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search categories..."
+                        class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-orange-200">
+                    <button type="submit" class="px-4 py-2 text-sm bg-orange-600 text-white rounded hover:bg-orange-700">
+                        Search
+                    </button>
+                    @if ($search)
+                        <a href="{{ route('admin.categories.index') }}"
+                            class="px-4 py-2 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                            Clear
+                        </a>
+                    @endif
+                </div>
+            </form>
+        </div>
+
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left">
                 <thead class="  border-t border-gray-200">
@@ -44,8 +60,8 @@
                                     Edit
                                 </a>
 
-                                <form class="inline" action="{{ route('admin.categories.destroy', $c->id) }}" method="POST"
-                                    onsubmit="return confirm('Delete this category?');">
+                                <form class="inline" action="{{ route('admin.categories.destroy', $c->id) }}"
+                                    method="POST" onsubmit="return confirm('Delete this category?');">
                                     @csrf
                                     @method('DELETE')
                                     <button class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600"
@@ -56,14 +72,14 @@
                     @endforeach
                 </tbody>
             </table>
-          
+
             <div class=" border border-t border-gray-200 p-4">
 
                 {{ $categories->links('vendor.pagination.tailwind') }}
-                 
-            
+
+
             </div>
-            
+
         </div>
     </div>
 @endsection

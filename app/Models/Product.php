@@ -31,7 +31,7 @@ class Product extends Model
             'id' => (string) $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'price' => (float) $this->price,
+            'price' => $this->getAttributes()['price'],
             'quantity' => (int) $this->quantity,
             'category_id' => (int) $this->category_id,
             'category_name' => $this->category?->name ?? '',
