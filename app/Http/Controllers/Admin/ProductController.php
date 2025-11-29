@@ -131,7 +131,7 @@ class ProductController extends Controller
             'price' => 'required|integer|min:0',
             'quantity' => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'required|image|max:5120',
+            'image' => 'nullable|image|max:5120',
         ]);
 
         if ($request->hasFile('image')) {
@@ -140,6 +140,7 @@ class ProductController extends Controller
             }
             $data['image'] = $request->file('image')->store('products', 'public');
         }
+        $data['slug'] = Str::slug($data['slug'] ?? $data['name']);
 
         $product->update($data);
 

@@ -61,17 +61,46 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Description</label>
-                <textarea name="description" class="w-full border rounded px-3 py-2">{{ old('description') }}</textarea>
+                <div class="quill-editor" style="height: 200px; border: 1px solid #d1d5db; border-radius: 0.375rem;"></div>
+                <input type="hidden" name="description" value="{{ old('description') }}">
                 @error('description')
                     <div class="text-sm text-red-600">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="mb-4">
-                <label class="block text-sm font-medium mb-1">Image </label>
-                <input type="file" name="image" required class="border rounded px-3 py-2">
+            <div class="mb-4" x-data="{ imageUrl: '' }">
+                <label class="block text-sm font-medium mb-1">Product Image</label>
+                <input type="file" name="image" accept="image/*" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    @change="
+                           const file = $event.target.files[0];
+                           if (file) {
+                               const reader = new FileReader();
+                               reader.onload = (e) => imageUrl = e.target.result;
+                               reader.readAsDataURL(file);
+                           } else {
+                               imageUrl = '';
+                           }
+                       ">
+
+                <!-- Preview Image -->
+                <div x-show="imageUrl" x-transition class="mt-3">
+                    <div class="text-xs text-gray-600 mb-1">Preview:</div>
+                    <div class="relative inline-block">
+                        <img :src="imageUrl" alt="Image preview"
+                            class="w-32 h-32 object-cover border border-gray-300 rounded-lg">
+                        <div class="absolute top-1 right-1 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                            Preview
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-xs text-gray-500 mt-1">
+                    Supported formats: JPG, PNG, GIF (Max: 5MB)
+                </p>
+
                 @error('image')
-                    <div class="text-sm text-red-600">{{ $message }}</div>
+                    <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
                 @enderror
             </div>
 

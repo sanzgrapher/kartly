@@ -48,9 +48,9 @@
                     class="text-primary-600 hover:underline font-medium">
                     {{ $product->category->name }}
                 </a> --}}
-                <a   x-text="category" href="{{ route('categories.show', $product->category->slug) }}"
+                <a x-text="category" href="{{ route('categories.show', $product->category->slug) }}"
                     class="text-primary-600 hover:underline font-medium">
-                    
+
                 </a>
             </div>
         @endif
@@ -102,11 +102,12 @@
             Rs {{ $product->price }}
         </div>
 
-        <p class="text-sm text-gray-600 leading-relaxed">
-            {{ $product->description }} <br>
+        <div class="text-sm text-gray-600 leading-relaxed prose prose-sm max-w-none">
+            {!! $product->description !!}
+            <br>
             High quality product with premium materials for exceptional durability and performance. Perfect for everyday
             use with modern design and functionality.
-        </p>
+        </div>
 
         <hr class="border-gray-200">
 

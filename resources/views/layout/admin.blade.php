@@ -11,6 +11,10 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Quill.js CDN -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 </head>
 
 <body class="min-h-screen bg-gray-100 text-gray-800">
@@ -29,7 +33,7 @@
 
             <footer class="mt-auto bg-white border-t border-gray-200">
                 <div class="container mx-auto px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-600">
-                   {{ config('app.name', 'Kartly') }}
+                    {{ config('app.name', 'Kartly') }}
                 </div>
             </footer>
         </div>
@@ -86,6 +90,74 @@
                     closeSidebar();
                 }
             });
+        });
+
+         document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Quill !== 'undefined') {
+                const editors = document.querySelectorAll('.quill-editor');
+                editors.forEach(function(editorElement) {
+                    const hiddenInput = editorElement.nextElementSibling;
+                    const quill = new Quill(editorElement, {
+                        theme: 'snow',
+                        modules: {
+                            toolbar: [
+                                [{
+                                    'header': [1, 2, 3, false]
+                                }],
+                                ['bold', 'italic', 'underline', 'strike'],
+                                [{
+                                    'color': []
+                                }, {
+                                    'background': []
+                                }],
+                                [{
+                                    'font': []
+                                }],
+                                [{
+                                    'align': []
+                                }],
+                                [{
+                                    'list': 'ordered'
+                                }, {
+                                    'list': 'bullet'
+                                }],
+                                [{
+                                    'indent': '-1'
+                                }, {
+                                    'indent': '+1'
+                                }],
+                                ['blockquote', 'code-block'],
+                                ['link', 'image'],
+                                [{
+                                    'script': 'sub'
+                                }, {
+                                    'script': 'super'
+                                }],
+                                ['clean']
+                            ]
+                        },
+                        formats: [
+                            'header', 'bold', 'italic', 'underline', 'strike',
+                            'color', 'background', 'font', 'align',
+                            'list', 'bullet', 'indent',
+                            'blockquote', 'code-block',
+                            'link', 'image',
+                            'script'
+                        ],
+                        placeholder: 'Enter product description with rich formatting...'
+                    });
+
+                    // Update hidden input when content changes
+                    quill.on('text-change', function() {
+                        hiddenInput.value = quill.root.innerHTML;
+                    });
+
+                    // Set initial content if exists
+                    if (hiddenInput.value) {
+                        quill.root.innerHTML = hiddenInput.value;
+                    }
+                });
+            }
         });
     </script>
 </body>
