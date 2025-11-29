@@ -63,7 +63,8 @@
 
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Description</label>
-                <textarea name="description" class="w-full border rounded px-3 py-2">{{ old('description', $product->description) }}</textarea>
+                <div class="quill-editor" style="height: 200px; border: 1px solid #d1d5db; border-radius: 0.375rem;"></div>
+                <input type="hidden" name="description" value="{{ old('description', $product->description) }}">
                 @error('description')
                     <div class="text-sm text-red-600">{{ $message }}</div>
                 @enderror
@@ -81,14 +82,14 @@
                 </div>
             </div>
 
-        
+
 
             <div class="mt-4 flex space-x-2">
                 <button class="px-3 py-1 bg-orange-600 text-white rounded" type="submit">Save</button>
-                <a href="{{ route('admin.products.index') }}"  class="px-3 py-1 bg-gray-300 rounded">Cancel</a>
+                <a href="{{ route('admin.products.index') }}" class="px-3 py-1 bg-gray-300 rounded">Cancel</a>
             </div>
 
-              
+
         </form>
     </div>
 @endsection

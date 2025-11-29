@@ -11,9 +11,11 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="min-h-screen bg-gray-100 text-gray-800">
+    
+    <!-- Quill.js CDN -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+</head><body class="min-h-screen bg-gray-100 text-gray-800">
     <div class="flex relative">
         @include('layout.partials.admin-sidebar')
 
@@ -29,7 +31,7 @@
 
             <footer class="mt-auto bg-white border-t border-gray-200">
                 <div class="container mx-auto px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-600">
-                   {{ config('app.name', 'Kartly') }}
+                    {{ config('app.name', 'Kartly') }}
                 </div>
             </footer>
         </div>
@@ -86,6 +88,38 @@
                     closeSidebar();
                 }
             });
+        });
+
+        // Quill.js initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Quill !== 'undefined') {
+                const editors = document.querySelectorAll('.quill-editor');
+                editors.forEach(function(editorElement) {
+                    const hiddenInput = editorElement.nextElementSibling;
+                    const quill = new Quill(editorElement, {
+                        theme: 'snow',
+                        modules: {
+                            toolbar: [
+                                ['bold', 'italic', 'underline'],
+                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                ['link'],
+                                ['clean']
+                            ]
+                        },
+                        placeholder: 'Enter product description...'
+                    });
+
+                    // Update hidden input when content changes
+                    quill.on('text-change', function() {
+                        hiddenInput.value = quill.root.innerHTML;
+                    });
+
+                    // Set initial content if exists
+                    if (hiddenInput.value) {
+                        quill.root.innerHTML = hiddenInput.value;
+                    }
+                });
+            }
         });
     </script>
 </body>
