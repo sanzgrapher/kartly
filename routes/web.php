@@ -24,6 +24,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StatusController;
 
 
 
@@ -120,3 +121,5 @@ Route::middleware('auth')->group(function () {
         Route::resource('categories', AdminCategoryController::class);
     });
 });
+
+Route::get('/status', [StatusController::class, 'index'])->name('status');
