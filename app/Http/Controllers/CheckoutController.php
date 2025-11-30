@@ -7,11 +7,13 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Address;
 use App\Models\Payment;
+use App\Models\Coupon;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Services\Payment\EsewaService;
 use App\Services\Products\Contracts\RecommendationServiceInterface;
+use App\Services\CouponService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,14 +24,17 @@ class CheckoutController extends Controller
 {
     protected EsewaService $esewaService;
     protected CartService $cartService;
+    protected CouponService $couponService;
 
     public function __construct(
         EsewaService $esewaService,
         CartService $cartService,
+        CouponService $couponService,
         private RecommendationServiceInterface $recommendationService
     ) {
         $this->esewaService = $esewaService;
         $this->cartService = $cartService;
+        $this->couponService = $couponService;
     }
     public function index()
     {
@@ -74,6 +79,7 @@ class CheckoutController extends Controller
         $data = $request->validate([
             'address_id' => 'required|exists:addresses,id',
             'payment_method' => 'required|in:cash_on_delivery,esewa',
+            'coupon_code' => 'nullable|string',
         ]);
 
         try {
@@ -82,14 +88,45 @@ class CheckoutController extends Controller
             $shippingAddress = $user->addresses()->findOrFail($data['address_id']);
             $shippingAddressString = $this->formatAddressString($shippingAddress);
 
-            $order = $user->orders()->create([
-                'status' => OrderStatus::PENDING,
-                'shipping_address' => $shippingAddressString,
-            ]);
-
             $cartItems = $cart->cartItem()->get();
             $subtotal = 0;
 
+            // Calculate subtotal first (before stock deduction)
+            foreach ($cartItems as $item) {
+                $product = Product::where('id', $item->product_id)->first();
+                if (!$product) {
+                    throw new \Exception("Product not found: " . $item->product_id);
+                }
+                $subtotal += $product->price * $item->quantity;
+            }
+
+            // Validate and apply coupon if provided
+            $couponId = null;
+            $discountAmount = 0;
+
+            if (!empty($data['coupon_code'])) {
+                $validation = $this->couponService->validateCoupon($data['coupon_code'], $user, $subtotal);
+
+                if (!$validation['valid']) {
+                    throw new \Exception($validation['message']);
+                }
+
+                $couponId = $validation['coupon']['id'];
+                $discountAmount = $validation['discount_amount'];
+            }
+
+            $finalAmount = $subtotal - $discountAmount;
+
+            // Create order with coupon
+            $order = $user->orders()->create([
+                'status' => OrderStatus::PENDING,
+                'shipping_address' => $shippingAddressString,
+                'coupon_id' => $couponId,
+                'discount_amount' => $discountAmount,
+                'subtotal' => $subtotal,
+            ]);
+
+            // Create order items and deduct stock
             foreach ($cartItems as $item) {
                 $product = Product::where('id', $item->product_id)->lockForUpdate()->first();
 
@@ -115,8 +152,16 @@ class CheckoutController extends Controller
                     $user->id,
                     'purchase'
                 );
+            }
 
-                $subtotal += $product->price * $item->quantity;
+            // Record coupon usage if applied
+            if ($couponId) {
+                $this->couponService->recordUsage(
+                    Coupon::find($couponId),
+                    $user,
+                    $order->id,
+                    $discountAmount
+                );
             }
 
             $paymentMethod = PaymentMethod::from($data['payment_method']);
@@ -126,7 +171,7 @@ class CheckoutController extends Controller
                     'order_id' => $order->id,
                     'payment_method' => $paymentMethod,
                     'payment_status' => PaymentStatus::PENDING,
-                    'amount' => $subtotal,
+                    'amount' => $finalAmount,
                 ]);
 
                 $cart->cartItem()->delete();
@@ -135,7 +180,7 @@ class CheckoutController extends Controller
 
                 event(new OrderCreated($order));
 
-                $this->esewaService->initiatePayment($order, $subtotal);
+                $this->esewaService->initiatePayment($order, $finalAmount);
                 return;
             }
 
@@ -145,7 +190,7 @@ class CheckoutController extends Controller
                 'order_id' => $order->id,
                 'payment_method' => $paymentMethod,
                 'payment_status' => $paymentStatus,
-                'amount' => $subtotal,
+                'amount' => $finalAmount,
                 'transaction_code' => $order->id . '_' . time(),
             ]);
 

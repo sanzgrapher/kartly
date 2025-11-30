@@ -55,7 +55,7 @@
                                             <td class="p-4 text-sm">{{ $order->id }}</td>
 
                                             <td class="p-4 text-sm">{{ $order->created_at->format('M d, Y') }}</td>
-                                            <td class="p-4 text-sm">Rs {{ $order->total ?? 0 }}</td>
+                                            <td class="p-4 text-sm">Rs {{ number_format($order->total, 2) }}</td>
                                             <td class="p-4 text-sm">
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                                     {{ $order->status->value == 'pending' ? 'bg-yellow-100 text-yellow-800' : 

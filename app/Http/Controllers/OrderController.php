@@ -50,7 +50,8 @@ class OrderController extends Controller
         }
 
 
-        if (!$order->payment ||$order->payment->payment_method !== PaymentMethod::ESEWA ||$order->payment->payment_status !== PaymentStatus::PENDING
+        if (
+            !$order->payment || $order->payment->payment_method !== PaymentMethod::ESEWA || $order->payment->payment_status !== PaymentStatus::PENDING
         ) {
             return redirect()->route('orders.show', $id)
                 ->with('error', 'This order cannot be retried.');
@@ -62,7 +63,7 @@ class OrderController extends Controller
 
     public function cancel($id)
     {
-        $order = Order::with('items.product')->findOrFail($id);
+        $order = Order::with('items.product', 'coupon')->findOrFail($id);
 
         if ($order->user_id !== Auth::id()) {
             abort(403, 'Unauthorized');
@@ -76,6 +77,12 @@ class OrderController extends Controller
             DB::beginTransaction();
 
             $this->orderService->updateStatus($id, OrderStatus::CANCELLED->value);
+
+            // Refund coupon usage if coupon was used
+            if ($order->coupon_id) {
+                $couponService = app(\App\Services\CouponService::class);
+                $couponService->refundUsage($order->id);
+            }
 
             DB::commit();
 

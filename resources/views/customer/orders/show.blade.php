@@ -125,8 +125,12 @@
                         </table>
                     </div>
 
-                    <div class="text-right mt-4">
-                        <strong>Total:</strong> Rs {{ $order->total ?? 0 }}
+                    <div class="text-right mt-4 space-y-2">
+                        @if($order->discount_amount > 0)
+                            <p class="text-gray-600">Subtotal: Rs {{ number_format($order->subtotal, 2) }}</p>
+                            <p class="text-green-600">Discount: - Rs {{ number_format($order->discount_amount, 2) }}</p>
+                        @endif
+                        <p class="text-xl font-bold">Total: Rs {{ number_format($order->total, 2) }}</p>
                     </div>
                 </div>
 

@@ -21,10 +21,13 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" x-data="couponComponent()">
              <div class="lg:col-span-2">
                 <form action="{{ route('checkout.store') }}" method="POST" class="space-y-8">
                     @csrf
+
+                    <!-- Hidden input to submit coupon code with form -->
+                    <input type="hidden" name="coupon_code" :value="isApplied ? couponCode : ''"/>
 
                     <div class="bg-white rounded-lg shadow p-6">
                         <h2 class="text-xl font-bold text-gray-800 mb-6">Payment Method</h2>
@@ -134,11 +137,68 @@
                         @endforeach
                     </div>
 
+                    <!-- Coupon Section -->
+                    <div class="mb-6 pb-6 border-b border-gray-300">
+                        <h3 class="text-sm font-semibold text-gray-700 mb-3">Have a Coupon Code?</h3>
+                        
+                        <!-- Coupon Input -->
+                        <div class="flex gap-2 mb-3" x-show="!isApplied">
+                            <input 
+                                type="text" 
+                                x-model="couponCode"
+                                @input="clearMessages()"
+                                placeholder="Enter code"
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+                                :disabled="isValidating"
+                            />
+                            <button 
+                                type="button"
+                                @click="validateCoupon()"
+                                :disabled="!couponCode || isValidating"
+                                class="px-4 py-2 bg-orange-500 text-white text-sm font-semibold rounded hover:bg-orange-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                x-text="isValidating ? 'Checking...' : 'Apply'"
+                            ></button>
+                        </div>
 
+                        <!-- Error Message -->
+                        <div x-show="errorMessage" 
+                             x-text="errorMessage" 
+                             class="text-red-600 text-sm mb-2"
+                        ></div>
+
+                        <!-- Success Message -->
+                        <div x-show="isApplied" class="bg-green-50 border border-green-200 rounded p-3">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="text-sm">
+                                    <span class="font-semibold text-green-800" x-text="couponCode"></span>
+                                    <span class="text-green-600"> applied!</span>
+                                </div>
+                                <button 
+                                    type="button"
+                                    @click="removeCoupon()" 
+                                    class="text-red-600 hover:underline text-xs"
+                                >Remove</button>
+                            </div>
+                            <div class="text-xs text-gray-700">
+                                <span x-show="couponDetails.type === 'percentage'">
+                                    <span x-text="couponDetails.value"></span>% discount - You save Rs <span x-text="discountAmount.toFixed(2)"></span>
+                                </span>
+                                <span x-show="couponDetails.type === 'fixed_amount'">
+                                    Flat Rs <span x-text="couponDetails.value"></span> off - You save Rs <span x-text="discountAmount.toFixed(2)"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discount Line (if applied) -->
                     <div class="space-y-3 mb-6 pb-6 border-b border-gray-300">
                         <div class="flex justify-between text-gray-600">
                             <span>Subtotal:</span>
-                            <span>Rs {{ $subtotal }}</span>
+                            <span>Rs <span x-text="subtotal.toFixed(2)"></span></span>
+                        </div>
+                        <div x-show="discountAmount > 0" class="flex justify-between text-green-600">
+                            <span>Discount:</span>
+                            <span>- Rs <span x-text="discountAmount.toFixed(2)"></span></span>
                         </div>
                         <div class="flex justify-between text-gray-600">
                             <span>Shipping:</span>
@@ -148,8 +208,68 @@
 
                     <div class="flex justify-between text-xl font-bold text-gray-800">
                         <span>Total:</span>
-                        <span>Rs {{ $subtotal }}</span>
+                        <span>Rs <span x-text="finalTotal.toFixed(2)"></span></span>
                     </div>
+
+                    <script>
+                    function couponComponent() {
+                        return {
+                            couponCode: '',
+                            isValidating: false,
+                            isApplied: false,
+                            errorMessage: '',
+                            discountAmount: 0,
+                            couponDetails: {},
+                            subtotal: {{ $subtotal }},
+                            
+                            get finalTotal() {
+                                return this.subtotal - this.discountAmount;
+                            },
+                            
+                            clearMessages() {
+                                this.errorMessage = '';
+                            },
+                            
+                            async validateCoupon() {
+                                if (!this.couponCode.trim()) return;
+                                
+                                this.isValidating = true;
+                                this.errorMessage = '';
+                                
+                                try {
+                                    const response = await fetch(`/api/coupon/validate?code=${encodeURIComponent(this.couponCode)}&subtotal=${this.subtotal}`, {
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'X-Requested-With': 'XMLHttpRequest'
+                                        }
+                                    });
+                                    
+                                    const data = await response.json();
+                                    
+                                    if (data.valid) {
+                                        this.isApplied = true;
+                                        this.discountAmount = data.discount_amount;
+                                        this.couponDetails = data.coupon;
+                                    } else {
+                                        this.errorMessage = data.message;
+                                    }
+                                } catch (error) {
+                                    this.errorMessage = 'Failed to validate coupon. Please try again.';
+                                } finally {
+                                    this.isValidating = false;
+                                }
+                            },
+                            
+                            removeCoupon() {
+                                this.couponCode = '';
+                                this.isApplied = false;
+                                this.discountAmount = 0;
+                                this.couponDetails = {};
+                                this.errorMessage = '';
+                            }
+                        }
+                    }
+                    </script>
                 </div>
             </div>
         </div>

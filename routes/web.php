@@ -25,6 +25,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\Api\CouponController as ApiCouponController;
 
 
 
@@ -82,6 +83,9 @@ Route::middleware('auth')->group(function () {
         ->middleware(['signed'])->name('verification.verify');
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])
         ->middleware('throttle:6,1')->name('verification.send');
+
+    // Coupon validation API
+    Route::get('/api/coupon/validate', [ApiCouponController::class, 'validate'])->name('api.coupon.validate');
 
     Route::prefix('dashboard')->middleware(['verified', 'role:customer'])->group(function () {
         Route::get('/', [CustomerDashboardController::class, 'index'])->name('customer.dashboard');

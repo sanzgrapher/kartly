@@ -15,11 +15,16 @@ class Order extends Model
         'user_id',
         'status',
         'shipping_address',
+        'coupon_id',
+        'discount_amount',
+        'subtotal',
     ];
 
 
     protected $casts = [
         'status' => OrderStatus::class,
+        'discount_amount' => 'decimal:2',
+        'subtotal' => 'decimal:2',
     ];
 
     public function user()
@@ -42,11 +47,20 @@ class Order extends Model
         return $this->orderItem();
     }
 
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
+    }
+
     public function getTotalAttribute()
     {
-
         if ($this->payment) {
             return $this->payment->amount;
+        }
+
+        // Use stored subtotal and discount if available
+        if ($this->subtotal > 0) {
+            return $this->subtotal - ($this->discount_amount ?? 0);
         }
 
         return $this->items()->get()->sum(function ($item) {
