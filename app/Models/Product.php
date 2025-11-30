@@ -54,6 +54,11 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function interactions()
+    {
+        return $this->hasMany(UserProductInteraction::class);
+    }
+
     public function getImageUrlAttribute()
     {
         if ($this->image) {

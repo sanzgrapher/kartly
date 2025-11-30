@@ -26,3 +26,4 @@ Thumbs.db
 /typesense-data/*
 /mailpit-data/*
 app/Console/Commands/TestMailpitCommand.php
+seedgen/

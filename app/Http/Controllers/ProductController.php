@@ -3,23 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\Products\Contracts\RecommendationServiceInterface;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private RecommendationServiceInterface $recommendationService
+    ) {}
+
     public function show($slug)
     {
         $product = Product::where('slug', $slug)
             ->with('category')
             ->firstOrFail();
 
-        $relatedProducts = collect();
+        $this->recommendationService->trackInteraction(
+            $product->id,
+            auth()->id(),
+            'view',
+            session()->getId()
+        );
 
-        if ($product->category) {
-            $relatedProducts = $product->category->products()
-                ->where('id', '!=', $product->id)
-                ->limit(4)
-                ->get();
-        }
+        $relatedProducts = $this->recommendationService->getRecommendationsForProduct($product, 4);
 
         return view('products.show', compact('product', 'relatedProducts'));
     }

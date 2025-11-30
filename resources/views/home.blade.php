@@ -158,6 +158,27 @@
     @endif
 
 
+    @if (isset($recommendations) && $recommendations['products']->isNotEmpty())
+        <section class="py-10">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    {{ $recommendations['section_title'] }}
+                    @if($recommendations['is_personalized'])
+                        <span class="ml-2 text-xs font-normal text-orange-600 bg-orange-50 px-2 py-1 rounded-full border border-orange-100">
+                            Picked for you
+                        </span>
+                    @endif
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach ($recommendations['products'] as $product)
+                    <x-ui.cards.product-card :product="$product" />
+                @endforeach
+            </div>
+        </section>
+    @endif
+
     <section>
         <h2 class="text-2xl font-bold mb-6 text-gray-800">Featured Products</h2>
 

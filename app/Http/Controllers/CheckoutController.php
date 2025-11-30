@@ -11,18 +11,23 @@ use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Services\Payment\EsewaService;
+use App\Services\Products\Contracts\RecommendationServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Services\CartService;
 use App\Events\OrderCreated;
+
 class CheckoutController extends Controller
 {
     protected EsewaService $esewaService;
     protected CartService $cartService;
 
-    public function __construct(EsewaService $esewaService, CartService $cartService)
-    {
+    public function __construct(
+        EsewaService $esewaService,
+        CartService $cartService,
+        private RecommendationServiceInterface $recommendationService
+    ) {
         $this->esewaService = $esewaService;
         $this->cartService = $cartService;
     }
@@ -104,6 +109,12 @@ class CheckoutController extends Controller
                     'amount_per_item' => $product->price,
                     'quantity' => $item->quantity,
                 ]);
+
+                $this->recommendationService->trackInteraction(
+                    $item->product_id,
+                    $user->id,
+                    'purchase'
+                );
 
                 $subtotal += $product->price * $item->quantity;
             }

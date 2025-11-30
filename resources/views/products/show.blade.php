@@ -30,7 +30,7 @@
 
     @if ($relatedProducts->isNotEmpty())
         <div class="border-t pt-12">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Related Products</h2>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">You May Also Like</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach ($relatedProducts as $relatedProduct)
                     <x-ui.cards.product-card :product="$relatedProduct" />

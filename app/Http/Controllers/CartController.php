@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Services\CartService;
+use App\Services\Products\Contracts\RecommendationServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,8 +14,10 @@ class CartController extends Controller
 {
     protected $cartService;
 
-    public function __construct(CartService $cartService)
-    {
+    public function __construct(
+        CartService $cartService,
+        private RecommendationServiceInterface $recommendationService
+    ) {
         $this->cartService = $cartService;
     }
 
@@ -52,6 +55,12 @@ class CartController extends Controller
         if (!$result['status']) {
             return back()->with('error', $result['message']);
         }
+
+        $this->recommendationService->trackInteraction(
+            $request->product_id,
+            auth()->id(),
+            'cart'
+        );
 
         return back()->with('success', $result['message']);
     }

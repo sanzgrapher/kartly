@@ -26,9 +26,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        // $this->call([
-        //     RoleSeeder::class,
-        // ]);
+       
         if (! User::where('email', 'admin@example.com')->exists()) {
             $user = User::factory()->create([
                 'name' => 'Test User',
@@ -52,7 +50,10 @@ class DatabaseSeeder extends Seeder
         $this->seedProductsFromCsv();
 
         $products = Product::all();
-
+        $this->call([
+            // RoleSeeder::class,
+            FashionistaSeeder::class,
+        ]);
         // User::factory(5)->has(Address::factory()->count(2))->create()->each(function ($user) use ($products) {
         //     $cart = Cart::factory()->for($user)->create();
         //     CartItem::factory()
