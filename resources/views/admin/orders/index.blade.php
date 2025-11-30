@@ -47,7 +47,7 @@
                             <td class="p-4 text-sm">{{ $o->id }}</td>
 
                             <td class="p-4 text-sm">{{ $o->user->name ?? 'n/a' }}</td>
-                            <td class="p-4 text-sm">Rs {{ $o->total }}</td>
+                            <td class="p-4 text-sm">Rs {{ number_format($o->total, 2) }}</td>
                             <td class="p-4 text-sm">
                                 <span
                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium

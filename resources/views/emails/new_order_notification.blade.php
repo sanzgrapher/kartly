@@ -8,7 +8,11 @@
         <p>Order #<span class="highlight">{{ $order->id }}</span></p>
         <p>Customer: {{ $customer->name ?? 'Guest' }} ({{ $customer->email ?? 'N/A' }})</p>
         <p>Date: {{ $order->created_at ? $order->created_at->format('M d, Y H:i') : date('M d, Y H:i') }}</p>
-        <p>Total: <span class="highlight">Rs {{ $order->total ?? 0 }}</span></p>
+        @if($order->discount_amount > 0)
+            <p>Subtotal: Rs {{ number_format($order->subtotal, 2) }}</p>
+            <p>Discount: - Rs {{ number_format($order->discount_amount, 2) }}</p>
+        @endif
+        <p>Total: <span class="highlight">Rs {{ number_format($order->total, 2) }}</span></p>
     </div>
 
     @if ($order->items && $order->items->count() > 0)

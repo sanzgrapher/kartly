@@ -9,7 +9,11 @@
         <p><strong>Order Details:</strong></p>
         <p>Order #<span class="highlight">{{ $order->id ?? 'N/A' }}</span></p>
         <p>Date: {{ $order->created_at ? $order->created_at->format('M d, Y') : date('M d, Y') }}</p>
-        <p>Total: <span class="highlight">Rs {{ $order->total_amount ?? ($order->total ?? 0) }}</span></p>
+        @if($order->discount_amount > 0)
+            <p>Subtotal: Rs {{ number_format($order->subtotal, 2) }}</p>
+            <p>Discount: - Rs {{ number_format($order->discount_amount, 2) }}</p>
+        @endif
+        <p>Total: <span class="highlight">Rs {{ number_format($order->total, 2) }}</span></p>
     </div>
 
     @if ($order->items && $order->items->count() > 0)

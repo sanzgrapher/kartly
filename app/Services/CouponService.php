@@ -46,7 +46,7 @@ class CouponService
         if ($coupon->min_purchase_amount && $subtotal < $coupon->min_purchase_amount) {
             return [
                 'valid' => false,
-                'message' => "Minimum purchase of $" . number_format($coupon->min_purchase_amount, 2) . " required."
+                'message' => "Minimum purchase of Rs " . number_format($coupon->min_purchase_amount, 2) . " required."
             ];
         }
 
