@@ -3,7 +3,8 @@
 @section('title', 'Product')
 
 @section('content')
-    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4 transition-colors duration-300">
+    <div
+        class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4 transition-colors duration-300">
         <div class="flex items-start justify-between mb-4">
             <div>
                 <h2 class="text-xl font-semibold dark:text-white">{{ $product->name }}</h2>
@@ -12,7 +13,8 @@
             <div class="flex items-center space-x-3">
                 <a href="{{ route('admin.products.edit', $product->id) }}"
                     class="px-3 py-1 bg-amber-500 text-white rounded text-sm">Edit</a>
-                <a href="{{ route('admin.products.index') }}" class="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">Back</a>
+                <a href="{{ route('admin.products.index') }}"
+                    class="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">Back</a>
             </div>
         </div>
 
@@ -36,9 +38,58 @@
             </div>
 
             <div class="md:col-span-2">
-                <div class="mb-4">
+                <div class="mb-4" x-data="{ showDescModal: false }">
                     <h3 class="font-medium text-sm text-gray-700 dark:text-gray-300 mb-1">Description</h3>
-                    <div class="text-gray-800 dark:text-gray-200 prose prose-sm max-w-none dark:prose-invert">{!! $product->description ?? 'n/a' !!}</div>
+                    <div class="relative">
+                        <div class="max-h-[150px] overflow-hidden relative">
+                            <div class="text-gray-800 dark:text-gray-200 prose prose-sm max-w-none dark:prose-invert">
+                                {!! $product->description ?? 'n/a' !!}
+                            </div>
+                            <!-- Fade overlay -->
+                            <div
+                                class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-gray-800 to-transparent pointer-events-none z-10">
+                            </div>
+                        </div>
+                        <!-- Read more button -->
+                        <button @click="showDescModal = true"
+                            class="relative z-20 inline-flex items-center gap-1 mt-3 px-3 py-2 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/40 rounded-lg text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            Read more
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+
+                        <!-- Description Modal -->
+                        <template x-teleport="body">
+                            <div x-show="showDescModal" x-cloak x-transition.opacity.duration.200
+                                class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+                                @click="showDescModal = false">
+                                <div x-transition.scale.duration.200
+                                    class="max-w-2xl w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg max-h-[80vh] overflow-y-auto border border-gray-200 dark:border-gray-700"
+                                    @click.stop>
+                                    <div class="p-6">
+                                        <div class="flex justify-between items-start mb-4">
+                                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Product
+                                                Description</h3>
+                                            <button @click="showDescModal = false"
+                                                class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div
+                                            class="prose prose-sm max-w-none dark:prose-invert text-gray-800 dark:text-gray-200">
+                                            {!! $product->description ?? 'n/a' !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 text-sm text-gray-700 dark:text-gray-300 mb-6">
@@ -79,11 +130,13 @@
 
                     <div>
                         <h4 class="text-xs text-gray-500 dark:text-gray-400">Created</h4>
-                        <div class="mt-1 text-sm text-gray-600 dark:text-gray-300">{{ $product->created_at->format('M d, Y') }}</div>
+                        <div class="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                            {{ $product->created_at->format('M d, Y') }}</div>
                     </div>
                     <div>
                         <h4 class="text-xs text-gray-500 dark:text-gray-400">Updated</h4>
-                        <div class="mt-1 text-sm text-gray-600 dark:text-gray-300">{{ $product->updated_at->format('M d, Y') }}</div>
+                        <div class="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                            {{ $product->updated_at->format('M d, Y') }}</div>
                     </div>
                 </div>
 
@@ -115,7 +168,8 @@
 
                         <!-- Remove Stock -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Remove Stock</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Remove
+                                Stock</label>
                             <form action="{{ route('admin.products.updateStock', $product->id) }}" method="POST"
                                 class="flex gap-3"
                                 onsubmit="document.getElementById('remove_adjustment').value = -Math.abs(document.getElementById('remove_input').value)">
@@ -128,7 +182,8 @@
                                 <button type="submit"
                                     class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-150 flex items-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M20 12H4">
                                         </path>
                                     </svg>
                                     Remove

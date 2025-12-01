@@ -1,146 +1,99 @@
 @props(['product'])
 
 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
-    <div class="lg:col-span-3 flex gap-4" x-data="{ currentImage: '{{ $product->image_url }}' }">
-        <div class="flex flex-col justify-between w-[120px] h-[500px]">
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 border-blue-400 dark:border-blue-500 w-[120px] h-[120px] cursor-pointer"
-                @click="currentImage = '{{ $product->image_url }}'">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
-            </div>
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 hover:border-blue-400 dark:hover:border-blue-500 w-[120px] h-[120px] cursor-pointer"
-                @click="currentImage = 'https://placehold.co/600x400?text=Img\n1'">
-                <img src="https://placehold.co/600x400?text=Img\n1" alt="{{ $product->name }}"
-                    class="w-full h-full object-cover">
-            </div>
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 hover:border-blue-400 dark:hover:border-blue-500 w-[120px] h-[120px] cursor-pointer"
-                @click="currentImage = 'https://placehold.co/600x400?text=Img\n2'">
-                <img src="https://placehold.co/600x400?text=Img\n2" alt="{{ $product->name }}"
-                    class="w-full h-full object-cover">
-            </div>
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 hover:border-blue-400 dark:hover:border-blue-500 w-[120px] h-[120px] cursor-pointer"
-                @click="currentImage = 'https://placehold.co/600x400?text=Img\n3'">
-                <img src="https://placehold.co/600x400?text=Img\n3" alt="{{ $product->name }}"
-                    class="w-full h-full object-cover">
-            </div>
-        </div>
+    <x-ui.product.image-gallery :product="$product" class="lg:col-span-3 flex gap-4" />
 
-        <div class="w-full bg-gray-50 dark:bg-gray-700/50 rounded-2xl h-[500px]">
-            <img :src="currentImage" alt="{{ $product->name }}" class="w-full h-full object-cover">
-        </div>
-    </div>
-
-    <div class="lg:col-span-2 space-y-3" x-data="{
-    
-        category: '{{ $product->category->name }}',
-        selectedColor: 'green',
-        selectedSize: 'M',
-        showBuyModal: false,
-        colors: [
-            { name: 'gray', class: 'bg-gray-400' },
-            { name: 'green', class: 'bg-green-500' },
-            { name: 'blue', class: 'bg-blue-500' }
-        ],
-        sizes: ['XS', 'S', 'M', 'L', 'XL']
-    }">
+    <div class="lg:col-span-2 space-y-3">
         @if ($product->category)
             <div class="text-sm">
-                {{-- <a href="{{ route('categories.show', $product->category->slug) }}"
+                <a href="{{ route('categories.show', $product->category->slug) }}"
                     class="text-primary-600 hover:underline font-medium">
                     {{ $product->category->name }}
-                </a> --}}
-                <a x-text="category" href="{{ route('categories.show', $product->category->slug) }}"
-                    class="text-primary-600 hover:underline font-medium">
-
                 </a>
             </div>
         @endif
 
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $product->name }}</h1>
 
+        @php
+            $isNew =
+                isset($product->created_at) &&
+                \Illuminate\Support\Carbon::now()->diffInDays(\Illuminate\Support\Carbon::parse($product->created_at)) <
+                    5;
+        @endphp
         <div class="flex items-center space-x-2">
-            <div class="flex items-center space-x-1">
-
-                <svg class="w-4 h-4 text-primary-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg class="w-4 h-4 text-primary-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg class="w-4 h-4 text-primary-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-
-                <svg class="w-4 h-4 text-gray-300" viewBox="0 0 20 20" fill="none" stroke="currentColor"
-                    stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg class="w-4 h-4 text-gray-300" viewBox="0 0 20 20" fill="none" stroke="currentColor"
-                    stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg class="w-4 h-4 text-gray-300" viewBox="0 0 20 20" fill="none" stroke="currentColor"
-                    stroke-width="1.5" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-
-            </div>
-            <span class="text-sm text-gray-600">(150 Reviews)</span>&nbsp;| &nbsp;
-            <span class="text-sm text-green-600 font-medium"> In Stock</span> &nbsp;|&nbsp;
+            <span class="text-sm text-green-600 font-medium">{{ $product->stock_status ?? 'In Stock' }}</span>
             <span
                 class="font-semibold {{ $product->stock_status == 'In Stock' ? 'text-green-600' : ($product->stock_status == 'Low Stock' ? 'text-yellow-600' : 'text-red-600') }}">
                 {{ $product->quantity }} left
             </span>
+            @if ($isNew)
+                <span class="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">New</span>
+            @endif
         </div>
 
-        <div class="text-3xl font-bold text-gray-900 dark:text-white">
+        <div class="relative text-sm text-gray-600 dark:text-gray-300 leading-relaxed prose prose-sm max-w-none dark:prose-invert mt-2 min-h-[100px]"
+            x-data="{ showDescModal: false }">
+            <div class="max-h-[150px] overflow-hidden relative">
+                <div class="description-content">
+                    {!! $product->description !!}
+
+                </div>
+                <!-- Fade overlay positioned within the content container -->
+                <div
+                    class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none z-10">
+                </div>
+            </div>
+            <!-- Read more button outside the faded container -->
+            <button @click="showDescModal = true"
+                class="relative z-20 inline-flex items-center gap-1 mt-3 px-3 py-2 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/40 rounded-lg text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500">
+                Read more
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+
+            <!-- Description Modal -->
+            <template x-teleport="body">
+                <div x-show="showDescModal" x-cloak x-transition.opacity.duration.200
+                    class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+                    @click="showDescModal = false">
+                    <div x-transition.scale.duration.200
+                        class="max-w-2xl w-full bg-white dark:bg-gray-900 rounded-lg shadow-lg max-h-[80vh] overflow-y-auto border border-gray-200 dark:border-gray-700"
+                        @click.stop>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Product Description</h3>
+                                <button @click="showDescModal = false"
+                                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="prose prose-sm max-w-none dark:prose-invert text-gray-600 dark:text-gray-300">
+                                {!! $product->description !!}
+                                <br>
+                                High quality product with premium materials for exceptional durability and performance.
+                                Perfect for everyday
+                                use with modern design and functionality.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <hr class="border-gray-200 dark:border-gray-700 mt-3">
+
+        <div class="text-3xl font-bold text-gray-900 dark:text-white mt-3">
             Rs {{ $product->price }}
-        </div>
-
-        <div class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed prose prose-sm max-w-none dark:prose-invert">
-            {!! $product->description !!}
-            <br>
-            High quality product with premium materials for exceptional durability and performance. Perfect for everyday
-            use with modern design and functionality.
         </div>
 
         <hr class="border-gray-200 dark:border-gray-700">
 
-        <div class="space-y-4">
-            <div class="flex items-center space-x-4">
-                <h3 class="text-xl font-medium text-gray-900 dark:text-white">Colours:</h3>
-                <div class="flex space-x-3">
-                    <template x-for="color in colors">
-                        <button class='w-7 h-7 rounded-full border-2 -all' type="button"
-                            @click="selectedColor = color.name"
-                            :class="[color.class,
-                                selectedColor === color.name ?
-                                'border-primary-500 ' :
-                                'border-gray-300 dark:border-gray-600 '
-                            ]"></button>
-                    </template>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-4">
-                <h3 class="text-xl font-medium text-gray-900 dark:text-white">Size:</h3>
-                <div class="flex space-x-3">
-                    <template x-for="size in sizes" :key="size">
-                        <button class='px-3 py-1.5 border rounded-lg text-sm font-medium' type="button"
-                            @click="selectedSize = size"
-                            :class="selectedSize === size ?
-                                'border-primary-500 bg-primary-500 text-white' :
-                                'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300'"
-                            x-text="size"></button>
-                    </template>
-                </div>
-            </div>
-        </div>
+        {{-- removed colour and size selection per UI change request --}}
 
         <form action="{{ route('cart.store') }}" method="POST" class="space-y-4" x-data="{
             quantity: 1,
@@ -197,49 +150,19 @@
                     </button>
                 </div>
 
-                <button type="button"
-                    class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-500 hover:text-primary-500 dark:text-gray-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                </button>
+                {{-- wishlist removed from product show per request --}}
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
-                <button type="button"
-                    class="py-4 bg-primary-500 text-white font-semibold text-xl rounded-lg hover:bg-primary-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                    @click="showBuyModal = true" @if ($product->stock_status == 'Out of Stock') disabled @endif>
-                    Buy Now
-                </button>
-
+            <div class="w-full">
                 <button type="submit"
-                    class="py-4  border border-primary-500 dark:border-primary-400 text-primary-500 dark:text-primary-400 font-semibold text-xl rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    class="w-full py-4 border border-primary-500 dark:border-primary-400 text-primary-500 dark:text-primary-400 font-semibold text-xl rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 disabled:bg-gray-100 disabled:cursor-not-allowed"
                     @if ($product->stock_status == 'Out of Stock') disabled @endif>
                     Add to Cart
                 </button>
             </div>
         </form>
 
-        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 space-y-2 bg-gray-50 dark:bg-gray-800">
-            <div class="flex items-center space-x-3">
-
-                <div>
-                    <h4 class="font-semibold text-gray-900 dark:text-white text-sm">Free Delivery</h4>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">Enter your postal code for Delivery Availability</p>
-                </div>
-            </div>
-
-            <hr>
-            <div class="flex items-center space-x-3">
-
-                <div>
-                    <h4 class="font-semibold text-gray-900 dark:text-white text-sm">Return Delivery</h4>
-                    <p class="text-xs text-gray-600 dark:text-gray-400">Free 30 Days Delivery Returns. <span
-                            class="text-primary-600 underline ">Details</span></p>
-                </div>
-            </div>
-        </div>
+        <!-- Free/Return delivery information removed from detail view per design decision -->
 
 
 
@@ -249,47 +172,6 @@
             </div>
         @enderror
 
-        <template x-teleport="body">
-            <div x-show="showBuyModal" class="fixed inset-0 z-50   bg-opacity-50 flex items-center justify-center p-4"
-                @click="showBuyModal = false">
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full border dark:border-gray-700" @click.stop>
-                    <h3 class="text-xl font-bold mb-4 dark:text-white">Confirm Your Purchase</h3>
 
-                    <div class="space-y-3">
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Product:</span>
-                            <span class="font-medium dark:text-white">{{ $product->name }}</span>
-                        </div>
-
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Price:</span>
-                            <span class="font-medium dark:text-white">Rs {{ $product->price }}</span>
-                        </div>
-
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Color:</span>
-
-
-                            <span class="font-medium capitalize dark:text-white" x-text="selectedColor"></span>
-
-                        </div>
-
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Size:</span>
-                            <span class="font-medium dark:text-white" x-text="selectedSize"></span>
-                        </div>
-
-                    </div>
-
-                    <div class="flex space-x-3 mt-6">
-                        <button class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
-                            @click="showBuyModal = false">
-                            Cancel
-                        </button>
-
-                    </div>
-                </div>
-            </div>
-        </template>
     </div>
 </div>

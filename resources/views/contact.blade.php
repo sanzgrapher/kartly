@@ -4,12 +4,9 @@
 
 @section('content')
     <div class="bg-white dark:bg-gray-800 rounded overflow-hidden shadow-sm">
-        <div class="h-48 bg-cover bg-center"
-            style="background-image: url('https://images.unsplash.com/photo-1529336953123-2e9b8d2acb1d?auto=format&fit=crop&w=1600&q=80')">
-            <div class="h-full bg-black/40 flex items-center justify-center">
-                <h1 class="text-2xl sm:text-3xl text-white font-semibold">Get in touch with
-                    {{ config('app.name', 'Kartly') }}</h1>
-            </div>
+        <div class="p-6">
+            <h1 class="text-2xl sm:text-3xl font-semibold dark:text-white mb-4">Contact {{ config('app.name', 'Kartly') }}
+            </h1>
         </div>
 
         <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -58,22 +55,7 @@
             </div>
 
             <aside class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded">
-                <div class="mb-4">
-                    <h3 class="text-lg font-semibold dark:text-white">Contact Details</h3>
-                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">Need help? Our support team is available at:</p>
-                    <p class="mt-3 text-sm font-medium"><a
-                            href="mailto:{{ $supportEmail ?? config('mail.from.address', 'support@example.com') }}"
-                            class="text-orange-600 hover:underline dark:text-orange-400">{{ $supportEmail ?? config('mail.from.address', 'support@example.com') }}</a>
-                    </p>
-                    <p class="mt-1 text-sm dark:text-gray-300">Phone: <span class="font-medium">+1 (555) 123-4567</span></p>
-                </div>
-
-                <div class="mb-4">
-                    <h4 class="font-semibold text-sm dark:text-white">Office Address</h4>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">123 Starter St, Suite 100<br>City, State 00000</p>
-                </div>
-
-                <!-- FAQ and Map removed - minimal contact details only -->
+                <p class="text-sm text-gray-700 dark:text-gray-300">Fill out the form and we will reply back soon.</p>
             </aside>
         </div>
     </div>
