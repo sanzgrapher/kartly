@@ -15,9 +15,28 @@
     <!-- Quill.js CDN -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+    <script>
+        // Check local storage and system preference on load to prevent FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
 
-<body class="min-h-screen bg-gray-100 text-gray-800">
+<body class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300"
+    x-data="{
+        darkMode: localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+        toggleTheme() {
+            this.darkMode = !this.darkMode;
+        }
+    }"
+    x-init="$watch('darkMode', val => {
+        localStorage.setItem('theme', val ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', val);
+    })">
     <div class="flex relative">
         @include('layout.partials.admin-sidebar')
 
@@ -31,8 +50,8 @@
                 </div>
             </main>
 
-            <footer class="mt-auto bg-white border-t border-gray-200">
-                <div class="container mx-auto px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-600">
+            <footer class="mt-auto bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                <div class="container mx-auto px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     {{ config('app.name', 'Kartly') }}
                 </div>
             </footer>

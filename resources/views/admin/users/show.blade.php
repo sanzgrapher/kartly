@@ -3,10 +3,10 @@
 @section('title', 'User Detail')
 
 @section('content')
-    <div class="bg-white rounded-lg border border-gray-300 p-4">
-        <h2 class="font-semibold mb-3">User: {{ $user->name }}</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4">
+        <h2 class="font-semibold mb-3 dark:text-white">User: {{ $user->name }}</h2>
 
-        <div class="space-y-2">
+        <div class="space-y-2 dark:text-gray-300">
             <div><strong>ID:</strong> {{ $user->id }}</div>
             <div><strong>Name:</strong> {{ $user->name }}</div>
             <div><strong>Email:</strong> {{ $user->email }}</div>

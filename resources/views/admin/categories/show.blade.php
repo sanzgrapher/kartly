@@ -4,15 +4,15 @@
 
 @section('content')
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-start">
-        <div class="bg-white rounded-lg border border-gray-300 p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-6">
             <div class="flex items-center">
                 <img src="https://ui-avatars.com/api/?name={{ $category->name }}&size=160&background=ef4444&color=fff"
                     alt="{{ $category->name }}" class="w-16 h-16 rounded-full mr-4">
 
                 <div class="flex-1">
-                    <h2 class="text-xl font-semibold mb-1">{{ $category->name }}</h2>
-                    <p class="text-gray-600 mb-1"><strong>Slug:</strong> {{ $category->slug }}</p>
-                    <p class="text-gray-600 mb-3 text-sm">Created: {{ $category->created_at->format('M d, Y') }}</p>
+                    <h2 class="text-xl font-semibold mb-1 dark:text-white">{{ $category->name }}</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-1"><strong class="dark:text-gray-300">Slug:</strong> {{ $category->slug }}</p>
+                    <p class="text-gray-600 dark:text-gray-400 mb-3 text-sm">Created: {{ $category->created_at->format('M d, Y') }}</p>
 
                     <div class="flex items-center space-x-2">
                         <a href="{{ route('admin.categories.edit', $category->id) }}"
@@ -30,28 +30,28 @@
             </div>
 
             <div class="mt-6">
-                <a href="{{ route('admin.categories.index') }}" class="text-gray-600">Back to list</a>
+                <a href="{{ route('admin.categories.index') }}" class="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">Back to list</a>
             </div>
         </div>
 
         <div class="grid grid-cols-1 gap-4">
-            <div class="bg-blue-50 p-4 rounded-lg border border-gray-200">
-                <div class="text-sm font-medium text-blue-600">Number of Products</div>
-                <div class="text-2xl font-bold text-blue-900">{{ $stats['products_count'] }}</div>
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="text-sm font-medium text-blue-600 dark:text-blue-400">Number of Products</div>
+                <div class="text-2xl font-bold text-blue-900 dark:text-blue-100">{{ $stats['products_count'] }}</div>
             </div>
 
-            <div class="bg-green-50 p-4 rounded-lg border border-gray-200">
-                <div class="text-sm font-medium text-green-600">Total Value</div>
-                <div class="text-2xl font-bold text-green-900">Rs {{ $stats['total_value'] ?? 0 }}</div>
+            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="text-sm font-medium text-green-600 dark:text-green-400">Total Value</div>
+                <div class="text-2xl font-bold text-green-900 dark:text-green-100">Rs {{ $stats['total_value'] ?? 0 }}</div>
             </div>
         </div>
     </div>
 
-    <div class="mt-8 bg-white rounded-lg border border-gray-300">
+    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
         <div class="mb-3 p-3">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="font-semibold">Products in {{ $category->name }}</h2>
+                    <h2 class="font-semibold dark:text-white">Products in {{ $category->name }}</h2>
                     <p class="text-sm text-gray-400">Manage products in this category</p>
                 </div>
                 <a href="{{ route('admin.products.create') }}"
@@ -62,7 +62,7 @@
 
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left">
-                <thead class="border-t border-gray-200">
+                <thead class="border-t border-gray-200 dark:border-gray-700 dark:text-gray-300">
                     <tr>
                         <th class="p-4 text-sm">ID</th>
                         <th class="p-4 text-sm">Image</th>
@@ -74,9 +74,9 @@
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody class="dark:text-gray-300">
                     @foreach ($products as $p)
-                        <tr class="border-t border-gray-300">
+                        <tr class="border-t border-gray-300 dark:border-gray-700">
                             <td class="p-4 text-sm">{{ $p->id }}</td>
                             <td class="p-4 text-sm">
                                 <img src="{{ $p->image_url }}" alt="{{ $p->name }}"

@@ -3,14 +3,14 @@
 @section('title', 'Users')
 
 @section('content')
-    <div class="mt-8 bg-white rounded-lg border border-gray-300">
+    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
         <div class="mb-3 p-3">
-            <h2 class="font-semibold ">Users</h2>
+            <h2 class="font-semibold dark:text-white">Users</h2>
             <p class=" text-sm text-gray-400">Manage all users</p>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left">
-                <thead class="  border-t border-gray-200">
+                <thead class="  border-t border-gray-200 dark:border-gray-700 dark:text-gray-300">
                     <tr>
                         <th class="p-4 text-sm">ID</th>
                         <th class="p-4 text-sm">Name</th>
@@ -20,9 +20,9 @@
                         <th class="p-4 text-sm">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="dark:text-gray-300">
                     @foreach ($users as $user)
-                        <tr class="border-t  border-gray-300">
+                        <tr class="border-t  border-gray-300 dark:border-gray-700">
                             <td class="p-4 text-sm">{{ $user->id }}</td>
                             <td class="p-4 text-sm">{{ $user->name }}</td>
                             <td class="p-4 text-sm">{{ $user->email }}</td>
@@ -52,7 +52,7 @@
                 </tbody>
             </table>
 
-            <div class=" border border-t border-gray-200 p-4">
+            <div class=" border border-t border-gray-200 dark:border-gray-700 p-4">
                 {{ $users->links() }}
             </div>
         </div>
