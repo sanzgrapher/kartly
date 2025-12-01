@@ -76,7 +76,7 @@ class MLRecommendationEngine
     }
 
     /**
-     * Get ML-based recommendations for a user
+     * Get ML-based recommendations for a user using trained KNN model
      */
     public function getRecommendationsForUser(int $userId, int $limit = 10): Collection
     {
@@ -87,6 +87,7 @@ class MLRecommendationEngine
             }
 
             if (!$this->model) {
+                Log::warning('ML model not available for user recommendations', ['user_id' => $userId]);
                 return collect();
             }
 
@@ -98,14 +99,22 @@ class MLRecommendationEngine
                 return collect();
             }
 
-            // Build user vector
+            // Build user vector for prediction
             $userVector = $this->buildUserVector($userInteractions);
 
             // Get products user has already interacted with
             $interactedProductIds = $userInteractions->pluck('product_id')->toArray();
 
-            // Find similar users and their liked products
-            $recommendedProductIds = $this->findSimilarUsersProducts($userId, $interactedProductIds, $limit);
+            // Use KNN model to find similar users
+            $similarUserIds = $this->predictSimilarUsers($userVector, $userId);
+
+            if (empty($similarUserIds)) {
+                Log::info('No similar users found via ML model', ['user_id' => $userId]);
+                return collect();
+            }
+
+            // Get products liked by similar users
+            $recommendedProductIds = $this->getProductsFromSimilarUsers($similarUserIds, $interactedProductIds, $limit);
 
             // Return products
             return Product::whereIn('id', $recommendedProductIds)
@@ -115,7 +124,8 @@ class MLRecommendationEngine
         } catch (\Exception $e) {
             Log::error('ML recommendation failed', [
                 'user_id' => $userId,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ]);
             return collect();
         }
@@ -212,29 +222,109 @@ class MLRecommendationEngine
     }
 
     /**
-     * Find products liked by similar users
+     * Use trained KNN model to predict similar users based on interaction patterns
      */
-    private function findSimilarUsersProducts(int $userId, array $excludeProductIds, int $limit): array
+    private function predictSimilarUsers(array $userVector, int $currentUserId): array
     {
-        // Get users similar to target user based on purchase/cart history
-        $similarUsers = UserProductInteraction::where('user_id', '!=', $userId)
-            ->whereIn('product_id', function ($query) use ($userId) {
-                $query->select('product_id')
-                    ->from('user_product_interactions')
-                    ->where('user_id', $userId)
-                    ->where('rating', '>=', 3); // Products user added to cart or purchased
-            })
-            ->select('user_id')
-            ->distinct()
-            ->limit(10)
-            ->pluck('user_id');
+        try {
+            // Get all user vectors from the database to compare
+            $allUserInteractions = UserProductInteraction::whereNotNull('user_id')
+                ->where('user_id', '!=', $currentUserId)
+                ->get()
+                ->groupBy('user_id');
 
-        if ($similarUsers->isEmpty()) {
+            if ($allUserInteractions->isEmpty()) {
+                return [];
+            }
+
+            // Build vectors for all users and calculate cosine similarity
+            $similarities = [];
+            $allProductIds = Product::pluck('id')->toArray();
+
+            foreach ($allUserInteractions as $otherUserId => $interactions) {
+                $otherUserVector = $this->buildUserVectorFromInteractions($interactions, $allProductIds);
+                
+                // Calculate cosine similarity between current user and other user
+                $similarity = $this->cosineSimilarity($userVector, $otherUserVector);
+                
+                if ($similarity > 0) {
+                    $similarities[(int)$otherUserId] = $similarity;
+                }
+            }
+
+            // Sort by similarity (highest first) and take top K neighbors
+            arsort($similarities);
+            $topSimilarUsers = array_slice(array_keys($similarities), 0, 5, true);
+
+            Log::info('KNN model found similar users', [
+                'current_user' => $currentUserId,
+                'similar_users' => $topSimilarUsers,
+                'similarities' => array_slice($similarities, 0, 5, true)
+            ]);
+
+            return $topSimilarUsers;
+        } catch (\Exception $e) {
+            Log::error('Failed to predict similar users', [
+                'error' => $e->getMessage(),
+                'user_id' => $currentUserId
+            ]);
+            return [];
+        }
+    }
+
+    /**
+     * Calculate cosine similarity between two vectors
+     */
+    private function cosineSimilarity(array $vectorA, array $vectorB): float
+    {
+        $dotProduct = 0;
+        $magnitudeA = 0;
+        $magnitudeB = 0;
+
+        for ($i = 0; $i < count($vectorA); $i++) {
+            $dotProduct += $vectorA[$i] * $vectorB[$i];
+            $magnitudeA += $vectorA[$i] * $vectorA[$i];
+            $magnitudeB += $vectorB[$i] * $vectorB[$i];
+        }
+
+        $magnitudeA = sqrt($magnitudeA);
+        $magnitudeB = sqrt($magnitudeB);
+
+        if ($magnitudeA == 0 || $magnitudeB == 0) {
+            return 0;
+        }
+
+        return $dotProduct / ($magnitudeA * $magnitudeB);
+    }
+
+    /**
+     * Build user vector from interactions collection
+     */
+    private function buildUserVectorFromInteractions(Collection $interactions, array $allProductIds): array
+    {
+        $userVector = array_fill(0, count($allProductIds), 0);
+
+        foreach ($interactions as $interaction) {
+            $productIndex = array_search($interaction->product_id, $allProductIds);
+            if ($productIndex !== false) {
+                $userVector[$productIndex] = $interaction->rating * $interaction->interaction_count;
+            }
+        }
+
+        return $userVector;
+    }
+
+    /**
+     * Get products liked by similar users (found via ML model)
+     */
+    private function getProductsFromSimilarUsers(array $similarUserIds, array $excludeProductIds, int $limit): array
+    {
+        if (empty($similarUserIds)) {
             return [];
         }
 
-        // Get products these similar users liked
-        return UserProductInteraction::whereIn('user_id', $similarUsers)
+        // Get products these ML-identified similar users liked
+        return UserProductInteraction::whereIn('user_id', $similarUserIds)
             ->whereNotIn('product_id', $excludeProductIds)
             ->where('rating', '>=', 3)
             ->select('product_id')
