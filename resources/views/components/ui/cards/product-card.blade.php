@@ -8,7 +8,7 @@
     $original_price = $product->original_price ?? null;
 @endphp
 
-<div class="group bg-white rounded-xl overflow-hidden border border-gray-200" role="article">
+<div class="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700" role="article">
     <div class="relative h-50 bg-gray-900 overflow-hidden">
         <a href="{{ $url }}" class="block w-full h-full">
             <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
@@ -44,24 +44,24 @@
 
     <div class="p-3">
         <div class="flex items-center justify-between mb-1">
-            <span  class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ $product->category->name ?? 'CATEGORY' }}</span>
+            <span  class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">{{ $product->category->name ?? 'CATEGORY' }}</span>
 
         </div>
 
         <div class=" my-2">
-            <h3 class="text-sm font-semibold text-gray-900 line-clamp-2 leading-5">
-                <a href="{{ $url }}" class="hover:text-gray-700 transition-colors focus:outline-none">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white line-clamp-2 leading-5">
+                <a href="{{ $url }}" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors focus:outline-none">
                     {{ $product->name }}
                 </a>
             </h3>
         </div>
-        <hr class="my-2 border-gray-200">
+        <hr class="my-2 border-gray-200 dark:border-gray-700">
 
         <div class="flex items-center justify-between">
             <div class="flex items-baseline gap-2">
-                <span class="text-base font-bold text-gray-900">Rs {{ $product->price }}</span>
+                <span class="text-base font-bold text-gray-900 dark:text-white">Rs {{ $product->price }}</span>
                 @if ($original_price && $original_price > $product->price)
-                    <span class="text-xs text-gray-500 line-through">Rs {{ $original_price }}</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 line-through">Rs {{ $original_price }}</span>
                 @endif
                 <span>-</span>
                 @if ($rating && $review_count)
@@ -70,8 +70,8 @@
                             <path
                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
-                        <span class="text-xs text-gray-600 font-medium">{{ $rating }}</span>
-                        <span class="text-xs text-gray-400">({{ $review_count }})</span>
+                        <span class="text-xs text-gray-600 dark:text-gray-400 font-medium">{{ $rating }}</span>
+                        <span class="text-xs text-gray-400 dark:text-gray-500">({{ $review_count }})</span>
                     </div>
                 @endif
             </div>
@@ -82,7 +82,7 @@
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <input type="hidden" name="quantity" value="1">
                     <button type="submit"
-                        class="p-2 bg-white-900 border border-primary-500 text-primary rounded-lg hover:bg-primary hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed "
+                        class="p-2 bg-white dark:bg-gray-700 border border-primary-500 dark:border-primary-400 text-primary dark:text-primary-400 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-600 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed "
                         {{ $stock_status === 'Out of Stock' ? 'disabled' : '' }}
                         aria-label="Add {{ $product->name }} to cart">
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

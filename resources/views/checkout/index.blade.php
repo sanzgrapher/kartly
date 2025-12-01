@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="py-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-8">Checkout</h1>
 
         @if ($errors->any())
             <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded">
@@ -29,20 +29,20 @@
                     <!-- Hidden input to submit coupon code with form -->
                     <input type="hidden" name="coupon_code" :value="isApplied ? couponCode : ''"/>
 
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-xl font-bold text-gray-800 mb-6">Payment Method</h2>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6">Payment Method</h2>
                         <div class="grid grid-cols-2 gap-3">
-                            <label class="flex items-center p-3 border border-gray-300 rounded">
+                            <label class="flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer">
                                 <input type="radio" name="payment_method" value="cash_on_delivery"
                                     class="w-4 h-4 text-orange-500"
                                     {{ old('payment_method') == 'cash_on_delivery' ? 'checked' : '' }}>
-                                <span class="ml-2 text-gray-800">Cash on Delivery (COD)</span>
+                                <span class="ml-2 text-gray-800 dark:text-gray-200">Cash on Delivery (COD)</span>
                             </label>
 
-                            <label class="flex items-center p-3 border border-gray-300 rounded">
+                            <label class="flex items-center p-3 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer">
                                 <input type="radio" name="payment_method" value="esewa" class="w-4 h-4 text-orange-500"
                                     {{ old('payment_method') == 'esewa' ? 'checked' : '' }}>
-                                <span class="ml-2 text-gray-800">eSewa</span>
+                                <span class="ml-2 text-gray-800 dark:text-gray-200">eSewa</span>
                             </label>
                         </div>
                         @error('payment_method')
@@ -50,25 +50,25 @@
                         @enderror
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6">
-                        <h2 class="text-xl font-bold text-gray-800 mb-6">Shipping Address</h2>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6">Shipping Address</h2>
 
                         @if ($addresses->count() > 0)
                             <div class="mb-6">
-                                <label class="block text-sm font-semibold text-gray-700 mb-4">Select a Shipping
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Select a Shipping
                                     Address</label>
                                 <div class="space-y-3">
                                     @foreach ($addresses as $address)
-                                        <label class="flex items-start p-3 border border-gray-300 rounded">
+                                        <label class="flex items-start p-3 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer">
                                             <input type="radio" name="address_id" value="{{ $address->id }}"
                                                 class="mt-1 w-4 h-4 text-orange-500"
                                                 {{ old('address_id') == $address->id ? 'checked' : '' }}>
                                             <div class="ml-3">
-                                                <p class="text-gray-800">{{ $address->street_address_1 }}</p>
+                                                <p class="text-gray-800 dark:text-gray-200">{{ $address->street_address_1 }}</p>
                                                 @if ($address->street_address_2)
-                                                    <p class="text-sm text-gray-600">{{ $address->street_address_2 }}</p>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ $address->street_address_2 }}</p>
                                                 @endif
-                                                <p class="text-sm text-gray-600">{{ $address->city }},
+                                                <p class="text-sm text-gray-600 dark:text-gray-400">{{ $address->city }},
                                                     {{ $address->state }}
                                                     - {{ $address->country }}</p>
                                             </div>
@@ -77,12 +77,12 @@
                                 </div>
                             </div>
 
-                            <div class="my-6 border-t border-gray-300 pt-6">
+                            <div class="my-6 border-t border-gray-300 dark:border-gray-700 pt-6">
                                 <a href="{{ route('addresses.create') }}" target="_blank"
-                                    class="inline-block text-orange-600 hover:text-orange-700 font-semibold text-sm">
+                                    class="inline-block text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 font-semibold text-sm">
                                     + Add New Address
                                 </a>
-                                <p class="text-xs text-gray-500 mt-2">(Opens in new tab)</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">(Opens in new tab)</p>
                             </div>
 
                             <div class="pt-4">
@@ -92,17 +92,17 @@
                                 </a>
                             </div>
                         @else
-                            <p class="text-gray-600 mb-6">You don't have any saved addresses.</p>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">You don't have any saved addresses.</p>
                             <a href="{{ route('addresses.create') }}" target="_blank"
                                 class="inline-block px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition">
                                 + Add Shipping Address
                             </a>
-                            <p class="text-xs text-gray-500 mt-2">(Opens in new tab, then return to checkout)</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">(Opens in new tab, then return to checkout)</p>
                         @endif
                     </div>
 
                     <a href="{{ route('cart.index') }}"
-                        class="inline-flex items-center text-orange-600 hover:text-orange-700 font-semibold text-sm">
+                        class="inline-flex items-center text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 font-semibold text-sm">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
                             </path>
@@ -119,27 +119,27 @@
 
 
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow p-6 sticky top-20">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-6">Order Summary</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 sticky top-20">
+                    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">Order Summary</h2>
 
 
-                    <div class="mb-6 pb-6 border-b border-gray-300 max-h-64 overflow-y-auto">
+                    <div class="mb-6 pb-6 border-b border-gray-300 dark:border-gray-700 max-h-64 overflow-y-auto">
                         @foreach ($cartItems as $item)
                             <div
-                                class="flex justify-between items-start mb-4 pb-4 border-b border-gray-300 last:border-b-0">
+                                class="flex justify-between items-start mb-4 pb-4 border-b border-gray-300 dark:border-gray-700 last:border-b-0">
                                 <div class="flex-grow">
-                                    <p class="font-semibold text-gray-800 text-sm">{{ $item->product->name }}</p>
-                                    <p class="text-xs text-gray-600 mt-1">Qty: {{ $item->quantity }}</p>
+                                    <p class="font-semibold text-gray-800 dark:text-white text-sm">{{ $item->product->name }}</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Qty: {{ $item->quantity }}</p>
                                 </div>
-                                <p class="font-semibold text-gray-800 text-sm">Rs
+                                <p class="font-semibold text-gray-800 dark:text-white text-sm">Rs
                                     {{ $item->product->price * $item->quantity }}</p>
                             </div>
                         @endforeach
                     </div>
 
                     <!-- Coupon Section -->
-                    <div class="mb-6 pb-6 border-b border-gray-300">
-                        <h3 class="text-sm font-semibold text-gray-700 mb-3">Have a Coupon Code?</h3>
+                    <div class="mb-6 pb-6 border-b border-gray-300 dark:border-gray-700">
+                        <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Have a Coupon Code?</h3>
                         
                         <!-- Coupon Input -->
                         <div class="flex gap-2 mb-3" x-show="!isApplied">
@@ -148,7 +148,7 @@
                                 x-model="couponCode"
                                 @input="clearMessages()"
                                 placeholder="Enter code"
-                                class="flex-1 px-3 py-2 border border-gray-300 rounded text-sm"
+                                class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                 :disabled="isValidating"
                             />
                             <button 
@@ -167,11 +167,11 @@
                         ></div>
 
                         <!-- Success Message -->
-                        <div x-show="isApplied" class="bg-green-50 border border-green-200 rounded p-3">
+                        <div x-show="isApplied" class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded p-3">
                             <div class="flex justify-between items-start mb-2">
                                 <div class="text-sm">
-                                    <span class="font-semibold text-green-800" x-text="couponCode"></span>
-                                    <span class="text-green-600"> applied!</span>
+                                    <span class="font-semibold text-green-800 dark:text-green-300" x-text="couponCode"></span>
+                                    <span class="text-green-600 dark:text-green-400"> applied!</span>
                                 </div>
                                 <button 
                                     type="button"
@@ -179,7 +179,7 @@
                                     class="text-red-600 hover:underline text-xs"
                                 >Remove</button>
                             </div>
-                            <div class="text-xs text-gray-700">
+                            <div class="text-xs text-gray-700 dark:text-gray-300">
                                 <span x-show="couponDetails.type === 'percentage'">
                                     <span x-text="couponDetails.value"></span>% discount - You save Rs <span x-text="discountAmount.toFixed(2)"></span>
                                 </span>
@@ -191,22 +191,22 @@
                     </div>
 
                     <!-- Discount Line (if applied) -->
-                    <div class="space-y-3 mb-6 pb-6 border-b border-gray-300">
-                        <div class="flex justify-between text-gray-600">
+                    <div class="space-y-3 mb-6 pb-6 border-b border-gray-300 dark:border-gray-700">
+                        <div class="flex justify-between text-gray-600 dark:text-gray-400">
                             <span>Subtotal:</span>
                             <span>Rs <span x-text="subtotal.toFixed(2)"></span></span>
                         </div>
-                        <div x-show="discountAmount > 0" class="flex justify-between text-green-600">
+                        <div x-show="discountAmount > 0" class="flex justify-between text-green-600 dark:text-green-400">
                             <span>Discount:</span>
                             <span>- Rs <span x-text="discountAmount.toFixed(2)"></span></span>
                         </div>
-                        <div class="flex justify-between text-gray-600">
+                        <div class="flex justify-between text-gray-600 dark:text-gray-400">
                             <span>Shipping:</span>
-                            <span class="text-green-600 font-semibold">Free</span>
+                            <span class="text-green-600 dark:text-green-400 font-semibold">Free</span>
                         </div>
                     </div>
 
-                    <div class="flex justify-between text-xl font-bold text-gray-800">
+                    <div class="flex justify-between text-xl font-bold text-gray-800 dark:text-white">
                         <span>Total:</span>
                         <span>Rs <span x-text="finalTotal.toFixed(2)"></span></span>
                     </div>

@@ -5,15 +5,15 @@
 @section('content')
     <div class="mb-6 flex items-center justify-between">
         <div>
-            <h1 class="text-3xl font-extrabold text-gray-900">Shop</h1>
-            <p class="mt-2 text-gray-600">Browse all products available in the store.</p>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">Shop</h1>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">Browse all products available in the store.</p>
         </div>
         <div>
         </div>
     </div>
 
     @if ($products->isEmpty())
-        <div class="py-12 text-center text-gray-500">No products available.</div>
+        <div class="py-12 text-center text-gray-500 dark:text-gray-400">No products available.</div>
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             @foreach ($products as $product)

@@ -3,28 +3,28 @@
 <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 mb-8">
     <div class="lg:col-span-3 flex gap-4" x-data="{ currentImage: '{{ $product->image_url }}' }">
         <div class="flex flex-col justify-between w-[120px] h-[500px]">
-            <div class="bg-gray-50 rounded border-2 border-blue-400 w-[120px] h-[120px] cursor-pointer"
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 border-blue-400 dark:border-blue-500 w-[120px] h-[120px] cursor-pointer"
                 @click="currentImage = '{{ $product->image_url }}'">
                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
             </div>
-            <div class="bg-gray-50 rounded border-2 hover:border-blue-400 w-[120px] h-[120px] cursor-pointer"
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 hover:border-blue-400 dark:hover:border-blue-500 w-[120px] h-[120px] cursor-pointer"
                 @click="currentImage = 'https://placehold.co/600x400?text=Img\n1'">
                 <img src="https://placehold.co/600x400?text=Img\n1" alt="{{ $product->name }}"
                     class="w-full h-full object-cover">
             </div>
-            <div class="bg-gray-50 rounded border-2 hover:border-blue-400 w-[120px] h-[120px] cursor-pointer"
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 hover:border-blue-400 dark:hover:border-blue-500 w-[120px] h-[120px] cursor-pointer"
                 @click="currentImage = 'https://placehold.co/600x400?text=Img\n2'">
                 <img src="https://placehold.co/600x400?text=Img\n2" alt="{{ $product->name }}"
                     class="w-full h-full object-cover">
             </div>
-            <div class="bg-gray-50 rounded border-2 hover:border-blue-400 w-[120px] h-[120px] cursor-pointer"
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded border-2 hover:border-blue-400 dark:hover:border-blue-500 w-[120px] h-[120px] cursor-pointer"
                 @click="currentImage = 'https://placehold.co/600x400?text=Img\n3'">
                 <img src="https://placehold.co/600x400?text=Img\n3" alt="{{ $product->name }}"
                     class="w-full h-full object-cover">
             </div>
         </div>
 
-        <div class="w-full bg-gray-50 rounded-2xl h-[500px]">
+        <div class="w-full bg-gray-50 dark:bg-gray-700/50 rounded-2xl h-[500px]">
             <img :src="currentImage" alt="{{ $product->name }}" class="w-full h-full object-cover">
         </div>
     </div>
@@ -55,7 +55,7 @@
             </div>
         @endif
 
-        <h1 class="text-2xl font-bold text-gray-900">{{ $product->name }}</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $product->name }}</h1>
 
         <div class="flex items-center space-x-2">
             <div class="flex items-center space-x-1">
@@ -98,22 +98,22 @@
             </span>
         </div>
 
-        <div class="text-3xl font-bold text-gray-900">
+        <div class="text-3xl font-bold text-gray-900 dark:text-white">
             Rs {{ $product->price }}
         </div>
 
-        <div class="text-sm text-gray-600 leading-relaxed prose prose-sm max-w-none">
+        <div class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed prose prose-sm max-w-none dark:prose-invert">
             {!! $product->description !!}
             <br>
             High quality product with premium materials for exceptional durability and performance. Perfect for everyday
             use with modern design and functionality.
         </div>
 
-        <hr class="border-gray-200">
+        <hr class="border-gray-200 dark:border-gray-700">
 
         <div class="space-y-4">
             <div class="flex items-center space-x-4">
-                <h3 class="text-xl font-medium text-gray-900">Colours:</h3>
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white">Colours:</h3>
                 <div class="flex space-x-3">
                     <template x-for="color in colors">
                         <button class='w-7 h-7 rounded-full border-2 -all' type="button"
@@ -121,21 +121,21 @@
                             :class="[color.class,
                                 selectedColor === color.name ?
                                 'border-primary-500 ' :
-                                'border-gray-300 '
+                                'border-gray-300 dark:border-gray-600 '
                             ]"></button>
                     </template>
                 </div>
             </div>
 
             <div class="flex items-center space-x-4">
-                <h3 class="text-xl font-medium text-gray-900">Size:</h3>
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white">Size:</h3>
                 <div class="flex space-x-3">
                     <template x-for="size in sizes" :key="size">
                         <button class='px-3 py-1.5 border rounded-lg text-sm font-medium' type="button"
                             @click="selectedSize = size"
                             :class="selectedSize === size ?
                                 'border-primary-500 bg-primary-500 text-white' :
-                                'border-gray-300 text-gray-700'"
+                                'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300'"
                             x-text="size"></button>
                     </template>
                 </div>
@@ -170,27 +170,27 @@
             <input type="hidden" name="product_id" value="{{ $product->id }}">
 
             <div class="flex items-center space-x-2">
-                <div class="flex items-center border border-gray-300 rounded-lg ">
+                <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg ">
                     <button type="button"
                         :class="[
                             'px-3 py-2  font-semibold',
                             quantity <= 1 ?
-                            'bg-gray-100 text-gray-400 cursor-not-allowed' :
-                            'bg-gray-50 hover:bg-primary-500 hover:text-white text-gray-700'
+                            'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed' :
+                            'bg-gray-50 dark:bg-gray-700 hover:bg-primary-500 hover:text-white text-gray-700 dark:text-gray-200'
                         ]"
                         @click="decrease()" :disabled="quantity <= 1">
                         -
                     </button>
                     <input type="number" name="quantity" x-model="quantity" @input="validate()" min="1"
                         max="{{ $product->quantity }}" value="1"
-                        class="w-14 px-2 py-2 text-center focus:outline-none focus:ring-2 focus:ring-primary-500 border-0 text-xl font-semibold"
+                        class="w-14 px-2 py-2 text-center focus:outline-none focus:ring-2 focus:ring-primary-500 border-0 text-xl font-semibold bg-transparent dark:text-white"
                         @if ($product->stock_status == 'Out of Stock') disabled @endif>
                     <button type="button"
                         :class="[
                             'px-3 py-2  font-semibold',
                             quantity >= maxStock ?
-                            'bg-gray-100 text-gray-400 cursor-not-allowed' :
-                            'bg-gray-50 hover:bg-primary-500 hover:text-white text-gray-700'
+                            'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed' :
+                            'bg-gray-50 dark:bg-gray-700 hover:bg-primary-500 hover:text-white text-gray-700 dark:text-gray-200'
                         ]"
                         @click="increase()" :disabled="quantity >= maxStock">
                         +
@@ -198,7 +198,7 @@
                 </div>
 
                 <button type="button"
-                    class="p-2 border border-gray-300 rounded-lg hover:border-primary-500 hover:text-primary-500 ">
+                    class="p-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-500 hover:text-primary-500 dark:text-gray-400">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -214,19 +214,19 @@
                 </button>
 
                 <button type="submit"
-                    class="py-4  border border-primary-500 text-primary-500 font-semibold text-xl rounded-lg hover:bg-primary-50  disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    class="py-4  border border-primary-500 dark:border-primary-400 text-primary-500 dark:text-primary-400 font-semibold text-xl rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 disabled:bg-gray-100 disabled:cursor-not-allowed"
                     @if ($product->stock_status == 'Out of Stock') disabled @endif>
                     Add to Cart
                 </button>
             </div>
         </form>
 
-        <div class="border border-gray-200 rounded-lg p-3 space-y-2 bg-gray-50">
+        <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-3 space-y-2 bg-gray-50 dark:bg-gray-800">
             <div class="flex items-center space-x-3">
 
                 <div>
-                    <h4 class="font-semibold text-gray-900 text-sm">Free Delivery</h4>
-                    <p class="text-xs text-gray-600">Enter your postal code for Delivery Availability</p>
+                    <h4 class="font-semibold text-gray-900 dark:text-white text-sm">Free Delivery</h4>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">Enter your postal code for Delivery Availability</p>
                 </div>
             </div>
 
@@ -234,8 +234,8 @@
             <div class="flex items-center space-x-3">
 
                 <div>
-                    <h4 class="font-semibold text-gray-900 text-sm">Return Delivery</h4>
-                    <p class="text-xs text-gray-600">Free 30 Days Delivery Returns. <span
+                    <h4 class="font-semibold text-gray-900 dark:text-white text-sm">Return Delivery</h4>
+                    <p class="text-xs text-gray-600 dark:text-gray-400">Free 30 Days Delivery Returns. <span
                             class="text-primary-600 underline ">Details</span></p>
                 </div>
             </div>
@@ -252,37 +252,37 @@
         <template x-teleport="body">
             <div x-show="showBuyModal" class="fixed inset-0 z-50   bg-opacity-50 flex items-center justify-center p-4"
                 @click="showBuyModal = false">
-                <div class="bg-white rounded-lg p-6 max-w-md w-full" @click.stop>
-                    <h3 class="text-xl font-bold mb-4">Confirm Your Purchase</h3>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full border dark:border-gray-700" @click.stop>
+                    <h3 class="text-xl font-bold mb-4 dark:text-white">Confirm Your Purchase</h3>
 
                     <div class="space-y-3">
                         <div>
-                            <span class="text-gray-600">Product:</span>
-                            <span class="font-medium">{{ $product->name }}</span>
+                            <span class="text-gray-600 dark:text-gray-400">Product:</span>
+                            <span class="font-medium dark:text-white">{{ $product->name }}</span>
                         </div>
 
                         <div>
-                            <span class="text-gray-600">Price:</span>
-                            <span class="font-medium">Rs {{ $product->price }}</span>
+                            <span class="text-gray-600 dark:text-gray-400">Price:</span>
+                            <span class="font-medium dark:text-white">Rs {{ $product->price }}</span>
                         </div>
 
                         <div>
-                            <span class="text-gray-600">Color:</span>
+                            <span class="text-gray-600 dark:text-gray-400">Color:</span>
 
 
-                            <span class="font-medium capitalize" x-text="selectedColor"></span>
+                            <span class="font-medium capitalize dark:text-white" x-text="selectedColor"></span>
 
                         </div>
 
                         <div>
-                            <span class="text-gray-600">Size:</span>
-                            <span class="font-medium" x-text="selectedSize"></span>
+                            <span class="text-gray-600 dark:text-gray-400">Size:</span>
+                            <span class="font-medium dark:text-white" x-text="selectedSize"></span>
                         </div>
 
                     </div>
 
                     <div class="flex space-x-3 mt-6">
-                        <button class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300"
+                        <button class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
                             @click="showBuyModal = false">
                             Cancel
                         </button>

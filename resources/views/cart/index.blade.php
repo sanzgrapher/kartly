@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="py-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8">Shopping Cart</h1>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-8">Shopping Cart</h1>
 
         @if ($errors->any())
             <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded">
@@ -31,7 +31,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                 <div class="lg:col-span-2">
-                    <div class="bg-white rounded-lg shadow">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
                         @forelse ($cartItems as $item)
                             <div x-data="{
                                 quantity: {{ $item->quantity }},
@@ -61,46 +61,46 @@
                                     }
                                 }
                             }"
-                                class="flex gap-4 p-6 border-b border-gray-300 last:border-b-0 hover:bg-gray-50 transition">
+                                class="flex gap-4 p-6 border-b border-gray-300 dark:border-gray-700 last:border-b-0 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
 
-                                <div class="flex-shrink-0 w-24 h-24 bg-gray-100 rounded overflow-hidden">
+                                <div class="flex-shrink-0 w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded overflow-hidden">
                                     <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}"
                                         class="w-full h-full object-cover">
                                 </div>
 
 
                                 <div class="flex-grow">
-                                    <h3 class="font-semibold text-gray-800 mb-1">
+                                    <h3 class="font-semibold text-gray-800 dark:text-white mb-1">
                                         <a href="{{ route('products.show', $item->product->slug) }}"
-                                            class="hover:text-orange-600 transition">
+                                            class="hover:text-orange-600 dark:hover:text-orange-400 transition">
                                             {{ $item->product->name }}
                                         </a>
                                     </h3>
-                                    <p class="text-sm text-gray-600 mb-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
                                         Price: <span class="font-semibold">Rs {{ $item->product->price }}</span>
                                     </p>
-                                    <p class="text-sm text-gray-600 mb-1">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
                                         Subtotal: <span class="font-semibold" x-text="'Rs ' + ({{ $item->product->price }} * quantity)">Rs
                                             {{ $item->product->price * $item->quantity }}</span>
                                     </p>
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-sm text-gray-500 dark:text-gray-500">
                                         Available Stock: <span
-                                            class="font-semibold text-gray-700">{{ $item->product->quantity }}</span>
+                                            class="font-semibold text-gray-700 dark:text-gray-300">{{ $item->product->quantity }}</span>
                                     </p>
                                 </div>
 
 
                                 <div class="flex flex-col items-end justify-between gap-3">
-                                    <div class="flex items-center border border-gray-300 rounded overflow-hidden">
+                                    <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded overflow-hidden">
                                         <button type="button"
-                                            class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
+                                            class="px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition font-semibold text-gray-700 dark:text-gray-300"
                                             @click="decrease()">
                                             -
                                         </button>
                                         <input type="number" x-model="quantity" @input="validate()" value="{{ $item->quantity }}"
-                                            class="w-20 px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-orange-500 border-0">
+                                            class="w-20 px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-orange-500 border-0 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                                         <button type="button"
-                                            class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
+                                            class="px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition font-semibold text-gray-700 dark:text-gray-300"
                                             @click="increase()">
                                             +
                                         </button>
@@ -112,8 +112,8 @@
                                         @method('PATCH')
                                         <input type="hidden" name="quantity" x-model="quantity" value="{{ $item->quantity }}">
                                         <button type="submit"
-                                            class="w-full px-3 py-2 text-sm font-semibold rounded transition bg-gray-300 text-gray-500 cursor-not-allowed"
-                                            :class="isChanged ? 'bg-orange-500 text-white hover:bg-orange-600 cursor-pointer' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
+                                            class="w-full px-3 py-2 text-sm font-semibold rounded transition bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                                            :class="isChanged ? 'bg-orange-500 text-white hover:bg-orange-600 cursor-pointer' : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'"
                                             :disabled="!isChanged" disabled>
                                             Update Cart
                                         </button>
@@ -124,14 +124,14 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="w-full px-3 py-2 text-red-600 hover:text-red-800 text-sm font-semibold transition border border-red-200 rounded hover:bg-red-50">
+                                            class="w-full px-3 py-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-sm font-semibold transition border border-red-200 dark:border-red-800 rounded hover:bg-red-50 dark:hover:bg-red-900/20">
                                             Remove
                                         </button>
                                     </form>
                                 </div>
                             </div>
                         @empty
-                            <div class="p-6 text-center text-gray-600">
+                            <div class="p-6 text-center text-gray-600 dark:text-gray-400">
                                 No items in cart
                             </div>
                         @endforelse
@@ -140,21 +140,21 @@
 
 
                 <div class="lg:col-span-1">
-                    <div class="bg-white rounded-lg shadow p-6 sticky top-20">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-6">Order Summary</h2>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 sticky top-20">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-6">Order Summary</h2>
 
-                        <div class="space-y-4 mb-6 pb-6 border-b border-gray-300">
-                            <div class="flex justify-between text-gray-600">
+                        <div class="space-y-4 mb-6 pb-6 border-b border-gray-300 dark:border-gray-700">
+                            <div class="flex justify-between text-gray-600 dark:text-gray-400">
                                 <span>Subtotal:</span>
                                 <span>Rs {{ $total }}</span>
                             </div>
-                            <div class="flex justify-between text-gray-600">
+                            <div class="flex justify-between text-gray-600 dark:text-gray-400">
                                 <span>Shipping:</span>
-                                <span class="text-green-600 font-semibold">Free</span>
+                                <span class="text-green-600 dark:text-green-400 font-semibold">Free</span>
                             </div>
                         </div>
 
-                        <div class="flex justify-between text-xl font-bold text-gray-800 mb-6">
+                        <div class="flex justify-between text-xl font-bold text-gray-800 dark:text-white mb-6">
                             <span>Total:</span>
                             <span>Rs {{ $total }}</span>
                         </div>
@@ -165,23 +165,23 @@
                         </a>
 
                         <a href="{{ route('home') }}"
-                            class="block w-full px-6 py-3 border border-gray-300 text-gray-800 font-semibold rounded text-center hover:bg-gray-50 transition">
+                            class="block w-full px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 font-semibold rounded text-center hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                             Continue Shopping
                         </a>
                     </div>
                 </div>
             </div>
         @else
-            <div class="bg-white rounded-lg shadow p-12 text-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-12 text-center">
                 <div class="mb-6">
-                    <svg class="w-20 h-20 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-20 h-20 mx-auto text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                     </svg>
                 </div>
 
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
-                <p class="text-gray-600 mb-8">Looks like you haven't added any products yet. Start shopping now!</p>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Your cart is empty</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">Looks like you haven't added any products yet. Start shopping now!</p>
 
                 <a href="{{ route('home') }}"
                     class="inline-block px-8 py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition">

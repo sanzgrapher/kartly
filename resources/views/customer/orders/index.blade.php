@@ -11,10 +11,10 @@
             </div>
 
 
-            <div class="md:col-span-3 bg-white rounded-r-lg border border-l-0 border-gray-200 p-6">
+            <div class="md:col-span-3 bg-white dark:bg-gray-800 rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 p-6">
                 <div class="mb-8">
-                    <h1 class="text-3xl font-semibold mb-2">My Orders</h1>
-                    <p class="text-gray-600">Track and manage all your orders</p>
+                    <h1 class="text-3xl font-semibold mb-2 dark:text-white">My Orders</h1>
+                    <p class="text-gray-600 dark:text-gray-400">Track and manage all your orders</p>
                 </div>
 
                 @if ($errors->any())
@@ -33,11 +33,11 @@
                 @endif
 
                 @if ($orders->count() > 0)
-                    <div class="mt-8 bg-white rounded-lg border border-gray-300">
+                    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
 
                         <div class="overflow-x-auto">
                             <table class="w-full table-auto text-left">
-                                <thead class="  border-t border-gray-200">
+                                <thead class="  border-t border-gray-200 dark:border-gray-700 dark:text-gray-300">
                                     <tr>
                                         <th class="p-4 text-sm">ID</th>
                                         <th class="p-4 text-sm">Date</th>
@@ -51,7 +51,7 @@
 
                                 <tbody>
                                     @foreach ($orders as $order)
-                                        <tr class="border-t  border-gray-300">
+                                        <tr class="border-t  border-gray-300 dark:border-gray-700 dark:text-gray-300">
                                             <td class="p-4 text-sm">{{ $order->id }}</td>
 
                                             <td class="p-4 text-sm">{{ $order->created_at->format('M d, Y') }}</td>
@@ -73,7 +73,7 @@
                                                 </span>
                                             </td>
                                             <td
-                                                class="p-4 text-sm {{ ($order->payment->payment_method ?? '') == 'cash_on_delivery' ? 'text-green-600' : (($order->payment->payment_method ?? '') == 'esewa' ? 'text-blue-600' : 'text-gray-600') }}">
+                                                class="p-4 text-sm {{ ($order->payment->payment_method ?? '') == 'cash_on_delivery' ? 'text-green-600 dark:text-green-400' : (($order->payment->payment_method ?? '') == 'esewa' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400') }}">
                                                 {{ $order->payment->payment_method ?? 'n/a' }}</td>
                                             <td class="flex px-4 py-2 space-x-2">
                                                 <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
@@ -92,13 +92,13 @@
                         </div>
                     </div>
                 @else
-                    <div class="bg-white rounded-lg border border-gray-300 p-8 text-center mt-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-8 text-center mt-8">
                         <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">No Orders Yet</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">No Orders Yet</h3>
 
                         <a href="{{ route('home') }}"
                             class="inline-block px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition">

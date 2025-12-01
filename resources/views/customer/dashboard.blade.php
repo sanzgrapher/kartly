@@ -12,7 +12,7 @@
             </div>
 
 
-            <div class="md:col-span-3 bg-white rounded-r-lg border border-l-0 border-gray-200 p-6">
+            <div class="md:col-span-3 bg-white dark:bg-gray-800 rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 p-6">
                 <!-- Email Verification Success Message -->
                 @if (request()->get('verified'))
                     <div class="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
@@ -28,18 +28,18 @@
                 @endif
 
                 <div class="mb-8">
-                    <h1 class="text-3xl font-semibold mb-2">Welcome, {{ Auth::user()->name }}!</h1>
-                    <p class="text-gray-600">Manage your account and orders</p>
+                    <h1 class="text-3xl font-semibold mb-2 dark:text-white">Welcome, {{ Auth::user()->name }}!</h1>
+                    <p class="text-gray-600 dark:text-gray-400">Manage your account and orders</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-linear-to-br from-orange-50 to-orange-100 border border-orange-200 p-6 rounded-lg">
-                        <h3 class="text-gray-600 text-sm font-medium mb-2">Total Orders</h3>
-                        <p class="text-3xl font-bold text-orange-600">{{ $totalOrders }}</p>
+                    <div class="bg-linear-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 border border-orange-200 dark:border-orange-800 p-6 rounded-lg">
+                        <h3 class="text-gray-600 dark:text-gray-300 text-sm font-medium mb-2">Total Orders</h3>
+                        <p class="text-3xl font-bold text-orange-600 dark:text-orange-500">{{ $totalOrders }}</p>
                     </div>
-                    <div class="bg-linear-to-br from-blue-50 to-blue-100 border border-blue-200 p-6 rounded-lg">
-                        <h3 class="text-gray-600 text-sm font-medium mb-2">Total Spent</h3>
-                        <p class="text-3xl font-bold text-blue-600">
+                    <div class="bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border border-blue-200 dark:border-blue-800 p-6 rounded-lg">
+                        <h3 class="text-gray-600 dark:text-gray-300 text-sm font-medium mb-2">Total Spent</h3>
+                        <p class="text-3xl font-bold text-blue-600 dark:text-blue-500">
                             Rs {{ $totalSpent }}</p>
                     </div>
                     {{-- <div class="bg-linear-to-br from-green-50 to-green-100 border border-green-200 p-6 rounded-lg">
@@ -49,26 +49,26 @@
                 </div>
 
                 <div class="mt-8">
-                    <h2 class="text-xl font-semibold mb-4">Account Details</h2>
-                    <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                    <h2 class="text-xl font-semibold mb-4 dark:text-white">Account Details</h2>
+                    <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Personal
+                                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Personal
                                     Information</h3>
-                                <div class="space-y-2">
-                                    <p><span class="font-medium text-gray-700">Name:</span> {{ $user->name }}</p>
-                                    <p><span class="font-medium text-gray-700">Email:</span> {{ $user->email }}</p>
-                                    <p><span class="font-medium text-gray-700">Member Since:</span>
+                                <div class="space-y-2 dark:text-gray-300">
+                                    <p><span class="font-medium text-gray-700 dark:text-gray-200">Name:</span> {{ $user->name }}</p>
+                                    <p><span class="font-medium text-gray-700 dark:text-gray-200">Email:</span> {{ $user->email }}</p>
+                                    <p><span class="font-medium text-gray-700 dark:text-gray-200">Member Since:</span>
                                         {{ $user->created_at->format('M d, Y') }}</p>
                                 </div>
                             </div>
 
                             <div>
-                                <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Addres
+                                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Addres
                                 </h3>
                                 @if ($user->addresses->isNotEmpty())
                                     @php $address = $user->addresses->first(); @endphp
-                                    <address class="not-italic text-gray-600">
+                                    <address class="not-italic text-gray-600 dark:text-gray-300">
                                         {{ $address->street_address_1 }}<br>
                                         @if ($address->street_address_2)
                                             {{ $address->street_address_2 }}<br>
@@ -77,7 +77,7 @@
                                         {{ $address->country }}
                                     </address>
                                 @else
-                                    <p class="text-gray-500 italic">No address saved.</p>
+                                    <p class="text-gray-500 dark:text-gray-400 italic">No address saved.</p>
                                 @endif
                             </div>
                         </div>

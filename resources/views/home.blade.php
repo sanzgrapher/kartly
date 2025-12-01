@@ -12,9 +12,9 @@
 
                 <!-- LEFT: Categories Sidebar -->
                 <div
-                    class="col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full">
-                    <div class="p-4 border-b border-gray-100 bg-gray-50">
-                        <h2 class="flex items-center gap-2 text-lg font-bold text-gray-800">
+                    class="col-span-1 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden flex flex-col h-full">
+                    <div class="p-4 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
+                        <h2 class="flex items-center gap-2 text-lg font-bold text-gray-800 dark:text-white">
                             <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M4 6h16M4 12h16M4 18h7"></path>
@@ -31,8 +31,8 @@
                                         <a href="{{ route('categories.show', $category->slug ?? '#') }}"
                                             class="group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-all duration-200
                                         {{ request()->routeIs('categories.show') && request()->slug == $category->slug
-                                            ? 'bg-orange-50 text-orange-700 font-semibold'
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-orange-600 hover:translate-x-1' }}">
+                                            ? 'bg-orange-50 text-orange-700 dark:bg-orange-900/20 dark:text-orange-400 font-semibold'
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600 dark:hover:text-orange-400 hover:translate-x-1' }}">
 
                                             <span class="flex items-center gap-2">
                                                 <!-- Optional: If you have icons for categories, put them here -->
@@ -52,7 +52,7 @@
                                 <!-- View All Link -->
                                 <li>
                                     <a href="{{ route('categories.index') }}"
-                                        class="flex items-center justify-center mt-2 px-3 py-2 text-xs font-medium text-gray-500 hover:text-orange-600 border-t border-gray-100">
+                                        class="flex items-center justify-center mt-2 px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-400 border-t border-gray-100 dark:border-gray-700">
                                         View All Categories
                                     </a>
                                 </li>
@@ -105,12 +105,12 @@
 
 
     @if (isset($categories) && $categories->count() > 0)
-        <section class="py-10 bg-white">
+        <section class="py-10 bg-white dark:bg-gray-900">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 <!-- Section Header -->
                 <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900">Shop by Category</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Shop by Category</h2>
                     <a href="{{ route('categories.index') }}"
                         class="text-sm font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1 transition-colors">
                         View All
@@ -130,7 +130,7 @@
                             <div class="relative w-28 h-28 mb-4">
                                 <!-- Ring Effect Wrapper -->
                                 <div
-                                    class="absolute inset-0 rounded-full ring-2 ring-gray-100 group-hover:ring-orange-500 group-hover:ring-offset-2 transition-all duration-300 ease-in-out">
+                                    class="absolute inset-0 rounded-full ring-2 ring-gray-100 dark:ring-gray-700 group-hover:ring-orange-500 group-hover:ring-offset-2 dark:group-hover:ring-offset-gray-900 transition-all duration-300 ease-in-out">
                                 </div>
 
                                 <!-- Image/Avatar -->
@@ -144,7 +144,7 @@
 
                             <!-- Text Content -->
                             <h3
-                                class="text-base font-semibold text-gray-900 group-hover:text-orange-600 transition-colors duration-300 px-2">
+                                class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300 px-2">
                                 {{ $category->name }}
                             </h3>
 
@@ -161,7 +161,7 @@
     @if (isset($recommendations) && $recommendations['products']->isNotEmpty())
         <section class="py-10">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
                     {{ $recommendations['section_title'] }}
                     @if($recommendations['is_personalized'])
                         <span class="ml-2 text-xs font-normal text-orange-600 bg-orange-50 px-2 py-1 rounded-full border border-orange-100">
@@ -180,7 +180,7 @@
     @endif
 
     <section>
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Featured Products</h2>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Featured Products</h2>
 
         @if ($products->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
@@ -193,8 +193,8 @@
                 {{ $products->links('pagination::tailwind') }}
             </div>
         @else
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-                <p class="text-gray-600">No products available at the moment.</p>
+            <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 text-center">
+                <p class="text-gray-600 dark:text-gray-400">No products available at the moment.</p>
             </div>
         @endif
     </section>
