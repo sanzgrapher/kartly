@@ -3,7 +3,7 @@
 @section('title', 'Categories')
 
 @section('content')
-    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
+    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 transition-colors duration-300">
         <div class="mb-3 p-3">
             <div class="flex items-center justify-between">
                 <div>

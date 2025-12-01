@@ -3,7 +3,7 @@
 @section('title', 'Edit Product')
 
 @section('content')
-    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4 transition-colors duration-300">
         <h2 class="font-semibold mb-3 dark:text-white">Edit Product</h2>
 
         <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">

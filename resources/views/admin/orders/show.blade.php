@@ -3,7 +3,7 @@
 @section('title', 'Order #' . $order->id)
 
 @section('content')
-    <div class="mt-4  bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4">
+    <div class="mt-4  bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4 transition-colors duration-300">
         <div class="mb-3 p-3">
             <h2 class="font-semibold dark:text-white">Update Order Status</h2>
             <p class=" text-sm text-gray-400">Up the order and payment status</p>
@@ -81,7 +81,7 @@
         </div>
 
     </div>
-    <div class="mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4">
+    <div class="mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4 transition-colors duration-300">
         <h2 class="font-semibold mb-3 dark:text-white">Order #{{ $order->id }}</h2>
 
         <div class="grid grid-cols-2 gap-4 mb-4 dark:text-gray-300">

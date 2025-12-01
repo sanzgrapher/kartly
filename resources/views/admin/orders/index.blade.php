@@ -4,25 +4,25 @@
 
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Orders</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalOrders }}</p>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Revenue</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">Rs {{ $totalRevenue }}</p>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Orders</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $pendingOrders }}</p>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Completed Payments</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $completedPayments }}</p>
         </div>
     </div>
 
-    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
+    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 transition-colors duration-300">
 
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left">

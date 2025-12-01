@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 items-start">
-        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-6 transition-colors duration-300">
             <div class="flex items-center">
                 <img src="https://ui-avatars.com/api/?name={{ $category->name }}&size=160&background=ef4444&color=fff"
                     alt="{{ $category->name }}" class="w-16 h-16 rounded-full mr-4">
@@ -35,19 +35,19 @@
         </div>
 
         <div class="grid grid-cols-1 gap-4">
-            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
                 <div class="text-sm font-medium text-blue-600 dark:text-blue-400">Number of Products</div>
                 <div class="text-2xl font-bold text-blue-900 dark:text-blue-100">{{ $stats['products_count'] }}</div>
             </div>
 
-            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
                 <div class="text-sm font-medium text-green-600 dark:text-green-400">Total Value</div>
                 <div class="text-2xl font-bold text-green-900 dark:text-green-100">Rs {{ $stats['total_value'] ?? 0 }}</div>
             </div>
         </div>
     </div>
 
-    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700">
+    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 transition-colors duration-300">
         <div class="mb-3 p-3">
             <div class="flex items-center justify-between">
                 <div>

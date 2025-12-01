@@ -5,56 +5,56 @@
 @section('content')
     <!-- Summary Cards -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Users</div>
-            <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['users'] ?? 'n/a' }}</div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300">Total Users</div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">{{ $stats['users'] ?? 'n/a' }}</div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="text-sm font-medium text-gray-600 dark:text-gray-400">Orders</div>
-            <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['orders'] ?? 'n/a' }}</div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300">Orders</div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">{{ $stats['orders'] ?? 'n/a' }}</div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="text-sm font-medium text-gray-600 dark:text-gray-400">Revenue</div>
-            <div class="text-2xl font-bold text-gray-900 dark:text-white">Rs {{ number_format($stats['revenue'] ?? 0, 2) }}</div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300">Revenue</div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">Rs {{ number_format($stats['revenue'] ?? 0, 2) }}</div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="text-sm font-medium text-gray-600 dark:text-gray-400">Products</div>
-            <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['products'] ?? 'n/a' }}</div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300">Products</div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">{{ $stats['products'] ?? 'n/a' }}</div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-            <div class="text-sm font-medium text-gray-600 dark:text-gray-400">Avg Order Value</div>
-            <div class="text-2xl font-bold text-gray-900 dark:text-white">Rs {{ number_format($stats['avgOrderValue'] ?? 0, 2) }}</div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div class="text-sm font-medium text-gray-600 dark:text-gray-400 transition-colors duration-300">Avg Order Value</div>
+            <div class="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300">Rs {{ number_format($stats['avgOrderValue'] ?? 0, 2) }}</div>
         </div>
     </div>
 
     <!-- Analytics Charts -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-            <h2 class="text-lg font-medium mb-4 dark:text-white">Orders (Last 30 Days)</h2>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <h2 class="text-lg font-medium mb-4 dark:text-white transition-colors duration-300">Orders (Last 30 Days)</h2>
             <canvas id="ordersChart" height="120"></canvas>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-            <h2 class="text-lg font-medium mb-4 dark:text-white">Revenue (Last 30 Days)</h2>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <h2 class="text-lg font-medium mb-4 dark:text-white transition-colors duration-300">Revenue (Last 30 Days)</h2>
             <canvas id="revenueChart" height="120"></canvas>
         </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-            <h2 class="text-lg font-medium mb-4 dark:text-white">Order Status Breakdown</h2>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <h2 class="text-lg font-medium mb-4 dark:text-white transition-colors duration-300">Order Status Breakdown</h2>
             <div class="flex justify-center">
                 <canvas id="orderStatusChart" width="250" height="250"></canvas>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-            <h2 class="text-lg font-medium mb-4 dark:text-white">Payment Methods</h2>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <h2 class="text-lg font-medium mb-4 dark:text-white transition-colors duration-300">Payment Methods</h2>
             <canvas id="paymentMethodChart" height="200"></canvas>
         </div>
     </div>
 
     <!-- Recent Orders -->
     <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h2 class="text-lg font-medium mb-4 dark:text-white">Recent Orders</h2>
             <div class="overflow-auto">
                 <table class="w-full text-left text-sm">
@@ -105,7 +105,7 @@
     </div>
 
     <!-- Recent Users -->
-    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div class="mb-3 p-3">
             <h2 class="font-semibold dark:text-white">Recent Users</h2>
             <p class="text-sm text-gray-400">Recently Joined Users</p>

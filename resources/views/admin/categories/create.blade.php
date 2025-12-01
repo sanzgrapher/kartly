@@ -3,7 +3,7 @@
 @section('title', 'Create Category')
 
 @section('content')
-    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-4 transition-colors duration-300">
         <form action="{{ route('admin.categories.store') }}" method="POST">
             @csrf
 

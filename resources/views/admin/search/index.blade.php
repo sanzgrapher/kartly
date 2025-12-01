@@ -3,7 +3,7 @@
 @section('title', $q ? 'Search: ' . $q : 'Search')
 
 @section('content')
-    <div class="mb-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-4">
+    <div class="mb-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-4 transition-colors duration-300">
         <form action="{{ route('admin.search.index') }}" method="GET">
             <div class="space-y-4">
                 <div>
@@ -88,7 +88,7 @@
         <h3 class="text-lg font-semibold mb-4 dark:text-white">Products</h3>
 
         @if ($products->count() > 0)
-            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden transition-colors duration-300">
                 <div class="overflow-x-auto">
                     <table class="w-full table-auto text-left">
                         <thead class="border-b border-gray-200 dark:border-gray-700 dark:text-gray-300">

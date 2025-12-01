@@ -45,12 +45,12 @@
 
             <main class="p-4 sm:p-6 flex-1">
                 <div class="container mx-auto">
-                    <h1 class="text-xl sm:text-2xl font-semibold mb-4 hidden lg:block">@yield('title')</h1>
+                    <h1 class="text-xl sm:text-2xl font-semibold mb-4 hidden lg:block transition-colors duration-300">@yield('title')</h1>
                     @yield('content')
                 </div>
             </main>
 
-            <footer class="mt-auto bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <footer class="mt-auto bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
                 <div class="container mx-auto px-4 sm:px-6 py-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     {{ config('app.name', 'Kartly') }}
                 </div>

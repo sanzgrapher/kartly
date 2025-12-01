@@ -3,7 +3,7 @@
 
 <!-- Sidebar -->
 <aside id="adminSidebar"
-    class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-screen transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+    class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-screen transform -translate-x-full lg:translate-x-0 transition-all duration-300 ease-in-out">
     <div class="p-6 flex items-center justify-between">
         <a href="{{ route('admin.dashboard') }}"
             class="text-lg font-bold text-orange-600 dark:text-orange-500">{{ config('app.name', 'Kartly') }} Admin</a>
