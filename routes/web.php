@@ -111,7 +111,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->middleware('role:admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/search', [AdminSearchController::class, 'index'])->name('search.index');
-        Route::resource('users', AdminUserController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
+        Route::resource('users', AdminUserController::class);
 
         Route::resource('products', AdminProductController::class);
         Route::patch('/products/{id}/stock', [AdminProductController::class, 'updateStock'])->name('products.updateStock');

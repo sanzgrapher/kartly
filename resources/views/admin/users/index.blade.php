@@ -3,10 +3,27 @@
 @section('title', 'Users')
 
 @section('content')
+    @if (session('success'))
+        <div class="mb-4 p-3 bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 rounded text-green-700 dark:text-green-300">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 rounded text-red-700 dark:text-red-300">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 transition-colors duration-300">
-        <div class="mb-3 p-3">
-            <h2 class="font-semibold dark:text-white">Users</h2>
-            <p class=" text-sm text-gray-400">Manage all users</p>
+        <div class="mb-3 p-3 flex justify-between items-center">
+            <div>
+                <h2 class="font-semibold dark:text-white">Users</h2>
+                <p class=" text-sm text-gray-400">Manage all users</p>
+            </div>
+            <a href="{{ route('admin.users.create') }}" class="px-3 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 text-sm">
+                Add User
+            </a>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left">
