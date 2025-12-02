@@ -32,7 +32,9 @@ class LoginController extends Controller
 
         $guestSessionId = $request->session()->getId();
 
-        if (Auth::attempt($userLogin)) {
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($userLogin, $remember)) {
             $request->session()->regenerate();
 
             $this->cartService->mergeGuestCart($guestSessionId);
