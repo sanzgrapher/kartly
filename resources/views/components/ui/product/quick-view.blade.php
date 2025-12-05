@@ -1,7 +1,7 @@
 @props(['product'])
 
-<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-4">
-    <x-ui.product.image-gallery :product="$product" class="lg:col-span-3 flex gap-3" />
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-6 ">
+    <x-ui.product.product-image :product="$product" class="lg:col-span-3" />
 
     <div class="lg:col-span-2 flex flex-col justify-between h-full py-2">
         <div class="space-y-4">
@@ -13,24 +13,15 @@
             @endif
 
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{{ $product->name }}</h1>
-
-            @php
-                $isNew =
-                    isset($product->created_at) &&
-                    \Illuminate\Support\Carbon::now()->diffInDays(
-                        \Illuminate\Support\Carbon::parse($product->created_at),
-                    ) < 5;
-            @endphp
+ 
             <div class="flex items-center space-x-2">
                 <span class="text-sm text-green-600 font-medium"> {{ $product->stock_status ?? 'In Stock' }}</span>
-                @if ($isNew)
-                    <span class="text-sm bg-green-100 text-green-800 px-2 py-0.5 rounded-full">New</span>
-                @endif
+                
             </div>
 
             <div
-                class="relative text-sm text-gray-600 dark:text-gray-300 leading-relaxed prose prose-sm max-w-none dark:prose-invert mt-2 min-h-[100px]">
-                <div class="max-h-[120px] overflow-hidden">
+                class="relative text-sm text-gray-600 dark:text-gray-300 leading-relaxed prose prose-sm max-w-none dark:prose-invert mt-2 min-h-[50px]">
+                <div class="max-h-[50px] overflow-hidden">
                     <div class="description-content">
                         {!! $product->description !!}
                     </div>
