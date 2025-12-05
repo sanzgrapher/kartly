@@ -4,9 +4,7 @@
     $url = $url ?? route('products.show', $product->slug ?? $product->id);
     $stock_status = $product->stock_status ?? 'In Stock';
     $original_price = $product->original_price ?? null;
-    $isNew =
-        isset($product->created_at) &&
-        \Illuminate\Support\Carbon::now()->diffInDays(\Illuminate\Support\Carbon::parse($product->created_at)) < 5;
+    
 @endphp
 
 <div x-data="{ showQuickView: false }"
@@ -17,11 +15,7 @@
             <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
         </a>
 
-        @if ($isNew)
-            <div class="absolute top-2 left-2 z-20">
-                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-medium">New</span>
-            </div>
-        @endif
+        
 
         <div class="absolute top-2 right-2  space-y-2">
             @unless (request()->routeIs('admin.*'))

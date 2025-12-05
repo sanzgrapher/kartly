@@ -3,7 +3,8 @@
 @section('title', $q ? 'Search: ' . $q : 'Search')
 
 @section('content')
-    <div class="mb-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-4 transition-colors duration-300">
+    <div
+        class="mb-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-4 transition-colors duration-300">
         <form action="{{ route('admin.search.index') }}" method="GET">
             <div class="space-y-4">
                 <div>
@@ -26,14 +27,16 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Min Price (Rs.)</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Min Price
+                            (Rs.)</label>
                         <input type="number" name="min_price" value="{{ old('min_price', $minPrice) }}" min="0"
                             step="0.01" placeholder="0"
                             class="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-200 dark:bg-gray-700 dark:text-white">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max Price (Rs.)</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max Price
+                            (Rs.)</label>
                         <input type="number" name="max_price" value="{{ old('max_price', $maxPrice) }}" min="0"
                             step="0.01" placeholder="10000"
                             class="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-200 dark:bg-gray-700 dark:text-white">
@@ -63,21 +66,30 @@
     @if (isset($categories) && $categories->count() > 0)
         <section class="mb-8">
             <h3 class="text-lg font-semibold mb-4 dark:text-white">Categories</h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
                 @foreach ($categories as $category)
                     <a href="{{ route('admin.categories.edit', $category->id) }}"
-                        class="group flex flex-col items-center text-center hover:opacity-75 transition">
-                        <div class="relative w-24 h-24 mb-3">
-                            <div
-                                class="absolute inset-0 rounded-full ring-2 ring-gray-100 group-hover:ring-orange-500 transition-all">
-                            </div>
-                            <div class="w-full h-full rounded-full overflow-hidden bg-gray-50">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($category->name) }}&size=200&background=FFF0E5&color=ea580c&bold=true"
-                                    alt="{{ $category->name }}" class="w-full h-full object-cover">
-                            </div>
+                        class="group flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-500 hover:shadow-md transition-all duration-300">
+
+                        <!-- Icon Image -->
+                        <div
+                            class="shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($category->name) }}&size=100&background=FFF0E5&color=ea580c&bold=true"
+                                alt="{{ $category->name }}" class="w-full h-full object-cover">
                         </div>
-                        <div class="text-sm font-medium text-gray-900 dark:text-gray-300 group-hover:text-orange-600 dark:group-hover:text-orange-400">{{ $category->name }}
-                        </div>
+
+                        <!-- Category Name -->
+                        <span
+                            class="flex-1 text-sm font-semibold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
+                            {{ $category->name }}
+                        </span>
+
+                        <!-- Arrow Icon -->
+                        <svg class="w-4 h-4 text-gray-400 group-hover:text-orange-600 group-hover:translate-x-1 transition-all duration-300"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                        </svg>
                     </a>
                 @endforeach
             </div>
@@ -88,7 +100,8 @@
         <h3 class="text-lg font-semibold mb-4 dark:text-white">Products</h3>
 
         @if ($products->count() > 0)
-            <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden transition-colors duration-300">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden transition-colors duration-300">
                 <div class="overflow-x-auto">
                     <table class="w-full table-auto text-left">
                         <thead class="border-b border-gray-200 dark:border-gray-700 dark:text-gray-300">
@@ -103,7 +116,8 @@
                         </thead>
                         <tbody class="dark:text-gray-300">
                             @foreach ($products as $product)
-                                <tr class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <tr
+                                    class="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                                     <td class="p-4 text-sm">{{ $product->id }}</td>
                                     <td class="p-4 text-sm font-medium">{{ $product->name }}</td>
                                     <td class="p-4 text-sm">{{ $product->category->name ?? '-' }}</td>

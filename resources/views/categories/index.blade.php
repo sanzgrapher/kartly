@@ -29,28 +29,30 @@
     @if ($categories->isEmpty())
         <div class="py-12 text-center text-gray-500 dark:text-gray-400">No categories found.</div>
     @else
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
             @foreach ($categories as $category)
                 <a href="{{ route('categories.show', $category->slug) }}"
-                    class="group flex flex-col items-center text-center">
-                    <div class="relative w-28 h-28 mb-4">
-                        <div
-                            class="absolute inset-0 rounded-full ring-2 ring-gray-100 dark:ring-gray-700 group-hover:ring-orange-500 group-hover:ring-offset-2 group-hover:dark:ring-offset-gray-800 transition-all duration-300 ease-in-out">
-                        </div>
-                        <div class="w-full h-full rounded-full overflow-hidden bg-gray-50 dark:bg-gray-700">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($category->name) }}&size=200&background=FFF0E5&color=ea580c&bold=true"
-                                alt="{{ $category->name }}"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ease-out">
-                        </div>
+                    class="group flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-orange-500 dark:hover:border-orange-500 hover:shadow-md transition-all duration-300">
+
+                    <!-- Icon Image -->
+                    <div
+                        class="shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center">
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode($category->name) }}&size=100&background=FFF0E5&color=ea580c&bold=true"
+                            alt="{{ $category->name }}" class="w-full h-full object-cover">
                     </div>
 
-                    <h3
-                        class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300 px-2">
+                    <!-- Category Name -->
+                    <span
+                        class="flex-1 text-sm font-semibold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
                         {{ $category->name }}
-                    </h3>
+                    </span>
 
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $category->products_count ?? 0 }} products
-                    </p>
+                    <!-- Arrow Icon -->
+                    <svg class="w-4 h-4 text-gray-400 group-hover:text-orange-600 group-hover:translate-x-1 transition-all duration-300"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                        </path>
+                    </svg>
                 </a>
             @endforeach
         </div>
