@@ -11,7 +11,8 @@
             </div>
 
 
-            <div class="md:col-span-3 bg-white dark:bg-gray-800 rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 p-6">
+            <div
+                class="md:col-span-3 bg-white dark:bg-gray-800 rounded-r-lg border border-l-0 border-gray-200 dark:border-gray-700 p-6">
                 <div class="mb-8">
                     <h1 class="text-3xl font-semibold mb-2 dark:text-white">My Orders</h1>
                     <p class="text-gray-600 dark:text-gray-400">Track and manage all your orders</p>
@@ -39,13 +40,13 @@
                             <table class="w-full table-auto text-left">
                                 <thead class="  border-t border-gray-200 dark:border-gray-700 dark:text-gray-300">
                                     <tr>
-                                        <th class="p-4 text-sm">ID</th>
-                                        <th class="p-4 text-sm">Date</th>
-                                        <th class="p-4 text-sm">Total</th>
-                                        <th class="p-4 text-sm">Order Status</th>
-                                        <th class="p-4 text-sm">Payment Status</th>
-                                        <th class="p-4 text-sm">Payment Method</th>
-                                        <th class="p-4 text-sm">Actions</th>
+                                        <th class="p-4 text-sm text-left">ID</th>
+                                        <th class="p-4 text-sm text-left">Date</th>
+                                        <th class="p-4 text-sm text-left">Total</th>
+                                        <th class="p-4 text-sm text-left">Order Status</th>
+                                        <th class="p-4 text-sm text-left">Payment Status</th>
+                                        <th class="p-4 text-sm text-left">Payment Method</th>
+                                        <th class="p-4 text-sm text-left">Actions</th>
                                     </tr>
                                 </thead>
 
@@ -57,27 +58,44 @@
                                             <td class="p-4 text-sm">{{ $order->created_at->format('M d, Y') }}</td>
                                             <td class="p-4 text-sm">Rs {{ number_format($order->total, 2) }}</td>
                                             <td class="p-4 text-sm">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                                    {{ $order->status->value == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                                       ($order->status->value == 'processing' ? 'bg-blue-100 text-blue-800' : 
-                                                       ($order->status->value == 'shipped' ? 'bg-orange-100 text-orange-800' : 
-                                                       ($order->status->value == 'delivered' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'))) }}">
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                    {{ $order->status->value == 'pending'
+                                                        ? 'bg-yellow-100 text-yellow-800'
+                                                        : ($order->status->value == 'processing'
+                                                            ? 'bg-blue-100 text-blue-800'
+                                                            : ($order->status->value == 'shipped'
+                                                                ? 'bg-orange-100 text-orange-800'
+                                                                : ($order->status->value == 'delivered'
+                                                                    ? 'bg-green-100 text-green-800'
+                                                                    : 'bg-red-100 text-red-800'))) }}">
                                                     {{ ucfirst($order->status->value ?? 'n/a') }}
                                                 </span>
                                             </td>
                                             <td class="p-4 text-sm">
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                                    {{ ($order->payment->payment_status->value ?? 'pending') == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                                       (($order->payment->payment_status->value ?? '') == 'completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
+                                                <span
+                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                    {{ ($order->payment->payment_status->value ?? 'pending') == 'pending'
+                                                        ? 'bg-yellow-100 text-yellow-800'
+                                                        : (($order->payment->payment_status->value ?? '') == 'completed'
+                                                            ? 'bg-green-100 text-green-800'
+                                                            : 'bg-red-100 text-red-800') }}">
                                                     {{ ucfirst($order->payment->payment_status->value ?? 'n/a') }}
                                                 </span>
                                             </td>
-                                            <td
-                                                class="p-4 text-sm {{ ($order->payment->payment_method ?? '') == 'cash_on_delivery' ? 'text-green-600 dark:text-green-400' : (($order->payment->payment_method ?? '') == 'esewa' ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400') }}">
-                                                {{ $order->payment->payment_method ?? 'n/a' }}</td>
-                                            <td class="flex px-4 py-2 space-x-2">
-                                                <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
-                                                    href="{{ route('orders.show', $order->id) }}" title="View">
+                                            <td class="p-4 text-sm">
+                                                @if ($order->payment && $order->payment->payment_method)
+                                                    <span
+                                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $order->payment->payment_method->badgeClass() }}">
+                                                        {{ $order->payment->payment_method->label() }}
+                                                    </span>
+                                                @else
+                                                    <span class="text-gray-500 dark:text-gray-400">N/A</span>
+                                                @endif
+                                            </td>
+                                            <td class="p-4 text-sm">
+                                                <a class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                                    href="{{ route('orders.show', $order->id) }}">
                                                     View
                                                 </a>
                                             </td>
@@ -92,7 +110,8 @@
                         </div>
                     </div>
                 @else
-                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-8 text-center mt-8">
+                    <div
+                        class="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-8 text-center mt-8">
                         <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

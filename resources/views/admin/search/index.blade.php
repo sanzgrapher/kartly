@@ -125,7 +125,7 @@
                                     <td class="p-4 text-sm">{{ $product->stock }}</td>
                                     <td class="p-4 text-sm">
                                         <a href="{{ route('admin.products.edit', $product->id) }}"
-                                            class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600">Edit</a>
+                                            class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105">Edit</a>
                                     </td>
                                 </tr>
                             @endforeach

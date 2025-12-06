@@ -4,25 +4,30 @@
 
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div
+            class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Orders</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $totalOrders }}</p>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div
+            class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Revenue</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">Rs {{ $totalRevenue }}</p>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div
+            class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Orders</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $pendingOrders }}</p>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div
+            class="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <h3 class="text-sm font-medium text-gray-600 dark:text-gray-400">Completed Payments</h3>
             <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $completedPayments }}</p>
         </div>
     </div>
 
-    <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 transition-colors duration-300">
+    <div
+        class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 transition-colors duration-300">
 
         <div class="overflow-x-auto">
             <table class="w-full table-auto text-left">
@@ -74,14 +79,21 @@
                                     {{ ucfirst($o->payment->payment_status->value ?? 'n/a') }}
                                 </span>
                             </td>
-                            <td
-                                class="p-4 text-sm {{ $o->payment->payment_method == 'credit_card' ? 'text-blue-600' : ($o->payment->payment_method == 'paypal' ? 'text-blue-600' : 'text-green-600') }}">
-                                {{ $o->payment->payment_method ?? 'n/a' }}</td>
+                            <td class="p-4 text-sm">
+                                @if ($o->payment && $o->payment->payment_method)
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $o->payment->payment_method->badgeClass() }}">
+                                        {{ $o->payment->payment_method->label() }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-500">N/A</span>
+                                @endif
+                            </td>
                             <td class="p-4 text-sm">{{ $o->created_at->format('M d, Y') }}</td>
-                            <td class="flex px-4  py-2 space-x-2">
-                                <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
-                                    href="{{ route('admin.orders.show', $o->id) }}" title="View">
-                                    View
+                            <td class="p-4 text-sm">
+                                <a class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                    href="{{ route('admin.orders.show', $o->id) }}">
+                                    View Details
                                 </a>
                             </td>
                         </tr>

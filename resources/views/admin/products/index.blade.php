@@ -120,20 +120,22 @@
                                 @endif
                             </td>
                             <td class="p-4 text-sm">{{ $p->created_at->format('M d, Y') }}</td>
-                            <td class="flex px-4 py-2 space-x-2">
-                                <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
-                                    href="{{ route('admin.products.show', $p->id) }}" title="View">View</a>
+                            <td class="p-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <a class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                        href="{{ route('admin.products.show', $p->id) }}">View</a>
 
-                                <a class="px-2 py-1 text-xs text-white rounded bg-amber-500 hover:bg-amber-600"
-                                    href="{{ route('admin.products.edit', $p->id) }}" title="Edit">Edit</a>
+                                    <a class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 active:bg-amber-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                        href="{{ route('admin.products.edit', $p->id) }}">Edit</a>
 
-                                <form class="inline" action="{{ route('admin.products.destroy', $p->id) }}" method="POST"
-                                    onsubmit="return confirm('Delete this product?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="px-2 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600"
-                                        type="submit" title="Delete">Delete</button>
-                                </form>
+                                    <form class="inline" action="{{ route('admin.products.destroy', $p->id) }}" method="POST"
+                                        onsubmit="return confirm('Delete this product?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

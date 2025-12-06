@@ -45,22 +45,24 @@
                             <td class="p-4 text-sm">{{ $user->email }}</td>
                             <td class="p-4 text-sm">{{ $user->role_name }}</td>
                             <td class="p-4 text-sm">{{ $user->created_at->format('M d, Y') }}</td>
-                            <td class="flex px-4 py-2 space-x-2">
-                                <a class="px-2 py-1 text-xs text-white bg-blue-500 rounded hover:bg-blue-600"
-                                    href="{{ route('admin.users.show', $user->id) }}" title="View">
-                                    View
-                                </a>
-                                <a class="px-2 py-1 text-xs text-white rounded bg-amber-500 hover:bg-amber-600"
-                                    href="{{ route('admin.users.edit', $user->id) }}" title="Edit">
-                                    Edit
-                                </a>
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                    onsubmit="return confirm('Delete this user?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="px-2 py-1 text-xs bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
-                                </form>
+                            <td class="p-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <a class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                        href="{{ route('admin.users.show', $user->id) }}">
+                                        View
+                                    </a>
+                                    <a class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 text-white hover:bg-amber-700 active:bg-amber-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
+                                        href="{{ route('admin.users.edit', $user->id) }}">
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                        onsubmit="return confirm('Delete this user?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105">Delete</button>
+                                    </form>
+                                </div>
                                 </button>
                                 </form>
                             </td>
