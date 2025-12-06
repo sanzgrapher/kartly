@@ -31,6 +31,22 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                 <div class="lg:col-span-2">
+                    <div class="mb-4 flex justify-end">
+                        <form action="{{ route('cart.clear') }}" method="POST" 
+                            onsubmit="return confirm('Are you sure you want to remove all items from your cart?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                                <span class="font-semibold">Clear All</span>
+                            </button>
+                        </form>
+                    </div>
+
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
                         @forelse ($cartItems as $item)
                             <div x-data="{

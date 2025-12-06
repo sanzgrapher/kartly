@@ -64,4 +64,15 @@ class CartController extends Controller
 
         return back()->with('success', $result['message']);
     }
+
+    public function clear()
+    {
+        $result = $this->cartService->clearCart();
+
+        if (!$result['status']) {
+            return back()->with('error', $result['message']);
+        }
+
+        return back()->with('success', $result['message']);
+    }
 }

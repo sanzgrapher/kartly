@@ -46,6 +46,7 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 Route::patch('/cart-items/{cartItem}', [CartItemController::class, 'update'])->name('cart-items.update');
 Route::delete('/cart-items/{cartItem}', [CartItemController::class, 'destroy'])->name('cart-items.destroy');
 

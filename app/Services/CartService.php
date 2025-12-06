@@ -90,6 +90,19 @@ class CartService
         return ['status' => true, 'message' => 'Item removed from cart.'];
     }
 
+    public function clearCart()
+    {
+        $cart = $this->getCart();
+
+        if (!$cart) {
+            return ['status' => false, 'message' => 'Cart not found.'];
+        }
+
+        $cart->cartItem()->delete();
+
+        return ['status' => true, 'message' => 'All items removed from cart.'];
+    }
+
     public function mergeGuestCart($sessionId = null)
     {
         $sessionId = $sessionId ?? Session::getId();
