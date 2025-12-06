@@ -47,62 +47,13 @@
             <p class="text-4xl text-orange-600">Rs {{ number_format($product->price, 0) }}</p>
         </div>
 
-        <form action="{{ route('cart.store') }}" method="POST" class="flex items-center gap-4 mb-6"
-            x-data="{
-                quantity: 1,
-                maxStock: {{ $product->quantity }},
-                increase() {
-                    if (this.quantity < this.maxStock) {
-                        this.quantity++;
-                    }
-                },
-                decrease() {
-                    if (this.quantity > 1) {
-                        this.quantity--;
-                    }
-                },
-                validate() {
-                    let qty = parseInt(this.quantity);
-                    if (isNaN(qty) || qty < 1) {
-                        this.quantity = 1;
-                    } else if (qty > this.maxStock) {
-                        this.quantity = this.maxStock;
-                    } else {
-                        this.quantity = qty;
-                    }
-                }
-            }">
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-            <div class="flex items-center border border-gray-300 rounded overflow-hidden">
-                <button type="button"
-                    class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
-                    @click="decrease()">
-                    −
-                </button>
-                <input type="number" name="quantity" x-model="quantity" @input="validate()" min="1"
-                    max="{{ $product->quantity }}" value="1"
-                    class="w-20 px-2 py-1 text-center focus:outline-none focus:ring-2 focus:ring-orange-500 border-0"
-                    @if ($product->stock_status == 'Out of Stock') disabled @endif>
-                <button type="button"
-                    class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition font-semibold text-gray-700"
-                    @click="increase()">
-                    +
-                </button>
-            </div>
-
-            <button type="submit"
-                class="px-6 py-3 bg-orange-500 text-white font-semibold rounded hover:bg-orange-600 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
-                @if ($product->stock_status == 'Out of Stock') disabled @endif>
-                Add to Cart
-            </button>
-        </form>
-
-        @error('quantity')
-            <div class="p-3 bg-red-50 border border-red-300 rounded mb-6">
-                <p class="text-sm text-red-700">{{ $message }}</p>
-            </div>
-        @enderror
+        <div class="mb-6">
+            @livewire('add-to-cart', [
+                'productId' => $product->id,
+                'maxStock' => $product->quantity,
+                'stockStatus' => $product->stock_status,
+                'showQuantitySelector' => true,
+            ])
+        </div>
     </div>
 </div>

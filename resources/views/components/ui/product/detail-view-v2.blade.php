@@ -15,7 +15,7 @@
             @endif
 
 
-           
+
             <div class="flex items-center space-x-2">
                 <span class="text-sm text-green-600 font-medium">{{ $product->stock_status ?? 'In Stock' }}</span>
                 <span
@@ -92,79 +92,12 @@
 
             {{-- removed colour and size selection per UI change request --}}
 
-            <form action="{{ route('cart.store') }}" method="POST" x-data="{
-                quantity: 1,
-                maxStock: {{ $product->quantity }},
-                increase() {
-                    if (this.quantity < this.maxStock) {
-                        this.quantity++;
-                    }
-                },
-                decrease() {
-                    if (this.quantity > 1) {
-                        this.quantity--;
-                    }
-                },
-                validate() {
-                    let qty = parseInt(this.quantity);
-                    if (isNaN(qty) || qty < 1) {
-                        this.quantity = 1;
-                    } else if (qty > this.maxStock) {
-                        this.quantity = this.maxStock;
-                    } else {
-                        this.quantity = qty;
-                    }
-                }
-            }">
-                @csrf
-                <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                <div class="flex items-stretch w-full space-x-2">
-                    <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
-                        <button type="button"
-                            :class="[
-                                'h-full',
-                                'rounded-l-lg',
-                                'px-4 py-2 font-semibold',
-                                quantity <= 1 ?
-                                'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed' :
-                                'bg-gray-50 dark:bg-gray-700 hover:bg-primary-500 hover:text-white text-gray-700 dark:text-gray-200'
-                            ]"
-                            @click="decrease()" :disabled="quantity <= 1">
-                            -
-                        </button>
-                        <input type="number" name="quantity" x-model="quantity" @input="validate()" min="1"
-                            max="{{ $product->quantity }}" value="1"
-                            class="w-14 px-2 py-2 text-center mx-1 focus:outline-none focus:ring-2 focus:ring-primary-500 border-0 text-xl font-semibold bg-transparent dark:text-white"
-                            @if ($product->stock_status == 'Out of Stock') disabled @endif>
-                        <button type="button"
-                            :class="[
-                                'h-full',
-                                'rounded-r-lg',
-                                'px-4 py-2 font-semibold',
-                                quantity >= maxStock ?
-                                'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed' :
-                                'bg-gray-50 dark:bg-gray-700 hover:bg-primary-500 hover:text-white text-gray-700 dark:text-gray-200'
-                            ]"
-                            @click="increase()" :disabled="quantity >= maxStock">
-                            +
-                        </button>
-                    </div>
-                    <div class="w-full">
-                        <button type="submit"
-                            class="w-full h-full py-3 border border-primary-500 dark:border-primary-400 text-primary-500 dark:text-primary-400 font-semibold text-xl rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 disabled:bg-gray-100 disabled:cursor-not-allowed"
-                            @if ($product->stock_status == 'Out of Stock') disabled @endif>
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            @error('quantity')
-                <div class="p-3 bg-red-50 border border-red-300 rounded-lg">
-                    <p class="text-sm text-red-700">{{ $message }}</p>
-                </div>
-            @enderror
+            @livewire('add-to-cart', [
+                'productId' => $product->id,
+                'maxStock' => $product->quantity,
+                'stockStatus' => $product->stock_status,
+                'showQuantitySelector' => true,
+            ])
         </div>
 
 

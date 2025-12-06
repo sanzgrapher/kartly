@@ -33,6 +33,8 @@
             display: none !important;
         }
     </style>
+
+    @livewireStyles
 </head>
 
 <body
@@ -56,6 +58,7 @@
         @include('layout.partials.public-footer')
     </div>
 
+    @livewireScripts
 </body>
 
 </html>

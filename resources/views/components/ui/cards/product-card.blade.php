@@ -4,7 +4,7 @@
     $url = $url ?? route('products.show', $product->slug ?? $product->id);
     $stock_status = $product->stock_status ?? 'In Stock';
     $original_price = $product->original_price ?? null;
-    
+
 @endphp
 
 <div x-data="{ showQuickView: false }"
@@ -15,7 +15,7 @@
             <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
         </a>
 
-        
+
 
         <div class="absolute top-2 right-2  space-y-2">
             @unless (request()->routeIs('admin.*'))
@@ -88,22 +88,12 @@
             </div>
 
             @unless (request()->routeIs('admin.*'))
-                <form action="{{ route('cart.store') }}" method="POST" class="shrink-0">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit"
-                        class="p-2 bg-white dark:bg-gray-700 border border-primary-500 dark:border-primary-400 text-primary dark:text-primary-400 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary-600 dark:hover:text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed "
-                        {{ $stock_status === 'Out of Stock' ? 'disabled' : '' }}
-                        aria-label="Add {{ $product->name }} to cart">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            </path>
-                        </svg>
-                    </button>
-                </form>
+                @livewire('add-to-cart', [
+                    'productId' => $product->id,
+                    'maxStock' => $product->quantity,
+                    'stockStatus' => $stock_status,
+                    'showQuantitySelector' => false,
+                ])
             @endunless
         </div>
     </div>
