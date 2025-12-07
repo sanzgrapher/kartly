@@ -27,7 +27,7 @@ class EsewaService
     public function initiatePayment(Order $order,  $amount)
     {
         $transactionUuid = $this->generateTransactionUuid($order->id);
-        
+
 
 
         $this->esewa->config(
@@ -97,10 +97,14 @@ class EsewaService
         $order->status = OrderStatus::PROCESSING;
         $order->save();
 
-         try {
+        try {
             if ($order->user) {
+                $order->refresh();
+                $order->load(['payment', 'items.product']);
+
                 $this->mailService->sendPaymentStatusUpdate($order, $order->user);
                 $this->mailService->sendOrderStatusUpdate($order, $order->user);
+                $this->mailService->sendPaymentInvoice($order, $order->user);
             }
         } catch (Exception $e) {
             Log::error('Failed to send payment/order status emails: ' . $e->getMessage());

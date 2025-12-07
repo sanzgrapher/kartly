@@ -16,4 +16,6 @@ interface MailServiceInterface
     public function sendOrderStatusUpdate(Order $order, User $user): void;
 
     public function sendPaymentStatusUpdate(Order $order, User $user): void;
+
+    public function sendPaymentInvoice(Order $order, User $user): void;
 }

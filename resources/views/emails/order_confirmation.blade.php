@@ -38,12 +38,7 @@
         </table>
     @endif
 
-    <div style="background-color: #fff7ed; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center;">
-        <p style="font-size: 13px; color: #92400e; margin: 0;">
-            <strong>Next Step:</strong> We'll send you a shipping confirmation with tracking details as soon as your order
-            is on its way.
-        </p>
-    </div>
+    
 
     <p style="margin-top: 20px;">You can view your full order details and track your shipment anytime by logging into your
         Kartly account.</p>

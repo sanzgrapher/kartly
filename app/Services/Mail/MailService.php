@@ -11,6 +11,7 @@ use App\Mail\OrderConfirmationMail;
 use App\Mail\NewOrderNotificationMail;
 use App\Mail\OrderStatusUpdateMail;
 use App\Mail\PaymentStatusUpdateMail;
+use App\Mail\PaymentInvoiceMail;
 
 class MailService implements MailServiceInterface
 {
@@ -36,7 +37,6 @@ class MailService implements MailServiceInterface
      */
     public function sendNewOrderNotification(Order $order): void
     {
-        // use configurable admin email, fallback to default
         $adminEmail = config('mail.admin_address', 'admin@kartly.com');
         Mail::to($adminEmail)->queue(new NewOrderNotificationMail($order));
     }
@@ -55,5 +55,13 @@ class MailService implements MailServiceInterface
     public function sendPaymentStatusUpdate(Order $order, User $user): void
     {
         Mail::to($user->email)->queue(new PaymentStatusUpdateMail($order, $user));
+    }
+
+    /**
+     * Send a payment invoice email to the user.
+     */
+    public function sendPaymentInvoice(Order $order, User $user): void
+    {
+        Mail::to($user->email)->queue(new PaymentInvoiceMail($order, $user));
     }
 }

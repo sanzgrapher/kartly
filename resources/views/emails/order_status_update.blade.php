@@ -13,8 +13,7 @@
         <p>Updated: {{ $order->updated_at ? $order->updated_at->format('M d, Y H:i') : date('M d, Y H:i') }}</p>
     </div>
 
-    <p>You can view the full details and track your shipment by logging into your Kartly account. We're working hard to get
-        your order to you as quickly as possible!</p>
+ 
 
     <div
         style="background-color: #fff7ed; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; border-left: 4px solid #f97316;">

@@ -11,8 +11,7 @@
         <p>📦 Track your orders in real-time</p>
     </div>
 
-    <p>If you have any questions or need help with anything, don't hesitate to reach out to our support team. We're always
-        here to help!</p>
+    
 
     <p style="margin-top: 30px;">Happy shopping! 🎉</p>
     <p style="margin-top: 20px; font-weight: 600; color: #f97316;">The Kartly Team</p>
