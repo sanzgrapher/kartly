@@ -40,6 +40,20 @@ class OrderController extends Controller
         return view('customer.orders.show', compact('order'));
     }
 
+    public function downloadInvoice($id)
+    {
+        $order = Order::with('payment', 'items.product', 'user')->findOrFail($id);
+
+        if ($order->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Generate PDF
+        return \Spatie\LaravelPdf\Facades\Pdf::view('pdf.invoice', ['order' => $order])
+            ->name('invoice-' . $order->id . '.pdf')
+            ->download();
+    }
+
 
     public function retryPayment($id)
     {

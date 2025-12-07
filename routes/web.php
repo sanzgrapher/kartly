@@ -105,6 +105,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+        Route::get('/orders/{id}/invoice', [OrderController::class, 'downloadInvoice'])->name('orders.download-invoice');
         Route::post('/orders/{id}/retry-payment', [OrderController::class, 'retryPayment'])->name('orders.retry-payment');
     });
 

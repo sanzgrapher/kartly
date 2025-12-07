@@ -23,7 +23,7 @@ class PaymentInvoiceMail extends Mailable
 
     public function build()
     {
-         $this->order->load(['items.product', 'payment']);
+        $this->order->load(['items.product', 'payment']);
 
         $subtotal = $this->order->subtotal;
         if (!$subtotal || $subtotal <= 0) {
@@ -39,14 +39,31 @@ class PaymentInvoiceMail extends Mailable
             $total = max(0, $subtotal - $discount);
         }
 
-        return $this->subject('Payment Invoice - Order #' . $this->order->id)
-            ->view('emails.payment-invoice')
-            ->with([
-                'order' => $this->order,
-                'user' => $this->user,
-                'subtotal' => $subtotal,
-                'discount' => $discount,
-                'total' => $total,
+        $pdfOutput = null;
+        try {
+            $base64 = \Spatie\LaravelPdf\Facades\Pdf::view('pdf.invoice', ['order' => $this->order])
+                ->name('invoice.pdf')
+                ->base64();
+            $pdfOutput = base64_decode($base64);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('PaymentInvoiceMail PDF Generation Failed: ' . $e->getMessage());
+        }
+
+        $mail = $this->subject('Payment Invoice - Order #' . $this->order->id)
+            ->view('emails.payment-invoice');
+
+        if ($pdfOutput) {
+            $mail->attachData($pdfOutput, 'invoice.pdf', [
+                'mime' => 'application/pdf',
             ]);
+        }
+
+        return $mail->with([
+            'order' => $this->order,
+            'user' => $this->user,
+            'subtotal' => $subtotal,
+            'discount' => $discount,
+            'total' => $total,
+        ]);
     }
 }
