@@ -46,7 +46,7 @@ class OrderService implements OrderServiceInterface
 
     public function updateStatus($orderId, string $status)
     {
-        $order = Order::findOrFail($orderId);
+        $order = Order::with('coupon')->findOrFail($orderId);
         $previousStatus = $order->status;
         $order->update(['status' => $status]);
 
@@ -60,8 +60,13 @@ class OrderService implements OrderServiceInterface
                     $item->product->increment('quantity', $item->quantity);
                 }
             }
+
+            if ($order->coupon_id) {
+                $couponService = app(\App\Services\CouponService::class);
+                $couponService->refundUsage($order->id);
+            }
         }
-         try {
+        try {
             if ($order->user) {
                 $this->mailService->sendOrderStatusUpdate($order, $order->user);
             }

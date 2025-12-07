@@ -6,6 +6,7 @@ use App\Models\Coupon;
 use App\Models\CouponUsage;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CouponService
 {
@@ -90,14 +91,25 @@ class CouponService
      */
     public function recordUsage(Coupon $coupon, User $user, int $orderId, float $discountAmount): void
     {
-        CouponUsage::create([
-            'coupon_id' => $coupon->id,
-            'user_id' => $user->id,
-            'order_id' => $orderId,
-            'discount_amount' => $discountAmount,
-        ]);
+        DB::transaction(function () use ($coupon, $user, $orderId, $discountAmount) {
+            // Double-check coupon is still valid and within limits
+            if (!$coupon->is_active) {
+                throw new \Exception('Coupon is no longer active.');
+            }
 
-        $coupon->increment('usage_count');
+            if ($coupon->usage_limit && $coupon->usage_count >= $coupon->usage_limit) {
+                throw new \Exception('Coupon has reached its usage limit.');
+            }
+
+            CouponUsage::create([
+                'coupon_id' => $coupon->id,
+                'user_id' => $user->id,
+                'order_id' => $orderId,
+                'discount_amount' => $discountAmount,
+            ]);
+
+            $coupon->increment('usage_count');
+        });
     }
 
     /**
@@ -108,8 +120,28 @@ class CouponService
         $usage = CouponUsage::where('order_id', $orderId)->first();
 
         if ($usage) {
-            $usage->coupon->decrement('usage_count');
+            // Prevent usage_count from going negative
+            if ($usage->coupon->usage_count > 0) {
+                $usage->coupon->decrement('usage_count');
+            }
             $usage->delete();
         }
+    }
+
+    /**
+     * Check if coupon can be applied to a specific order
+     */
+    public function canApplyToOrder(Coupon $coupon, User $user, float $subtotal): bool
+    {
+        $validation = $this->validateCoupon($coupon->code, $user, $subtotal);
+        return $validation['valid'];
+    }
+
+    /**
+     * Check if coupon can be modified (edited or deleted)
+     */
+    public function canBeModified(Coupon $coupon): bool
+    {
+        return $coupon->usage_count === 0;
     }
 }

@@ -8,7 +8,8 @@
         <a href="{{ route('admin.dashboard') }}"
             class="text-lg font-bold text-orange-600 dark:text-orange-500">{{ config('app.name', 'Kartly') }} Admin</a>
         <!-- Close button for mobile -->
-        <button id="sidebarClose" class="lg:hidden text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
+        <button id="sidebarClose"
+            class="lg:hidden text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -42,16 +43,7 @@
 
 
 
-        <hr class="border-t border-gray-200 dark:border-gray-700 my-2">
 
-        <div class="mb-4">
-            <div class="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Site</div>
-            <ul class="space-y-1">
-                <li>
-                    
-                </li>
-            </ul>
-        </div>
 
         <hr class="border-t border-gray-200 dark:border-gray-700 my-2">
 
@@ -82,6 +74,20 @@
                     <a href="{{ route('admin.orders.index') }}"
                         class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.orders.*') ? 'bg-orange-200 dark:bg-orange-900 text-orange-600 dark:text-orange-300' : 'text-gray-700 dark:text-gray-300' }}">
                         <span class="text-sm font-medium">Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <hr class="border-t border-gray-200 dark:border-gray-700 my-2">
+
+        <div class="mb-4">
+            <div class="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Marketing</div>
+            <ul class="space-y-1">
+                <li>
+                    <a href="{{ route('admin.coupons.index') }}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.coupons.*') ? 'bg-orange-200 dark:bg-orange-900 text-orange-600 dark:text-orange-300' : 'text-gray-700 dark:text-gray-300' }}">
+                        <span class="text-sm font-medium">Coupons</span>
                     </a>
                 </li>
             </ul>

@@ -16,6 +16,8 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
+    @livewireStyles
+
     <script>
         // Check local storage and system preference on load to prevent FOUC
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -179,6 +181,8 @@
             }
         });
     </script>
+
+    @livewireScripts
 </body>
 
 </html>
