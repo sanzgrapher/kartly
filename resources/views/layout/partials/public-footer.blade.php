@@ -21,6 +21,8 @@
                         class="hover:text-orange-600 dark:hover:text-orange-400">Search</a></li>
                 <li><a href="{{ route('cart.index') }}"
                         class="hover:text-orange-600 dark:hover:text-orange-400">Cart</a></li>
+                <li><a href="{{ route('coupons.index') }}"
+                        class="hover:text-orange-600 dark:hover:text-orange-400">Coupons & Deals</a></li>
             </ul>
         </div>
 

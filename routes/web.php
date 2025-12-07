@@ -26,6 +26,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Api\CouponController as ApiCouponController;
 
 
@@ -44,6 +45,8 @@ Route::view('/about', 'about')->name('about');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+Route::get('/coupons', [CouponController::class, 'index'])->name('coupons.index');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
