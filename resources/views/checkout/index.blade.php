@@ -194,10 +194,10 @@
                             <span>Discount:</span>
                             <span>- Rs <span x-text="discountAmount.toFixed(2)"></span></span>
                         </div>
-                        <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                        {{-- <div class="flex justify-between text-gray-600 dark:text-gray-400">
                             <span>Shipping:</span>
                             <span class="text-green-600 dark:text-green-400 font-semibold">Free</span>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="flex justify-between text-xl font-bold text-gray-800 dark:text-white">

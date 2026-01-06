@@ -160,15 +160,15 @@
                 </p>
                 @if ($coupon->valid_from > now())
                     <p class="text-sm text-yellow-600 dark:text-yellow-400 mt-2 font-medium">
-                        ⏱️ Starts in {{ $coupon->valid_from->diffForHumans(['parts' => 2]) }}
+                         Starts in {{ $coupon->valid_from->diffForHumans(['parts' => 2]) }}
                     </p>
                 @elseif ($coupon->valid_until >= now() && $coupon->valid_from <= now())
                     <p class="text-sm text-green-600 dark:text-green-400 mt-2 font-medium">
-                        ⏳ Expires in {{ $coupon->valid_until->diffForHumans(['parts' => 2]) }}
+                         Expires in {{ $coupon->valid_until->diffForHumans(['parts' => 2]) }}
                     </p>
                 @elseif ($coupon->valid_until < now())
                     <p class="text-sm text-red-600 dark:text-red-400 mt-2 font-medium">
-                        ❌ Expired {{ $coupon->valid_until->diffForHumans() }}
+                         Expired {{ $coupon->valid_until->diffForHumans() }}
                     </p>
                 @endif
             </div>

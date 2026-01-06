@@ -15,10 +15,10 @@
                     </svg>
                     <div>
                         <h3 class="text-sm font-semibold text-yellow-800 dark:text-yellow-300">Limited Editing (Coupon Used {{ $coupon->usage_count }} times)</h3>
-                        <p class="text-sm text-yellow-700 dark:text-yellow-400 mt-1">
+                        {{-- <p class="text-sm text-yellow-700 dark:text-yellow-400 mt-1">
                             You can only extend the <strong>end date</strong>, increase <strong>usage limits</strong>, and toggle <strong>active status</strong>. 
                             Code, type, value, and other fields are locked to protect existing orders.
-                        </p>
+                        </p> --}}
                     </div>
                 </div>
             </div>

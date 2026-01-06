@@ -55,13 +55,13 @@
                                         href="{{ route('admin.users.edit', $user->id) }}">
                                         Edit
                                     </a>
-                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                    {{-- <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                                         onsubmit="return confirm('Delete this user?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
                                             class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105">Delete</button>
-                                    </form>
+                                    </form> --}}
                                 </div>
                                 </button>
                                 </form>

@@ -26,12 +26,12 @@
                         <span class="text-sm font-medium">Dashboard</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('admin.search.index') }}"
                         class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.search.*') ? 'bg-orange-200 dark:bg-orange-900 text-orange-600 dark:text-orange-300' : 'text-gray-700 dark:text-gray-300' }}">
                         <span class="text-sm font-medium">Search</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{ route('admin.users.index') }}"
                         class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-orange-50 dark:hover:bg-gray-700 {{ request()->routeIs('admin.users.*') ? 'bg-orange-200 dark:bg-orange-900 text-orange-600 dark:text-orange-300' : 'text-gray-700 dark:text-gray-300' }}">

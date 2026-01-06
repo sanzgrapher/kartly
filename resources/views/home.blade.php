@@ -157,10 +157,10 @@
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
                     {{ $recommendations['section_title'] }}
                     @if ($recommendations['is_personalized'])
-                        <span
+                        {{-- <span
                             class="ml-2 text-xs font-normal text-orange-600 bg-orange-50 px-2 py-1 rounded-full border border-orange-100">
                             Picked for you
-                        </span>
+                        </span> --}}
                     @endif
                 </h2>
             </div>
@@ -174,7 +174,7 @@
     @endif
 
     <section>
-        <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Featured Products</h2>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Products</h2>
 
         @if ($products->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">

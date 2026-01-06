@@ -29,6 +29,11 @@ class SearchController extends Controller
         $minPrice = $validated['min_price'] ?? null;
         $maxPrice = $validated['max_price'] ?? null;
 
+         if ($minPrice !== null && $maxPrice !== null && $minPrice > $maxPrice) {
+            $minPrice = 0;
+            $maxPrice = $maxPrice;
+        }
+
         $result = $this->searchService->multiSearch($q, $categoryId, $minPrice, $maxPrice);
         $allCategories = Category::orderBy('name')->get();
 

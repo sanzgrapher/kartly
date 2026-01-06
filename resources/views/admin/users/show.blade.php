@@ -17,12 +17,12 @@
         <div class="mt-4 flex space-x-2">
             <a href="{{ route('admin.users.edit', $user->id) }}" class="px-3 py-1 bg-amber-500 text-white rounded">Edit</a>
 
-            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+            {{-- <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                 onsubmit="return confirm('Delete this user?');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded">Delete</button>
-            </form>
+            </form> --}}
         </div>
     </div>
 @endsection

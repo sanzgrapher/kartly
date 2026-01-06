@@ -19,15 +19,12 @@ class RecommendationService implements RecommendationServiceInterface
      */
     public function getRecommendationsForUser(?int $userId, int $limit = 8): Collection
     {
-        // Guest user - return popular products
         if (!$userId) {
             return $this->getPopularProducts($limit);
         }
 
-        // Check user's interaction count
         $interactionCount = UserProductInteraction::where('user_id', $userId)->count();
 
-        // New user (0-4 interactions) - popular products
         if ($interactionCount < 5) {
             return $this->getPopularProducts($limit);
         }

@@ -61,13 +61,13 @@
                                         Edit
                                     </a>
 
-                                    <form class="inline" action="{{ route('admin.categories.destroy', $c->id) }}"
+                                    {{-- <form class="inline" action="{{ route('admin.categories.destroy', $c->id) }}"
                                         method="POST" onsubmit="return confirm('Delete this category?');">
                                         @csrf
                                         @method('DELETE')
                                         <button class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105"
                                             type="submit">Delete</button>
-                                    </form>
+                                    </form> --}}
                                 </div>
                             </td>
                         </tr>
